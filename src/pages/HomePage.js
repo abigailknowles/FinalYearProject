@@ -33,7 +33,7 @@ function HomePage() {
             </NavLink>
           </Col>
           <Col sm={5}>
-            <NavLink to="/personal-details">
+            <NavLink to="/edit-account">
               <Button variant="light" className="home-page-buttons">
                 <h3 className="home-page-buttons-text">
                   Edit Patient Account

@@ -12,6 +12,9 @@ class CreatePatientAccount extends Component {
   constructor() {
     super();
     this.state = {
+      email: '',
+      username: '',
+      password: '',
       show: false
     };
     this.showModal = this.showModal.bind(this);
@@ -24,6 +27,21 @@ class CreatePatientAccount extends Component {
   hideModal = () => {
     this.setState({ show: false });
   };
+  changeHandler = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+  submitHandler = async event => {
+    event.preventDefault();
+    event.target.className += " was-validated";
+
+    if (this.state.email === "" || this.state.username === "" || this.state.password === "") {
+      return false;
+    } else {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
+
 
   render() {
     return (
@@ -50,41 +68,72 @@ class CreatePatientAccount extends Component {
             <Col>
               <Jumbotron className="personal-details-jumbotron-background">
                 <Jumbotron className="personal-details-jumbotron">
-                  <Row>
-                    <Col>
-                      <Row>
-                        <Col>
-                          <Form.Label className="create-account-label">Email</Form.Label>
-                          <Form.Control type="email" />
-                        </Col>
-                      </Row>
-                      <Row className="create-account-padding"></Row>
-                      <Row>
-                        <Col>
-                          <Form.Label className="create-account-label">Username</Form.Label>
-                          <Form.Control type="username" />
-                        </Col>
-                      </Row>
-                      <Row className="create-account-padding"></Row>
-                      <Row>
-                        <Col>
-                          <Form.Label className="create-account-label">Temporary Password</Form.Label>
-                          <Form.Control type="email" />
-                          <Form.Text className="text-muted">
-                            Share this with your patients so they can log in, they can change this later
-                          </Form.Text>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col align="right">
-                          <Button variant="light" className="apply-button" onClick={this.showModal}>
-                            Create
-                          </Button>
-                        </Col>
-                      </Row>
-                    </Col>
-
-                  </Row>
+                  <Form onSubmit={this.submitHandler} noValidate>
+                    <Row>
+                      <Col>
+                        <Row>
+                          <Col>
+                            <Form.Label className="create-account-label">Email</Form.Label>
+                            <Form.Control
+                              type="text"
+                              value={this.state.email}
+                              onChange={this.changeHandler}
+                              className="form-control"
+                              name="email"
+                              required
+                            />
+                            <div className="invalid-feedback">
+                              Please provide an email.
+                            </div>
+                          </Col>
+                        </Row>
+                        <Row className="create-account-padding"></Row>
+                        <Row>
+                          <Col>
+                            <Form.Label className="create-account-label">Username</Form.Label>
+                            <Form.Control
+                              type="text"
+                              value={this.state.username}
+                              onChange={this.changeHandler}
+                              className="form-control"
+                              name="username"
+                              required
+                            />
+                            <div className="invalid-feedback">
+                              Please provide a username.
+                            </div>
+                          </Col>
+                        </Row>
+                        <Row className="create-account-padding"></Row>
+                        <Row>
+                          <Col>
+                            <Form.Label className="create-account-label">Temporary Password</Form.Label>
+                            <Form.Control
+                              type="text"
+                              value={this.state.password}
+                              onChange={this.changeHandler}
+                              className="form-control"
+                              name="password"
+                              required
+                            />
+                            <div className="invalid-feedback">
+                              Please provide a temporary password.
+                            </div>
+                            <Form.Text className="text-muted">
+                              Share this with your patients so they can log in, they can change this later
+                            </Form.Text>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col align="right">
+                            <Button variant="light" className="apply-button" type="submit">
+                              Create
+                            </Button>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </Form>
                 </Jumbotron>
               </Jumbotron>
             </Col>
@@ -108,17 +157,17 @@ class CreatePatientAccount extends Component {
             <hr></hr>
             <Row>
               <Col>
-                <h3 className="create-account-label">Email: abigailknowlesx@yahoo.co.uk</h3>
+                <h3 className="create-account-label">Email: {this.state.email}</h3>
               </Col>
             </Row>
             <Row>
               <Col>
-                <h3 className="create-account-label">Username: abigailknowlesx</h3>
+                <h3 className="create-account-label">Username: {this.state.username}</h3>
               </Col>
             </Row>
             <Row>
               <Col>
-                <h3 className="create-account-label">Temporary password: abigail</h3>
+                <h3 className="create-account-label">Temporary password: {this.state.password}</h3>
               </Col>
             </Row>
             <Row className="forgot-password-button">
