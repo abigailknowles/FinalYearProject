@@ -5,7 +5,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import MainMenu from '../components/MainMenu';
 
 
-function HomePage() {
+function PatientAnalytics() {
   return (
     <>
       <MainMenu></MainMenu>
@@ -24,7 +24,7 @@ function HomePage() {
         <Row>
           <Col sm={1}></Col>
           <Col sm={5}>
-            <NavLink to="/create-account">
+            <NavLink to="/manage-holidays">
               <Button variant="light" className="home-page-buttons">
                 <h3 className="home-page-buttons-text">
                   Create Patient Account
@@ -71,4 +71,4 @@ function HomePage() {
   );
 }
 
-export default withRouter(HomePage);
+export default withRouter(PatientAnalytics);

@@ -211,6 +211,12 @@
 .form-control{
   width:55%;
 }
+.create-account-padding{
+  padding-bottom: 16px;
+}
+.create-account-label{
+  font-size: 14px;
+}
 .form-text{
   padding-bottom:2%;
 }
