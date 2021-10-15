@@ -47,7 +47,7 @@ function HomePage() {
         <Row>
           <Col sm={1}></Col>
           <Col sm={5}>
-            <NavLink to="/company-details">
+            <NavLink to="/delete-account">
               <Button variant="light" className="home-page-buttons">
                 <h3 className="home-page-buttons-text">
                   Delete Patient Account
