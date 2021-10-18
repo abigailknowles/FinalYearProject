@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Navbar, Nav, Modal, Row, Col, Form, InputGroup } from 'react-bootstrap';
+import { Button, Navbar, Nav } from 'react-bootstrap';
 import { withRouter, NavLink } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 class MainMenu extends Component {
   constructor() {
@@ -36,7 +34,7 @@ class MainMenu extends Component {
               <Nav.Link >
 
               </Nav.Link>
-              <NavLink className=" nav-link" to="/personal-details">
+              <NavLink className=" nav-link" to="#">
                 <h5 className="nav-bar-text">Abigail Knowles</h5>
               </NavLink>
               <NavLink className=" nav-link" to="/manage-account">

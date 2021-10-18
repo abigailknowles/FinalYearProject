@@ -54,7 +54,7 @@ class LoginPage extends Component {
       return false;
     } else {
       var response = await this.login(event);
-      if (response.status == 200) {
+      if (response.status === 200) {
         this.props.history.push('/home');
       }
       else {

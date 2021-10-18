@@ -1,7 +1,5 @@
 import { Button, Col, Row, Container } from 'react-bootstrap';
 import { withRouter, NavLink } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import MainMenu from '../components/MainMenu';
 
 
@@ -56,7 +54,7 @@ function HomePage() {
             </NavLink>
           </Col>
           <Col sm={5}>
-            <NavLink to="/manage-account">
+            <NavLink to="/patient-analytics">
               <Button variant="light" className="home-page-buttons">
                 <h3 className="home-page-buttons-text">
                   Patient Analytics

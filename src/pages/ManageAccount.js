@@ -1,4 +1,4 @@
-import { Jumbotron, Col, Row, Container, Button } from 'react-bootstrap';
+import { Jumbotron, Col, Row, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { NavLink } from 'react-router-dom';
@@ -13,7 +13,7 @@ function ManageAccount() {
       <Container>
         <Row>
           <Col>
-            <h3 className="page-header">Personal Details</h3>
+            <h3 className="page-header">Manage Account</h3>
           </Col>
           <Col>
             <NavLink to="/home">
@@ -23,7 +23,7 @@ function ManageAccount() {
         </Row>
         <Row>
           <Col>
-            <h6 className="page-sub-header">Here you can view and edit your personal details</h6>
+            <h6 className="page-sub-header">Here you can view and edit your personal and account details</h6>
           </Col>
         </Row>
         <Row className="personal-details">

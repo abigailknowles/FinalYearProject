@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Jumbotron, Form, Button, Col, Row, Container, Modal, InputGroup } from 'react-bootstrap';
+import { Jumbotron, Table, Button, Col, Row, Container, Modal } from 'react-bootstrap';
 import { withRouter, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import MainMenu from '../components/MainMenu';
 
@@ -52,36 +53,55 @@ class EditPatientAccount extends Component {
                 <Jumbotron className="personal-details-jumbotron">
                   <Row>
                     <Col>
-                      <Row>
-                        <Col>
-                          <Form.Label className="create-account-label">Email</Form.Label>
-                          <Form.Control type="email" />
-                        </Col>
-                      </Row>
-                      <Row className="create-account-padding"></Row>
-                      <Row>
-                        <Col>
-                          <Form.Label className="create-account-label">Username</Form.Label>
-                          <Form.Control type="username" />
-                        </Col>
-                      </Row>
-                      <Row className="create-account-padding"></Row>
-                      <Row>
-                        <Col>
-                          <Form.Label className="create-account-label">Temporary Password</Form.Label>
-                          <Form.Control type="email" />
-                          <Form.Text className="text-muted">
-                            Share this with your patients so they can log in, they can change this later
-                          </Form.Text>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col align="right">
-                          <Button variant="light" className="apply-button" onClick={this.showModal}>
-                            Create
-                          </Button>
-                        </Col>
-                      </Row>
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>Patient Id</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>DOB</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>6993992</td>
+                            <td>Tom</td>
+                            <td>Jones</td>
+                            <td>tomjones99</td>
+                            <td>tomjones@yahoo.co.uk</td>
+                            <td>31/10/1977</td>
+                            <td>
+                              <FontAwesomeIcon icon={faEdit} className="previous-page-icon" size="1x" />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>06949393</td>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>jacobthornton01</td>
+                            <td>jacobthornton@hotmail.com</td>
+                            <td>04/02/1999</td>
+                            <td>
+                              <FontAwesomeIcon icon={faEdit} className="previous-page-icon" size="1x" />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>79593939</td>
+                            <td>Sophie</td>
+                            <td>Smith</td>
+                            <td>sophiesmith1</td>
+                            <td>sophiesmithx@hotmail.com</td>
+                            <td>04/03/2001</td>
+                            <td>
+                              <FontAwesomeIcon icon={faEdit} className="previous-page-icon" size="1x" />
+                            </td>                          </tr>
+                        </tbody>
+                      </Table>
+
+
                     </Col>
 
                   </Row>

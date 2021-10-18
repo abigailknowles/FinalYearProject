@@ -9,6 +9,7 @@ import './pages/ManageAccount';
 import './pages/CreatePatientAccount';
 import './pages/EditPatientAccount';
 import './pages/DeletePatientAccount';
+import './pages/PatientAnalytics';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -16,6 +17,7 @@ import ManageAccount from './pages/ManageAccount';
 import CreatePatientAccount from './pages/CreatePatientAccount';
 import DeletePatientAccount from './pages/DeletePatientAccount';
 import EditPatientAccount from './pages/EditPatientAccount';
+import PatientAnalytics from './pages/PatientAnalytics';
 
 class App extends Component {
   render() {
@@ -28,7 +30,7 @@ class App extends Component {
             <Route exact path='/create-account' render={(props) => <CreatePatientAccount {...props} />} />
             <Route exact path='/edit-account' render={(props) => <EditPatientAccount {...props} />} />
             <Route exact path='/delete-account' render={(props) => <DeletePatientAccount {...props} />} />
-
+            <Route exact path='/patient-analytics' render={(props) => <PatientAnalytics {...props} />} />
             <Route path='/manage-account' render={(props) => <ManageAccount {...props} />} />
           </Switch>
         </div>

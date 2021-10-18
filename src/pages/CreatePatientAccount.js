@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron, Form, Button, Col, Row, Container, Modal, InputGroup } from 'react-bootstrap';
+import { Jumbotron, Form, Button, Col, Row, Container, Modal } from 'react-bootstrap';
 import { withRouter, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'

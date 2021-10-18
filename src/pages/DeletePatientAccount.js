@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron, Form, Button, Col, Row, Container, Modal, InputGroup } from 'react-bootstrap';
+import { Jumbotron, Form, Button, Col, Row, Container, Modal } from 'react-bootstrap';
 import { withRouter, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
@@ -88,7 +88,7 @@ class DeletePatientAccount extends Component {
           <Col align="center">
             <Row>
               <Col>
-                <h3 className="forgot-password-header">Confirm Account Creation</h3>
+                <h3 className="forgot-password-header">Confirm Account Deletion</h3>
               </Col>
             </Row>
             <hr></hr>
@@ -102,11 +102,7 @@ class DeletePatientAccount extends Component {
                 <h3 className="create-account-label">Username: abigailknowlesx</h3>
               </Col>
             </Row>
-            <Row>
-              <Col>
-                <h3 className="create-account-label">Temporary password: abigail</h3>
-              </Col>
-            </Row>
+
             <Row className="forgot-password-button">
               <Col>
                 <NavLink to="/home">
