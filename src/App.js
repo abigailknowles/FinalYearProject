@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './pages/HomePage';
 
 import HomePage from './pages/HomePage';
+import Rect from './pages/Rect';
 
 class App extends Component {
   render() {
@@ -14,6 +15,8 @@ class App extends Component {
         <div>
           <Switch>
             <Route exact path='/' render={(props) => <HomePage {...props} />} />
+            <Route exact path='/rect' render={(props) => <Rect {...props} />} />
+
           </Switch>
         </div>
       </Router>

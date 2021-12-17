@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Button, Navbar, Nav } from 'react-bootstrap';
 import { withRouter, NavLink } from 'react-router-dom';
 
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChartPie } from '@fortawesome/free-solid-svg-icons'
+
 class MainMenu extends Component {
   constructor() {
     super();
@@ -25,24 +29,21 @@ class MainMenu extends Component {
       <>
         <Navbar collapseOnSelect expand="lg" variant="dark" className="navbar-custom">
           <NavLink className="logo" to="/home">
-            <Navbar.Brand> <h4 >Patient Warning App</h4> </Navbar.Brand>
+            <FontAwesomeIcon size="2x" className="nav-icon" icon={faChartPie} />
           </NavLink>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto" />
             <Nav>
-              <Nav.Link >
-
-              </Nav.Link>
               <NavLink className=" nav-link" to="#">
-                <h5 className="nav-bar-text">Abigail Knowles</h5>
+                <h5 className="nav-bar-text">Home</h5>
               </NavLink>
               <NavLink className=" nav-link" to="/manage-account">
-                <h5 className="nav-bar-text">My Account</h5>
+                <h5 className="nav-bar-text">About the project</h5>
               </NavLink>
               <NavLink className=" nav-link" to="/">
                 <Button variant="dark" className="button-logout">
-                  Logout
+                  Login
                 </Button>
               </NavLink>
             </Nav>

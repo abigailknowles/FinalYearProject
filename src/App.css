@@ -10,7 +10,6 @@
 .navbar-icons {
   color: white;
 }
-
 .account-name {
   padding-top: 5px;
   font-size: 12px;
@@ -126,24 +125,36 @@
 }
 
 .navbar-custom {
-  background-color: rgb(218, 218, 218);
+  background-color: #7b21fe;
   opacity: 1;
   padding-left: 20px;
   padding-right: 20px;
 }
 .padding{
-  padding-top:24px;
+  padding-top:30px;
+  padding-bottom:30px;
+
+}
+
+
+.circle-css:hover{
+  fill:gray!important;
+  r:13;
+  transition: 0.3s;
+}
+.nav-icon{
+  color:White;
 }
 .button-logout {
   font-weight: bolder;
-  color: black;
+  color: white;
+  border:solid white;
+  border-radius:20px;
   font-size: 12px;
-  width: 153.1px;
-  border-radius: 0;
+  width: 130px;
   height: 30.8px;
   opacity: 1;
-  border: none;
-  background-color: white;
+  background-color: #7b21fe;
   z-index: 10;
 }
 
