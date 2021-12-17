@@ -16,7 +16,6 @@ const Main = (props) => {
       <Route exact path='/audit-trail/:id' component={() => (<AuditTrailUsers account={props.account} onSignOut={props.onSignOut} />)} />
       <Route exact path='/goodwill' component={() => (<Goodwill account={props.account} onSignOut={props.onSignOut} />)} />
       <Route exact path='/customer-account/:id/points-management' component={() => (<PointsManagement account={props.account} onSignOut={props.onSignOut} />)} />
-      <Route exact path='/customer-account/:id/recent-transactions' component={() => (<RecentTransactions account={props.account} onSignOut={props.onSignOut} />)} />
       <Route exact path='/not-found-page' component={() => (<NotFound account={props.account} onSignOut={props.onSignOut} />)} /> */}
 
     </Switch>
