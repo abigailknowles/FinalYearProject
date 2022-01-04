@@ -6,6 +6,14 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: null,
+      isLoaded: false,
+      categories: [],
+      textCo: [
+        { x: 23.5, y: 22.5 },
+        { x: 39.5, y: 21 },
+        { x: 52, y: 17 },
+      ],
       shapes: [
         // row one
         { colour: "#74bec8", size: '10.2', xcords: 23.5, ycords: 22.5 },
@@ -29,14 +37,45 @@ class HomePage extends React.Component {
     };
   }
 
+  componentDidMount() {
+    fetch("https://data.police.uk/api/crime-categories")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            categories: result,
+          });
+          console.log(result)
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  }
+
   render() {
-    const { shapes } = this.state;
+    const { shapes, textCo, error, isLoaded, categories } = this.state;
 
     return (
       <>
         <MainMenu></MainMenu>
         <div className="padding"></div>
         <Container>
+          <div>
+            {categories.map(category => (
+              <text
+                className="crime-types-text"
+                x={textCo.x}
+                y={textCo.y}
+                key={category.id}>
+                {category.name}
+              </text>
+            ))}
+          </div>
           <svg style={{
             border: "2px solid white",
             padding: "6px"
@@ -56,7 +95,8 @@ class HomePage extends React.Component {
                 />
               ))}
             </a>
-            <text x="23.5" y="22.5" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.11em">Anti-social behaviour</text>
+
+            <text className="test" x="23.5" y="22.5" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.11em">Anti-social behaviour</text>
             <text x="39.5" y="21" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.075em">Bicycle theft</text>
             <text x="52" y="17" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.12em">Burglary</text>
             <text x="68" y="20" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.099em">Criminal damage</text>
