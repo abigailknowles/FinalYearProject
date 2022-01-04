@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Rect extends React.Component {
+class Interaction extends React.Component {
   constructor() {
     super();
     this.state = { rect: { x: 5, y: 2 } };
@@ -57,4 +57,4 @@ class Rect extends React.Component {
   }
 }
 
-export default Rect;
+export default Interaction;

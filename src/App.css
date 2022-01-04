@@ -125,25 +125,27 @@
 }
 
 .navbar-custom {
-  background-color: #7b21fe;
+  background-color: #65c4c2;
   opacity: 1;
   padding-left: 20px;
   padding-right: 20px;
 }
 .padding{
-  padding-top:30px;
-  padding-bottom:30px;
+  padding-top:25px;
+  padding-bottom:25px;
 
 }
 
-
 .circle-css:hover{
-  fill:gray!important;
+  fill:rgb(221, 221, 221)!important;
   r:13;
-  transition: 0.3s;
+  transition: 0.4s;
 }
 .nav-icon{
   color:White;
+}
+.testtext{
+  color:pink
 }
 .button-logout {
   font-weight: bolder;
@@ -154,7 +156,7 @@
   width: 130px;
   height: 30.8px;
   opacity: 1;
-  background-color: #7b21fe;
+  background-color: #65c4c2;
   z-index: 10;
 }
 
@@ -170,13 +172,6 @@
 .logo {
   font-size: 20px;
   padding: none;
-}
-.square{
-  height: 100%;
-  width: 100%;
-  background-color: rgb(185, 185, 185);
-  /* border-radius: 90% 0% 0% 90%; */
-  
 }
 .full-width{
   max-width: '100%';

@@ -38,8 +38,8 @@ class MainMenu extends Component {
               <NavLink className=" nav-link" to="#">
                 <h5 className="nav-bar-text">Home</h5>
               </NavLink>
-              <NavLink className=" nav-link" to="/manage-account">
-                <h5 className="nav-bar-text">About the project</h5>
+              <NavLink className=" nav-link" to="/about">
+                <h5 className="nav-bar-text">About</h5>
               </NavLink>
               <NavLink className=" nav-link" to="/">
                 <Button variant="dark" className="button-logout">
