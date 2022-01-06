@@ -1,38 +1,32 @@
 import React, { } from "react";
 import MainMenu from '../components/MainMenu';
-import { Container } from 'react-bootstrap';
+import { Container, Nav } from 'react-bootstrap';
 
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: null,
-      isLoaded: false,
       categories: [],
-      textCo: [
-        { x: 23.5, y: 22.5 },
-        { x: 39.5, y: 21 },
-        { x: 52, y: 17 },
-      ],
       shapes: [
-        // row one
         { colour: "#74bec8", size: '10.2', xcords: 23.5, ycords: 22.5 },
+        // row one
+        { colour: "#ccf3ff", size: '10.2', xcords: 23.5, ycords: 22.5 },
         { colour: "#d8bfff", size: '5.3', xcords: 39.5, ycords: 21 },
-        { colour: "#ed5042", size: '7.1', xcords: 52, ycords: 17 },
-        { colour: "#f7c6af", size: '8.3', xcords: 68, ycords: 20 },
+        { colour: "#f75e5b", size: '7.1', xcords: 52, ycords: 17 },
+        { colour: "#fff88b", size: '8.3', xcords: 68, ycords: 20 },
         { colour: "#e80b8c", size: '5.4', xcords: 81.7, ycords: 25 },
         // row two
-        { colour: "#5552bf", size: '6', xcords: 24, ycords: 39.4 },
-        { colour: "#f9db61", size: '8', xcords: 38.2, ycords: 35 },
-        { colour: "#ff9c56", size: '9.3', xcords: 56.2, ycords: 34 },
-        { colour: "#28c153", size: '7', xcords: 73.6, ycords: 36 },
+        { colour: "#938fff", size: '6', xcords: 24, ycords: 39.4 },
+        { colour: "#f7c6af", size: '8', xcords: 38.2, ycords: 35 },
+        { colour: "#ffa661", size: '9.3', xcords: 56.2, ycords: 34 },
+        { colour: "#7ee9cf", size: '7', xcords: 73.6, ycords: 36 },
         // row three
-        { colour: "#9e00b2", size: '7', xcords: 37, ycords: 51 },
+        { colour: "#d2f9d0", size: '7', xcords: 37, ycords: 51 },
         { colour: "#e0f49c", size: '9', xcords: 82, ycords: 51 },
         { colour: "#02ccf9", size: '6.5', xcords: 88, ycords: 36 },
         // row four
         { colour: "#ffc1f8", size: '5', xcords: 50, ycords: 49 },
-        { colour: "#ea8785", size: '8', xcords: 64, ycords: 50 },
+        { colour: "#ffa0ab", size: '8', xcords: 64, ycords: 50 },
       ]
     };
   }
@@ -58,62 +52,50 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { shapes, textCo, error, isLoaded, categories } = this.state;
+    const { shapes, categories } = this.state;
 
     return (
       <>
-        <MainMenu></MainMenu>
+        <MainMenu />
         <div className="padding"></div>
         <Container>
           <div>
-            {categories.map(category => (
-              <text
-                className="crime-types-text"
-                x={textCo.x}
-                y={textCo.y}
-                key={category.id}>
-                {category.name}
-              </text>
-            ))}
+            <Nav justify variant="tabs" defaultActiveKey="link-1">
+              <Nav.Item>
+                <Nav.Link eventKey="link-1">Crime type</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="link-2">Crime outcome</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="link-3">Police force</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="link-4">Stop and search</Nav.Link>
+              </Nav.Item>
+            </Nav>
+            <svg
+              style={{
+                border: "solid #e5e8eb",
+              }} viewBox="0 0 100 100">
+              {
+                categories.map((category, i) => (
+                  <a key={i} href="/" className="mylink">
+                    <circle
+                      className="circle-css"
+                      style={{
+                        fill: shapes[i].colour
+                      }}
+                      cx={shapes[i].xcords}
+                      cy={shapes[i].ycords}
+                      r={shapes[i].size}
+                    />
+                    <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
+                  </a>
+                ))}
+            </svg>
           </div>
-          <svg style={{
-            border: "2px solid white",
-            padding: "6px"
-          }}
-            viewBox="0 0 100 100">
-            <a href="/" className="mylink">
-              {shapes.map((shape, i) => (
-                <circle
-                  key={i}
-                  className="circle-css"
-                  style={{
-                    fill: shape.colour
-                  }}
-                  cx={shape.xcords}
-                  cy={shape.ycords}
-                  r={shape.size}
-                />
-              ))}
-            </a>
 
-            <text className="test" x="23.5" y="22.5" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.11em">Anti-social behaviour</text>
-            <text x="39.5" y="21" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.075em">Bicycle theft</text>
-            <text x="52" y="17" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.12em">Burglary</text>
-            <text x="68" y="20" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.099em">Criminal damage</text>
-            <text x="68" y="21.9" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.099em">and arson</text>
-            <text x="81.7" y="25" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.1em">Drugs</text>
-            <text x="24" y="39.4" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.1em">Other theft</text>
-            <text x="38.2" y="35" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.1em">Possesion of</text>
-            <text x="38.2" y="36.9" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.1em">weapons</text>
-            <text x="56.2" y="34" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.13em">Public order</text>
-            <text x="73.6" y="36" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.12em">Robbery</text>
-            <text x="37" y="51" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.1em">Shoplifting</text>
-            <text x="82" y="51" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.1em">Theft from the person</text>
-            <text x="88" y="36" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.1em">Vehicle crime</text>
-            <text x="50" y="49" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.08em">Other crime</text>
-            <text x="64" y="50" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.09em">Violence and sexual</text>
-            <text x="64" y="51.7" textAnchor='middle' alignment-baseline="middle" stroke-width="1px" fontSize="0.08em">offences</text>
-          </svg>
         </Container>
       </>
     );
