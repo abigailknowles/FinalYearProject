@@ -142,7 +142,10 @@
   padding-bottom:25px;
 
 }
-
+.footer{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 .circle-css:hover{
   fill:rgb(221, 221, 221)!important;
   r:12;

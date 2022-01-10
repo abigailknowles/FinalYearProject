@@ -8,6 +8,7 @@ import './pages/HomePage';
 import HomePage from './pages/HomePage';
 import About from './pages/About';
 import Interaction from './pages/Interaction';
+import PoliceForce from './pages/PoliceForce';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
             <Route exact path='/' render={(props) => <HomePage {...props} />} />
             <Route exact path='/about' render={(props) => <About {...props} />} />
             <Route exact path='/interaction' render={(props) => <Interaction {...props} />} />
+            <Route exact path='/police-force' render={(props) => <PoliceForce {...props} />} />
 
           </Switch>
         </div>
