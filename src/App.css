@@ -138,9 +138,7 @@
   padding-right: 20px;
 }
 .padding{
-  padding-top:25px;
-  padding-bottom:25px;
-
+  padding-top:100px;
 }
 .footer{
   padding-top: 20px;
@@ -148,9 +146,14 @@
 }
 .circle-css:hover{
   fill:rgb(221, 221, 221)!important;
-  r:12;
-  transition: 0.4s;
-}
+  r:12.4;
+    transition-duration: 0.8s;}
+    .svg-border{
+      border-left: solid #e5e8eb;
+      border-right: solid #e5e8eb;
+      border-bottom: solid #e5e8eb;
+
+    }
 .nav-icon{
   color:White;
 }
@@ -183,6 +186,7 @@
   font-size: 20px;
   padding: none;
 }
+
 .full-width{
   max-width: '100%';
   height:100vh;

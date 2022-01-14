@@ -1,5 +1,5 @@
 import React from 'react';
-import MainMenu from '../components/MainMenu';
+import NavBar from '../components/NavBar';
 import { Container, Row, Col } from 'react-bootstrap';
 
 class About extends React.Component {
@@ -13,7 +13,7 @@ class About extends React.Component {
   render() {
     return (
       <>
-        <MainMenu />
+        <NavBar />
         <Container>
           <Row>
             <Col>

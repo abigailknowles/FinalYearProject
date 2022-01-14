@@ -23,7 +23,7 @@ class Tabs extends Component {
             <Nav.Link href="/police-force">Police force</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="link-4">Stop and search</Nav.Link>
+            <Nav.Link href="stop-and-search">Stop and search</Nav.Link>
           </Nav.Item>
         </Nav>
       </>

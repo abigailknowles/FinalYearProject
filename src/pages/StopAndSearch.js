@@ -1,10 +1,8 @@
 import React, { } from "react";
 import { Container } from 'react-bootstrap';
+import NavBar from '../components/NavBar';
 
-import MainMenu from '../components/MainMenu';
-import Tabs from '../components/Tabs';
-
-class PoliceForce extends React.Component {
+class StopAndSearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -92,38 +90,28 @@ class PoliceForce extends React.Component {
 
     return (
       <>
-        <MainMenu />
-        <div className="padding"></div>
+        <NavBar />
         <Container>
-          <div>
-            <Tabs />
-            <svg
-              style={{
-                border: "solid #e5e8eb",
-              }} viewBox="0 0 100 149">
-              {
-                categories.map((category, i) => (
-                  <a key={i} href="/" className="mylink">
-                    <circle
-                      className="circle-css"
-                      style={{
-                        fill: shapes[i].colour
-                      }}
-                      cx={shapes[i].xcords}
-                      cy={shapes[i].ycords}
-                      r={shapes[i].size}
-                    />
-                    <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
-                  </a>
-                ))}
-            </svg>
-            <div className="footer"></div>
-          </div>
-
+          <svg viewBox="0 0 100 70">
+            {categories.map((category, i) => (
+              <a key={i} href="/neighbourhoods" className="mylink">
+                <circle
+                  className="circle-css"
+                  style={{
+                    fill: shapes[i].colour
+                  }}
+                  cx={shapes[i].xcords}
+                  cy={shapes[i].ycords}
+                  r={shapes[i].size}
+                />
+                <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
+              </a>
+            ))}
+          </svg>
         </Container>
       </>
     );
   }
 }
 
-export default PoliceForce;
+export default StopAndSearch;
