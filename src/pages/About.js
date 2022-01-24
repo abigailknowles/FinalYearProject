@@ -22,6 +22,12 @@ class About extends React.Component {
           </Row>
           <Row>
             <Col>
+              <h5>Background</h5>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h6>Data source</h6>
             </Col>
           </Row>
         </Container>

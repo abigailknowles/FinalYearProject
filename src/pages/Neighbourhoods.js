@@ -1,8 +1,12 @@
 import React, { } from "react";
-import { Container } from 'react-bootstrap';
+import { Container, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+
 import NavBar from '../components/NavBar';
 import LastUpdated from '../components/LastUpdated';
+import Loading from '../components/Loading';
 
 class Neighbourhoods extends React.Component {
   constructor(props) {
@@ -56,12 +60,27 @@ class Neighbourhoods extends React.Component {
   }
 
   render() {
-    const { shapes, categories } = this.state;
-
+    const { shapes, categories, isLoaded } = this.state;
+    if (!isLoaded) return <div>
+      <Loading />
+    </div >;
     return (
       <>
         <NavBar />
         <Container>
+          <Container>
+            <Navbar collapseOnSelect expand="lg" variant="dark" >
+              <NavLink className="nav-link" to="/">
+                <h5 className="nav-link-text">Police Force</h5>
+              </NavLink>
+              <h5 className="nav-link-text">
+                <FontAwesomeIcon size="1x" icon={faChevronRight} />
+              </h5>
+              <NavLink className="nav-link" to="/neighbourhoods">
+                <h5 className="nav-link-text">Neighbourhoods</h5>
+              </NavLink>
+            </Navbar>
+          </Container>
           <svg viewBox="0 0 100 70">
             <LastUpdated />
             {categories.map((category, i) => (

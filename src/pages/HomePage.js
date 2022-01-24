@@ -1,9 +1,9 @@
 import React, { } from "react";
-import { Container } from 'react-bootstrap';
+import { Container, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-
 import NavBar from '../components/NavBar';
 import LastUpdated from '../components/LastUpdated';
+import Loading from '../components/Loading';
 
 const colours = ['#ccf3ff', '#74bec8', '#d8bfff', '#f75e5b', '#fff88b', '#e80b8c', '#938fff', '#f7c6af', '#ffa661', '#7ee9cf', '#ffeefe',
   '#d2f9d0', '#e0f49c', '#02ccf9', '#ffc1f8', '#ffa0ab', '#f0f0f5', '#ffdd99', '#ffe0e0', '#b3d9ff', '#ff6666', '#99ff99', '#b8ffdb',
@@ -86,7 +86,7 @@ class HomePage extends React.Component {
       .then((json) => {
         this.setState({
           neighbourhoods: json,
-          DataisLoaded: true
+          isLoaded: true
         });
         console.log("Neighbourhoods:")
         console.log(json)
@@ -97,7 +97,7 @@ class HomePage extends React.Component {
       .then((json) => {
         this.setState({
           boundary: json,
-          DataisLoaded: true
+          isLoaded: true
         });
         console.log("Coordinates:")
         console.log(json)
@@ -108,7 +108,7 @@ class HomePage extends React.Component {
       .then((json) => {
         this.setState({
           data: json,
-          DataisLoaded: true
+          isLoaded: true
         });
         console.log("Crimes:")
         console.log(json)
@@ -116,17 +116,26 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { shapes, categories, DataisLoaded } = this.state;
-    if (!DataisLoaded) return <div>
-      <h1> Pleses wait some time.... </h1> </div>;
+    const { shapes, categories, isLoaded } = this.state;
+    if (!isLoaded) return <div>
+      <Loading />
+    </div >;
     return (
       <>
         <NavBar />
         <Container>
+          <Container>
+            <Navbar collapseOnSelect expand="lg" variant="dark" >
+              <NavLink className="nav-link" to="/">
+                <h5 className="nav-link-text">Police Force</h5>
+              </NavLink>
+            </Navbar>
+          </Container>
+
           <svg viewBox="0 0 100 150">
             <LastUpdated />
             {categories.map((category, i) => (
-              <NavLink key={i} to="/neighbourhoods" className="nav-link">
+              <NavLink key={i} to="/neighbourhoods" className="nav-link" >
                 <circle
                   className="circle-css"
                   style={{

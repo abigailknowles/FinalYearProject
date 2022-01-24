@@ -123,12 +123,20 @@
   color: #717171;
   opacity: 1;
 }
-
+.loading-spinner{
+  background-color: #65c4c2;
+}
 .nav-bar-text {
   font-size: 12px;
   color: #ffffff;
   padding-right: 30px;
   padding-top: 6px;
+}
+.nav-link-text {
+  font-size: 12px;
+  padding-right: 30px;
+  padding-top: 6px;
+  color: #007bff;
 }
 
 .navbar-custom {
@@ -143,6 +151,13 @@
 .footer{
   padding-top: 20px;
   padding-bottom: 20px;
+}
+.nav-col{
+  padding:none;
+  width:20%;
+}
+.visualisation-nav{
+  padding-top: 20px;
 }
 .circle-css:hover{
   fill:rgb(221, 221, 221)!important;

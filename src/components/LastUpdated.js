@@ -27,7 +27,6 @@ class LastUpdated extends Component {
 
     return (
       <>
-        <text x='10' y='6' fontSize="0.075em">Police Force</text>
         <text x='75' y='6' fontSize="0.075em">Last updated: {date}</text>
       </>
     );
