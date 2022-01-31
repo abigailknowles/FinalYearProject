@@ -126,6 +126,12 @@
 .loading-spinner{
   background-color: #65c4c2;
 }
+.visualisation-header{
+  font-size: 24px;
+  color:grey;
+  padding-top: 30px;
+  padding-bottom: none;
+}
 .nav-bar-text {
   font-size: 12px;
   color: #ffffff;
@@ -159,10 +165,18 @@
 .visualisation-nav{
   padding-top: 20px;
 }
+
+
+
+
+.breadcrumb{
+  background-color: white!important;
+}
 .circle-css:hover{
   fill:rgb(221, 221, 221)!important;
   r:12.4;
-    transition-duration: 0.8s;}
+  transition-duration: 0.8s;
+  }
     .svg-border{
       border-left: solid #e5e8eb;
       border-right: solid #e5e8eb;
