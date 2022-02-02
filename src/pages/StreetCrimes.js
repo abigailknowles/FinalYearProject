@@ -18,35 +18,111 @@ class StreetCrimes extends React.Component {
         '#e6e6ff', '#ff80aa', '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5',
         '#ffe6cc', '#e6e6e6', '#6666cc', '#ffdd99', '#b3ffb3', '#80ffdf', '#b3d9ff', '#a0a1f5', '#ffccff', '#b3ccff', '#9fdfbf', '#a3a3c2', '#6699cc'],
       shapes: [
-        { size: '10.2', xcords: 23.5, ycords: 22.5 },
-        { size: '10.2', xcords: 23.5, ycords: 22.5 },
-        { size: '5.3', xcords: 39.5, ycords: 21 },
-        { size: '7.1', xcords: 52, ycords: 17 },
-        { size: '8.3', xcords: 68, ycords: 20 },
-        { size: '5.4', xcords: 81.7, ycords: 25 },
-        { size: '6', xcords: 24, ycords: 39.4 },
-        { size: '8', xcords: 38.2, ycords: 35 },
-        { size: '9.3', xcords: 56.2, ycords: 34 },
-        { size: '7', xcords: 73.6, ycords: 36 },
-        { size: '5.6', xcords: 33, ycords: 48.5 },
-        { size: '9', xcords: 82, ycords: 51 },
-        { size: '6.5', xcords: 88, ycords: 36 },
-        { size: '8', xcords: 47, ycords: 50 },
-        { size: '8', xcords: 64, ycords: 50 },
+        { xcords: 50, ycords: 20 },
+        { xcords: 28.5, ycords: 33 },
+        { xcords: 38, ycords: 39.5 },
+        { xcords: 62, ycords: 25 },
+        { xcords: 66.5, ycords: 35 },
+        { xcords: 44, ycords: 48 },
+        { xcords: 39, ycords: 28 },
+        { xcords: 75, ycords: 42 },
+        { xcords: 65, ycords: 45.5 },
+        { xcords: 52, ycords: 36 },
+        { xcords: 55, ycords: 50 },
+
       ]
     };
   }
 
+  isGroupInArray(groups, category) {
+    var isFound = false;
+    for (var key in groups) {
+      if (groups[key].category == category) {
+        isFound = true;
+      }
+    }
+
+    return isFound;
+  }
+
+  getByGroupName(arr, category) {
+    var group = [];
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].category === category) {
+        group.push(arr[i]);
+      }
+    }
+    return { group: group, count: group.length };
+  }
+
+  groupBy(arr) {
+    var groups = [];
+
+    for (var i = 0; i < arr.length; i++) {
+      var category = arr[i].category;
+      if (this.isGroupInArray(groups, category) == false)
+        groups.push({ category: category, group: this.getByGroupName(arr, category) })
+    }
+
+    return { groups: groups, count: arr.length };
+  }
+
+  calculatePercentage(value, totalValue) {
+    var percentage = (value / totalValue * 100).toFixed(2);
+    return percentage;
+  }
+  textFormatter(category) {
+    const cat = category;
+    const capitalCat = cat.charAt(0).toUpperCase() + cat.slice(1);
+    return capitalCat.replaceAll('-', ' ');
+  }
+  calculateBubbleSize(value, totalValue) {
+    var percentage = (value / totalValue * 100).toFixed(2);
+    var size = 0;
+
+    if (percentage <= 10) {
+      size = "4.8"
+    }
+    else if (percentage <= 20) {
+      size = "5.8"
+    }
+    else if (percentage <= 30) {
+      size = "6.8"
+    }
+    else if (percentage <= 40) {
+      size = "7.8"
+    }
+    else if (percentage <= 50) {
+      size = "8.8"
+    }
+    else if (percentage <= 60) {
+      size = "9.8"
+    }
+    else if (percentage <= 70) {
+      size = "10.8"
+    }
+    else if (percentage <= 80) {
+      size = "11.8"
+    }
+    else if (percentage <= 90) {
+      size = "12.8"
+    }
+    else if (percentage <= 100) {
+      size = "13.8"
+    }
+    return size
+  }
   componentDidMount() {
-    fetch("https://data.police.uk/api/crime-categories")
+    fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
       .then(res => res.json())
       .then(
         (result) => {
+          console.log(result);
+          var categories = this.groupBy(result);
           this.setState({
             isLoaded: true,
-            categories: result,
+            categories: categories
           });
-          console.log(result)
         },
         (error) => {
           this.setState({
@@ -75,9 +151,13 @@ class StreetCrimes extends React.Component {
           </Container>
           <svg viewBox="0 0 100 70">
             <LastUpdated />
+            <text x='1' y='6' fontSize="0.075em">Total street crimes: {categories.count}</text>
+
             {
-              categories.map((category, i) => (
-                <NavLink key={i} to="/crime-outcomes" className="nav-link">
+              categories.groups.map((category, i) => (
+                <NavLink key={i} to="/crime-outcomes" className="nav-link" onMouseEnter={() => {
+                  console.log("hello");
+                }}  >
                   <circle
                     className="circle-css"
                     style={{
@@ -85,9 +165,11 @@ class StreetCrimes extends React.Component {
                     }}
                     cx={shapes[i].xcords}
                     cy={shapes[i].ycords}
-                    r={shapes[i].size}
+                    r={this.calculateBubbleSize(category.group.count, categories.count)}
                   />
-                  <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
+                  <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
+                  <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
+                  <text x={shapes[i].xcords} y={shapes[i].ycords + 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
                 </NavLink>
               ))}
           </svg>

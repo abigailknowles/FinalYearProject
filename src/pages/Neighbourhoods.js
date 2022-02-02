@@ -37,12 +37,90 @@ class Neighbourhoods extends React.Component {
       ]
     };
   }
+  isGroupInArray(groups, category) {
+    var isFound = false;
+    for (var key in groups) {
+      if (groups[key].category == category) {
+        isFound = true;
+      }
+    }
 
+    return isFound;
+  }
+
+  getByGroupName(arr, category) {
+    var group = [];
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].category === category) {
+        group.push(arr[i]);
+      }
+    }
+    return { group: group, count: group.length };
+  }
+
+  groupBy(arr) {
+    var groups = [];
+
+    for (var i = 0; i < arr.length; i++) {
+      var category = arr[i].category;
+      if (this.isGroupInArray(groups, category) == false)
+        groups.push({ category: category, group: this.getByGroupName(arr, category) })
+    }
+
+    return { groups: groups, count: arr.length };
+  }
+
+  calculatePercentage(value, totalValue) {
+    var percentage = (value / totalValue * 100).toFixed(2);
+    return percentage;
+  }
+  textFormatter(category) {
+    const cat = category;
+    const capitalCat = cat.charAt(0).toUpperCase() + cat.slice(1);
+    return capitalCat.replaceAll('-', ' ');
+  }
+  calculateBubbleSize(value, totalValue) {
+    var percentage = (value / totalValue * 100).toFixed(2);
+    var size = 0;
+
+    if (percentage <= 10) {
+      size = "4.8"
+    }
+    else if (percentage <= 20) {
+      size = "5.8"
+    }
+    else if (percentage <= 30) {
+      size = "6.8"
+    }
+    else if (percentage <= 40) {
+      size = "7.8"
+    }
+    else if (percentage <= 50) {
+      size = "8.8"
+    }
+    else if (percentage <= 60) {
+      size = "9.8"
+    }
+    else if (percentage <= 70) {
+      size = "10.8"
+    }
+    else if (percentage <= 80) {
+      size = "11.8"
+    }
+    else if (percentage <= 90) {
+      size = "12.8"
+    }
+    else if (percentage <= 100) {
+      size = "13.8"
+    }
+    return size
+  }
   componentDidMount() {
     fetch("https://data.police.uk/api/northamptonshire/neighbourhoods")
       .then(res => res.json())
       .then(
         (result) => {
+          var categories = this.groupBy(result);
           this.setState({
             isLoaded: true,
             categories: result,

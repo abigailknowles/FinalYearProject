@@ -105,6 +105,7 @@ class StreetCrimes extends React.Component {
       .then(
         (result) => {
           var outcomes = this.groupBy(result);
+          console.log(outcomes)
           this.setState({
             isLoaded: true,
             categories: outcomes,
@@ -142,7 +143,9 @@ class StreetCrimes extends React.Component {
 
             {
               categories.groups.map((category, i) => (
-                <NavLink key={i} to="/police-force" className="nav-link">
+                <NavLink key={i} to="/police-force" className="nav-link" onMouseEnter={() => {
+                  console.log("hello");
+                }}  >
                   <circle
                     className="circle-css"
                     style={{
@@ -153,7 +156,7 @@ class StreetCrimes extends React.Component {
                     r={this.calculateBubbleSize(category.group.count, categories.count)}
                   />
                   <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.code}</text>
-                  <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count}</text>
+                  <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
                   <text x={shapes[i].xcords} y={shapes[i].ycords + 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
                 </NavLink>
               ))}
