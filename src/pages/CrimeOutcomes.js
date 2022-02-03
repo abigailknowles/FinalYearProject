@@ -13,6 +13,9 @@ class StreetCrimes extends React.Component {
     this.state = {
       categories: [],
       date: '',
+      policeForce: props.location.aboutProps.selectedPoliceForce,
+      neighbourhood: props.location.aboutProps.selectedNeighbourhood,
+      crime: props.location.aboutProps.selectedCrime,
       shapes: [
         { colour: "#74bec8", xcords: 50, ycords: 28 },
         { colour: "#ccf3ff", xcords: 33, ycords: 20 },
@@ -29,7 +32,7 @@ class StreetCrimes extends React.Component {
   isGroupInArray(groups, code) {
     var isFound = false;
     for (var key in groups) {
-      if (groups[key].code == code) {
+      if (groups[key].code === code) {
         isFound = true;
       }
     }
@@ -52,13 +55,18 @@ class StreetCrimes extends React.Component {
 
     for (var i = 0; i < arr.length; i++) {
       var code = arr[i].category.name;
-      if (this.isGroupInArray(groups, code) == false)
+      if (this.isGroupInArray(groups, code) === false)
         groups.push({ code: code, group: this.getByGroupName(arr, code) })
     }
 
     return { groups: groups, count: arr.length };
   }
 
+  textFormatter(force) {
+    const police = force;
+    const formatForce = police.charAt(0).toUpperCase() + police.slice(1);
+    return formatForce;
+  }
   calculatePercentage(value, totalValue) {
     var percentage = (value / totalValue * 100).toFixed(2);
     return percentage;
@@ -66,36 +74,36 @@ class StreetCrimes extends React.Component {
 
   calculateBubbleSize(value, totalValue) {
     var percentage = (value / totalValue * 100).toFixed(2);
-
+    var size = 0;
     if (percentage <= 10) {
-      var size = "4.8"
+      size = "4.8"
     }
     else if (percentage <= 20) {
-      var size = "5.8"
+      size = "5.8"
     }
     else if (percentage <= 30) {
-      var size = "6.8"
+      size = "6.8"
     }
     else if (percentage <= 40) {
-      var size = "7.8"
+      size = "7.8"
     }
     else if (percentage <= 50) {
-      var size = "8.8"
+      size = "8.8"
     }
     else if (percentage <= 60) {
-      var size = "9.8"
+      size = "9.8"
     }
     else if (percentage <= 70) {
-      var size = "10.8"
+      size = "10.8"
     }
     else if (percentage <= 80) {
-      var size = "11.8"
+      size = "11.8"
     }
     else if (percentage <= 90) {
-      var size = "12.8"
+      size = "12.8"
     }
     else if (percentage <= 100) {
-      var size = "13.8"
+      size = "13.8"
     }
     return size
   }
@@ -119,48 +127,65 @@ class StreetCrimes extends React.Component {
         }
       )
   }
-
+  setIsShown(state, id) {
+    this.setState({ isShown: state, id: id })
+  }
   render() {
-    const { shapes, categories, isLoaded } = this.state;
-    if (!isLoaded) return <div>
-      <Loading />
-    </div >;
+    const { shapes, categories, isLoaded, isShown, id } = this.state;
     return (
       <>
         <NavBar />
         <Container>
-          <Container>
+          <Container className="top-breadcrumb">
             <Breadcrumb >
-              <Breadcrumb.Item href="/">Police Force</Breadcrumb.Item>
-              <Breadcrumb.Item href="/neighbourhoods"> Neighbourhoods </Breadcrumb.Item>
-              <Breadcrumb.Item href="/street-crimes"> Street Crimes </Breadcrumb.Item>
+              <Breadcrumb.Item href="/">Police Force - {this.textFormatter(this.state.policeForce)}</Breadcrumb.Item>
+              <Breadcrumb.Item href="/neighbourhoods"> Neighbourhoods - {this.state.neighbourhood}</Breadcrumb.Item>
+              <Breadcrumb.Item href="/street-crimes"> Street Crimes - {this.textFormatter(this.state.crime)}</Breadcrumb.Item>
               <Breadcrumb.Item active> Crime Outcomes </Breadcrumb.Item>
             </Breadcrumb>
           </Container>
-          <svg viewBox="0 0 100 70">
-            <LastUpdated />
-            <text x='1' y='6' fontSize="0.075em">Total crime outcomes: {categories.count}</text>
+          {!isLoaded
+            ? <div><Loading /></div>
+            :
+            <svg viewBox="0 0 100 70">
+              <LastUpdated />
+              <text x='3' y='3' fontSize="0.075em">Total crime outcomes: {categories.count}</text>
 
-            {
-              categories.groups.map((category, i) => (
-                <NavLink key={i} to="/police-force" className="nav-link" onMouseEnter={() => {
-                  console.log("hello");
-                }}  >
-                  <circle
-                    className="circle-css"
-                    style={{
-                      fill: shapes[i].colour
-                    }}
-                    cx={shapes[i].xcords}
-                    cy={shapes[i].ycords}
-                    r={this.calculateBubbleSize(category.group.count, categories.count)}
-                  />
-                  <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.code}</text>
-                  <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
-                  <text x={shapes[i].xcords} y={shapes[i].ycords + 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
-                </NavLink>
-              ))}
-          </svg>
+              {
+                categories.groups.map((category, i) => (
+                  <NavLink key={i} className="nav-link"
+                    onMouseEnter={() => { this.setIsShown(true, i, category.category) }}
+                    onMouseLeave={() => { this.setIsShown(false, i, category.category) }}
+                    to={{
+                      pathname: 'crime-outcomes',
+                      aboutProps: {
+                        selectedPoliceForce: this.state.policeForce,
+                        selectedNeighbourhood: this.state.neighbourhood,
+                        selectedCrime: this.state.crime
+                      }
+                    }}>
+                    <circle
+                      className="circle-css"
+                      style={{
+                        fill: shapes[i].colour
+                      }}
+                      cx={shapes[i].xcords}
+                      cy={shapes[i].ycords}
+                      r={this.calculateBubbleSize(category.group.count, categories.count)}
+                    />
+                    {isShown && i === id ?
+                      <>
+                        <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.code}</text>
+                        <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
+                        <text x={shapes[i].xcords} y={shapes[i].ycords + 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
+                      </>
+                      :
+                      <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.code}</text>
+                    }
+                  </NavLink>
+                ))}
+            </svg>
+          }
         </Container>
       </>
     );

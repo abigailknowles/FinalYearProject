@@ -4,20 +4,19 @@ import { NavLink } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import LastUpdated from '../components/LastUpdated';
 import Loading from '../components/Loading';
-import Breadcrumb from 'react-bootstrap/Breadcrumb'
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categories: [],
-      hoverCategory: '',
       isShown: false,
       setIsShown: false,
       colours: ['#ccf3ff', '#74bec8', '#d8bfff', '#f75e5b', '#fff88b', '#e80b8c', '#938fff', '#f7c6af', '#ffa661', '#7ee9cf', '#ffeefe',
-        '#d2f9d0', '#e0f49c', '#02ccf9', '#ffc1f8', '#ffa0ab', '#f0f0f5', '#ffdd99', '#ffe0e0', '#b3d9ff', '#ff6666', '#99ff99', '#b8ffdb',
-        '#e6e6ff', '#ff80aa', '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5',
-        '#ffe6cc', '#e6e6e6', '#6666cc', '#ffdd99', '#b3ffb3', '#80ffdf', '#b3d9ff', '#a0a1f5', '#ffccff', '#b3ccff', '#9fdfbf', '#a3a3c2', '#6699cc'],
+        '#d2f9d0', '#e0f49c', '#02ccf9', '#ffc1f8', '#ffa0ab', '#f0f0f5', '#ffe0e0', '#ff6666', '#99ff99', '#b8ffdb', '#e6e6ff', '#ff80aa',
+        '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5', '#ffe6cc',
+        '#e6e6e6', '#6666cc', '#ffdd99', '#b3ffb3', '#80ffdf', '#b3d9ff', '#a0a1f5', '#ffccff', '#b3ccff', '#9fdfbf', '#a3a3c2', '#6699cc'],
       shapes: [
         { size: '10', xcords: 23.5, ycords: 22.5 },
         { size: '10', xcords: 23.5, ycords: 22.5 },
@@ -105,8 +104,7 @@ class HomePage extends React.Component {
         console.log("Coordinates:")
         console.log(json)
       })
-    fetch(
-      "https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
+    fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
       .then((res) => res.json())
       .then((json) => {
         this.setState({
@@ -117,41 +115,58 @@ class HomePage extends React.Component {
         console.log(json)
       })
   }
+  // Wrap text in a circle.
+  wrapText(text) {
+
+    text = text.replace(' ', "\r\n");
+
+    return text;
+  }
 
   render() {
-    const { shapes, categories, isLoaded, colours } = this.state;
-    if (!isLoaded) return <div>
-      <Loading />
-    </div >;
+    const { shapes, categories, isLoaded, colours, isShown, setIsShown } = this.state;
     return (
       <>
         <NavBar />
         <Container>
-          <Container>
+
+          <Container className="top-breadcrumb">
             <Breadcrumb >
               <Breadcrumb.Item active>Police Force</Breadcrumb.Item>
             </Breadcrumb>
           </Container>
-          <svg viewBox="0 0 100 150">
-            <LastUpdated />
-            {categories.map((category, i) => (
-              <NavLink key={i} to="/neighbourhoods" className="nav-link" onMouseEnter={() => {
-                this.setState({ hoverCategory: category.id });
-                console.log(this.state.hoverCategory);
-              }}  >
-                <circle
-                  className="circle-css"
-                  style={{
-                    fill: colours[i]
-                  }}
-                  cx={shapes[i].xcords}
-                  cy={shapes[i].ycords}
-                  r={shapes[i].size}
-                />
-                <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
-              </NavLink>
-            ))}
-          </svg>
+
+          {!isLoaded
+            ? <div><Loading /></div>
+            :
+            <svg viewBox="0 0 100 150">
+              <LastUpdated />
+              <text x='3' y='3' fontSize="0.075em">Total police forces: {categories.length}</text>
+              {categories.map((category, i) => (
+                <NavLink key={i} className="nav-link"
+                  onMouseEnter={() => {
+                    this.setState({ policeForce: category.id })
+                  }} to={{
+                    pathname: 'neighbourhoods',
+                    aboutProps: {
+                      selectedPoliceForce: this.state.policeForce
+                    }
+                  }}>
+                  <circle
+                    className="circle-css"
+                    style={{
+                      fill: colours[i]
+                    }}
+                    cx={shapes[i].xcords}
+                    cy={shapes[i].ycords}
+                    r={shapes[i].size}
+                  />
+                  <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline=" middle" fontSize="0.075em">{this.wrapText(category.name)}</text>
+
+                </NavLink>
+              ))}
+            </svg>
+          }
         </Container>
       </>
     );

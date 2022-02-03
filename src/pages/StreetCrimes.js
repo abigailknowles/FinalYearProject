@@ -13,6 +13,8 @@ class StreetCrimes extends React.Component {
     this.state = {
       categories: [],
       date: '',
+      policeForce: props.location.aboutProps.selectedPoliceForce,
+      neighbourhood: props.location.aboutProps.selectedNeighbourhood,
       colours: ['#ccf3ff', '#74bec8', '#d8bfff', '#f75e5b', '#fff88b', '#e80b8c', '#938fff', '#f7c6af', '#ffa661', '#7ee9cf', '#ffeefe',
         '#d2f9d0', '#e0f49c', '#02ccf9', '#ffc1f8', '#ffa0ab', '#f0f0f5', '#ffdd99', '#ffe0e0', '#b3d9ff', '#ff6666', '#99ff99', '#b8ffdb',
         '#e6e6ff', '#ff80aa', '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5',
@@ -37,7 +39,7 @@ class StreetCrimes extends React.Component {
   isGroupInArray(groups, category) {
     var isFound = false;
     for (var key in groups) {
-      if (groups[key].category == category) {
+      if (groups[key].category === category) {
         isFound = true;
       }
     }
@@ -60,7 +62,7 @@ class StreetCrimes extends React.Component {
 
     for (var i = 0; i < arr.length; i++) {
       var category = arr[i].category;
-      if (this.isGroupInArray(groups, category) == false)
+      if (this.isGroupInArray(groups, category) === false)
         groups.push({ category: category, group: this.getByGroupName(arr, category) })
     }
 
@@ -132,47 +134,83 @@ class StreetCrimes extends React.Component {
         }
       )
   }
-
+  setIsShown(state, id, crime) {
+    this.setState({ isShown: state, id: id, crime: crime })
+  }
   render() {
-    const { shapes, categories, isLoaded, colours } = this.state;
-    if (!isLoaded) return <div>
-      <Loading />
-    </div >;
+    const { shapes, categories, isLoaded, colours, isShown, id, crime } = this.state;
     return (
       <>
         <NavBar />
         <Container>
-          <Container>
+          <Container className="top-breadcrumb">
             <Breadcrumb >
-              <Breadcrumb.Item href="/">Police Force</Breadcrumb.Item>
-              <Breadcrumb.Item href="/neighbourhoods"> Neighbourhoods </Breadcrumb.Item>
+              <Breadcrumb.Item href="/">Police Force - {this.textFormatter(this.state.policeForce)}</Breadcrumb.Item>
+              <Breadcrumb.Item href="/neighbourhoods"> Neighbourhoods - {this.state.neighbourhood} </Breadcrumb.Item>
               <Breadcrumb.Item active> Street Crimes </Breadcrumb.Item>
             </Breadcrumb>
           </Container>
-          <svg viewBox="0 0 100 70">
-            <LastUpdated />
-            <text x='1' y='6' fontSize="0.075em">Total street crimes: {categories.count}</text>
+          {/* <div className="App">
+            <NavLink className="nav-link"
+              onMouseEnter={() => { this.setIsShown(true) }}
+              onMouseLeave={() => { this.setIsShown(false) }}
+              to={{
+                pathname: 'crime-outcomes',
+                aboutProps: {
+                  selectedPoliceForce: this.state.policeForce,
+                  selectedNeighbourhood: this.state.neighbourhood,
+                  selectedStreetCrime: this.state.crime
+                }
+              }}>
+              Hover over me!
+            </NavLink>
+            {isShown && (
+              <text x='6' y='3' fontSize="0.075em">Total street crimes: </text>
+            )}
+          </div> */}
+          {!isLoaded
+            ? <div><Loading /></div>
+            :
+            <svg viewBox="0 0 100 70">
 
-            {
-              categories.groups.map((category, i) => (
-                <NavLink key={i} to="/crime-outcomes" className="nav-link" onMouseEnter={() => {
-                  console.log("hello");
-                }}  >
-                  <circle
-                    className="circle-css"
-                    style={{
-                      fill: colours[i]
-                    }}
-                    cx={shapes[i].xcords}
-                    cy={shapes[i].ycords}
-                    r={this.calculateBubbleSize(category.group.count, categories.count)}
-                  />
-                  <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
-                  <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
-                  <text x={shapes[i].xcords} y={shapes[i].ycords + 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
-                </NavLink>
-              ))}
-          </svg>
+              <LastUpdated />
+              <text x='3' y='3' fontSize="0.075em">Total street crimes: {categories.count}</text>
+              {
+                categories.groups.map((category, i) => (
+                  <NavLink key={i} className="nav-link"
+                    onMouseEnter={() => { this.setIsShown(true, i, category.category) }}
+                    onMouseLeave={() => { this.setIsShown(false, i, category.category) }}
+                    to={{
+                      pathname: 'crime-outcomes',
+                      aboutProps: {
+                        selectedPoliceForce: this.state.policeForce,
+                        selectedNeighbourhood: this.state.neighbourhood,
+                        selectedCrime: this.state.crime
+                      }
+                    }}>
+                    <circle
+                      className="circle-css"
+                      style={{
+                        fill: colours[i]
+                      }}
+                      cx={shapes[i].xcords}
+                      cy={shapes[i].ycords}
+                      r={this.calculateBubbleSize(category.group.count, categories.count)}
+                    />
+                    {isShown && i === id ?
+                      <>
+                        <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
+                        <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
+                        <text x={shapes[i].xcords} y={shapes[i].ycords + 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
+                      </>
+                      :
+                      <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
+                    }
+                  </NavLink>
+                ))}
+            </svg>
+          }
+
         </Container>
       </>
     );

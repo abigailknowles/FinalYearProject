@@ -17,8 +17,6 @@ class LastUpdated extends Component {
           date: json.date,
           DataisLoaded: true
         });
-        console.log("Last updated:")
-        console.log(json.date)
       })
   }
 
@@ -27,7 +25,7 @@ class LastUpdated extends Component {
 
     return (
       <>
-        <text x='75' y='6' fontSize="0.075em">Last updated: {date}</text>
+        <text x='82' y='3' fontSize="0.075em">Last updated: {date}</text>
       </>
     );
   }

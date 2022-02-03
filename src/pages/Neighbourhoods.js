@@ -13,6 +13,7 @@ class Neighbourhoods extends React.Component {
     this.state = {
       categories: [],
       date: '',
+      policeForce: props.location.aboutProps.selectedPoliceForce,
       colours: ['#ccf3ff', '#74bec8', '#d8bfff', '#f75e5b', '#fff88b', '#e80b8c', '#938fff', '#f7c6af', '#ffa661', '#7ee9cf', '#ffeefe',
         '#d2f9d0', '#e0f49c', '#02ccf9', '#ffc1f8', '#ffa0ab', '#f0f0f5', '#ffdd99', '#ffe0e0', '#b3d9ff', '#ff6666', '#99ff99', '#b8ffdb',
         '#e6e6ff', '#ff80aa', '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5',
@@ -34,51 +35,61 @@ class Neighbourhoods extends React.Component {
         { size: '6.5', xcords: 88, ycords: 36 },
         { size: '5', xcords: 50, ycords: 49 },
         { size: '8', xcords: 64, ycords: 50 },
+        { size: '8.3', xcords: 68, ycords: 20 },
+        { size: '5.4', xcords: 81.7, ycords: 25 },
+        { size: '6', xcords: 24, ycords: 39.4 },
+        { size: '8', xcords: 38.2, ycords: 35 },
+        { size: '9.3', xcords: 56.2, ycords: 34 },
+        { size: '7', xcords: 73.6, ycords: 36 },
+        { size: '5.2', xcords: 13, ycords: 35 },
+        { size: '7', xcords: 37, ycords: 51 },
+        { size: '9', xcords: 82, ycords: 51 },
+        { size: '6.5', xcords: 88, ycords: 36 },
+        { size: '5', xcords: 50, ycords: 49 },
+        { size: '8', xcords: 64, ycords: 50 },
+        { size: '10', xcords: 23.5, ycords: 22.5 },
+        { size: '10', xcords: 23.5, ycords: 22.5 },
+        { size: '5.3', xcords: 39.5, ycords: 21 },
+        { size: '7.1', xcords: 52, ycords: 17 },
+        { size: '8.3', xcords: 68, ycords: 20 },
+        { size: '5.4', xcords: 81.7, ycords: 25 },
+        { size: '6', xcords: 24, ycords: 39.4 },
+        { size: '8', xcords: 38.2, ycords: 35 },
+        { size: '9.3', xcords: 56.2, ycords: 34 },
+        { size: '7', xcords: 73.6, ycords: 36 },
+        { size: '5.2', xcords: 13, ycords: 35 },
+        { size: '7', xcords: 37, ycords: 51 },
+        { size: '9', xcords: 82, ycords: 51 },
+        { size: '6.5', xcords: 88, ycords: 36 },
+        { size: '5', xcords: 50, ycords: 49 },
+        { size: '8', xcords: 64, ycords: 50 },
+        { size: '8.3', xcords: 68, ycords: 20 },
+        { size: '5.4', xcords: 81.7, ycords: 25 },
+        { size: '6', xcords: 24, ycords: 39.4 },
+        { size: '8', xcords: 38.2, ycords: 35 },
+        { size: '9.3', xcords: 56.2, ycords: 34 },
+        { size: '7', xcords: 73.6, ycords: 36 },
+        { size: '5.2', xcords: 13, ycords: 35 },
+        { size: '7', xcords: 37, ycords: 51 },
+        { size: '9', xcords: 82, ycords: 51 },
+        { size: '6.5', xcords: 88, ycords: 36 },
+        { size: '5', xcords: 50, ycords: 49 },
+        { size: '8', xcords: 64, ycords: 50 },
+
       ]
     };
   }
-  isGroupInArray(groups, category) {
-    var isFound = false;
-    for (var key in groups) {
-      if (groups[key].category == category) {
-        isFound = true;
-      }
-    }
 
-    return isFound;
+  textFormatter(force) {
+    const police = force;
+    const formatForce = police.charAt(0).toUpperCase() + police.slice(1);
+    return formatForce;
   }
-
-  getByGroupName(arr, category) {
-    var group = [];
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].category === category) {
-        group.push(arr[i]);
-      }
-    }
-    return { group: group, count: group.length };
-  }
-
-  groupBy(arr) {
-    var groups = [];
-
-    for (var i = 0; i < arr.length; i++) {
-      var category = arr[i].category;
-      if (this.isGroupInArray(groups, category) == false)
-        groups.push({ category: category, group: this.getByGroupName(arr, category) })
-    }
-
-    return { groups: groups, count: arr.length };
-  }
-
   calculatePercentage(value, totalValue) {
     var percentage = (value / totalValue * 100).toFixed(2);
     return percentage;
   }
-  textFormatter(category) {
-    const cat = category;
-    const capitalCat = cat.charAt(0).toUpperCase() + cat.slice(1);
-    return capitalCat.replaceAll('-', ' ');
-  }
+
   calculateBubbleSize(value, totalValue) {
     var percentage = (value / totalValue * 100).toFixed(2);
     var size = 0;
@@ -116,11 +127,10 @@ class Neighbourhoods extends React.Component {
     return size
   }
   componentDidMount() {
-    fetch("https://data.police.uk/api/northamptonshire/neighbourhoods")
+    fetch(`https://data.police.uk/api/${this.state.policeForce}/neighbourhoods`)
       .then(res => res.json())
       .then(
         (result) => {
-          var categories = this.groupBy(result);
           this.setState({
             isLoaded: true,
             categories: result,
@@ -138,37 +148,47 @@ class Neighbourhoods extends React.Component {
 
   render() {
     const { shapes, categories, isLoaded, colours } = this.state;
-
-    if (!isLoaded) return <div>
-      <Loading />
-    </div >;
     return (
       <>
         <NavBar />
         <Container>
-          <Container>
+          <Container className="top-breadcrumb">
             <Breadcrumb >
-              <Breadcrumb.Item href="/">Police Force</Breadcrumb.Item>
+              <Breadcrumb.Item href="/">Police Force - {this.textFormatter(this.state.policeForce)}</Breadcrumb.Item>
               <Breadcrumb.Item active> Neighbourhoods </Breadcrumb.Item>
             </Breadcrumb>
           </Container>
-          <svg viewBox="0 0 100 70">
-            <LastUpdated />
-            {categories.map((category, i) => (
-              <NavLink key={i} to="/street-crimes" className="nav-link">
-                <circle
-                  className="circle-css"
-                  style={{
-                    fill: colours[i]
-                  }}
-                  cx={shapes[i].xcords}
-                  cy={shapes[i].ycords}
-                  r={shapes[i].size}
-                />
-                <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
-              </NavLink>
-            ))}
-          </svg>
+          {!isLoaded
+            ? <div><Loading /></div>
+            :
+            <svg viewBox="0 0 100 70">
+              <LastUpdated />
+              <text x='3' y='3' fontSize="0.075em">Total neighbourhoods: {categories.length}</text>
+              {categories.map((category, i) => (
+                <NavLink key={i} className="nav-link"
+                  onMouseEnter={() => {
+                    this.setState({ neighbourhood: category.id })
+                  }} to={{
+                    pathname: 'street-crimes',
+                    aboutProps: {
+                      selectedPoliceForce: this.state.policeForce,
+                      selectedNeighbourhood: this.state.neighbourhood
+                    }
+                  }}>
+                  <circle
+                    className="circle-css"
+                    style={{
+                      fill: colours[i]
+                    }}
+                    cx={shapes[i].xcords}
+                    cy={shapes[i].ycords}
+                    r={shapes[i].size}
+                  />
+                  <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
+                </NavLink>
+              ))}
+            </svg>
+          }
         </Container>
       </>
     );
