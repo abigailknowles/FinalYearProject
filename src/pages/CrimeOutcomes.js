@@ -18,13 +18,13 @@ class StreetCrimes extends React.Component {
       crime: props.location.aboutProps.selectedCrime,
       shapes: [
         { colour: "#74bec8", xcords: 50, ycords: 28 },
-        { colour: "#ccf3ff", xcords: 33, ycords: 20 },
-        { colour: "#d8bfff", xcords: 33, ycords: 33.5 },
-        { colour: "#f75e5b", xcords: 65.5, ycords: 21.5 },
-        { colour: "#fff88b", xcords: 66.5, ycords: 32 },
-        { colour: "#e80b8c", xcords: 51, ycords: 45 },
-        { colour: "#938fff", xcords: 41, ycords: 42 },
-        { colour: "#f7c6af", xcords: 61, ycords: 41 },
+        { colour: "#ccf3ff", xcords: 29, ycords: 22 },
+        { colour: "#d8bfff", xcords: 31, ycords: 38 },
+        { colour: "#f75e5b", xcords: 69, ycords: 21.5 },
+        { colour: "#fff88b", xcords: 69, ycords: 36 },
+        { colour: "#e80b8c", xcords: 43, ycords: 47 },
+        { colour: "#938fff", xcords: 83, ycords: 30 },
+        { colour: "#f7c6af", xcords: 58, ycords: 46 },
       ]
     };
   }
@@ -76,34 +76,34 @@ class StreetCrimes extends React.Component {
     var percentage = (value / totalValue * 100).toFixed(2);
     var size = 0;
     if (percentage <= 10) {
-      size = "4.8"
+      size = "7"
     }
     else if (percentage <= 20) {
-      size = "5.8"
+      size = "7"
     }
     else if (percentage <= 30) {
-      size = "6.8"
+      size = "8"
     }
     else if (percentage <= 40) {
-      size = "7.8"
+      size = "9"
     }
     else if (percentage <= 50) {
-      size = "8.8"
+      size = "10"
     }
     else if (percentage <= 60) {
-      size = "9.8"
+      size = "11"
     }
     else if (percentage <= 70) {
-      size = "10.8"
+      size = "12"
     }
     else if (percentage <= 80) {
-      size = "11.8"
+      size = "13"
     }
     else if (percentage <= 90) {
-      size = "12.8"
+      size = "14"
     }
     else if (percentage <= 100) {
-      size = "13.8"
+      size = "15"
     }
     return size
   }

@@ -20,16 +20,16 @@ class StreetCrimes extends React.Component {
         '#e6e6ff', '#ff80aa', '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5',
         '#ffe6cc', '#e6e6e6', '#6666cc', '#ffdd99', '#b3ffb3', '#80ffdf', '#b3d9ff', '#a0a1f5', '#ffccff', '#b3ccff', '#9fdfbf', '#a3a3c2', '#6699cc'],
       shapes: [
-        { xcords: 50, ycords: 20 },
-        { xcords: 28.5, ycords: 33 },
-        { xcords: 38, ycords: 39.5 },
-        { xcords: 62, ycords: 25 },
-        { xcords: 66.5, ycords: 35 },
-        { xcords: 44, ycords: 48 },
-        { xcords: 39, ycords: 28 },
-        { xcords: 75, ycords: 42 },
-        { xcords: 65, ycords: 45.5 },
-        { xcords: 52, ycords: 36 },
+        { xcords: 37, ycords: 21 },
+        { xcords: 23, ycords: 27 },
+        { xcords: 79, ycords: 39 },
+        { xcords: 62, ycords: 19 },
+        { xcords: 42, ycords: 48 },
+        { xcords: 29, ycords: 50 },
+        { xcords: 34, ycords: 36.5 },
+        { xcords: 69, ycords: 30 },
+        { xcords: 66, ycords: 43 },
+        { xcords: 52, ycords: 33 },
         { xcords: 55, ycords: 50 },
 
       ]
@@ -83,34 +83,34 @@ class StreetCrimes extends React.Component {
     var size = 0;
 
     if (percentage <= 10) {
-      size = "4.8"
+      size = "6"
     }
     else if (percentage <= 20) {
-      size = "5.8"
+      size = "7"
     }
     else if (percentage <= 30) {
-      size = "6.8"
+      size = "8"
     }
     else if (percentage <= 40) {
-      size = "7.8"
+      size = "9"
     }
     else if (percentage <= 50) {
-      size = "8.8"
+      size = "10"
     }
     else if (percentage <= 60) {
-      size = "9.8"
+      size = "11"
     }
     else if (percentage <= 70) {
-      size = "10.8"
+      size = "12"
     }
     else if (percentage <= 80) {
-      size = "11.8"
+      size = "13"
     }
     else if (percentage <= 90) {
-      size = "12.8"
+      size = "14"
     }
     else if (percentage <= 100) {
-      size = "13.8"
+      size = "15"
     }
     return size
   }

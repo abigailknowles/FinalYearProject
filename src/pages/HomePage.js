@@ -74,6 +74,7 @@ class HomePage extends React.Component {
           isLoaded: true,
           categories: result,
         });
+        console.log(this.state.categories)
       },
         (error) => {
           this.setState({
@@ -90,8 +91,6 @@ class HomePage extends React.Component {
           neighbourhoods: json,
           isLoaded: true
         });
-        console.log("Neighbourhoods:")
-        console.log(json)
       })
     fetch(
       "https://data.police.uk/api/northamptonshire/SCT102/boundary")
@@ -111,20 +110,35 @@ class HomePage extends React.Component {
           data: json,
           isLoaded: true
         });
-        console.log("Crimes:")
-        console.log(json)
       })
   }
-  // Wrap text in a circle.
-  wrapText(text) {
-
-    text = text.replace(' ', "\r\n");
-
-    return text;
+  neighbourhoodCount(id) {
+    fetch(`https://data.police.uk/api/${id}/neighbourhoods`)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            length: result.length
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+    var count = this.state.length;
+    console.log(count, "count")
+    return count;
   }
 
+  setIsShown(state, id) {
+    this.setState({ isShown: state, id: id })
+  }
   render() {
-    const { shapes, categories, isLoaded, colours, isShown, setIsShown } = this.state;
+    const { shapes, categories, isLoaded, colours, isShown, id, force } = this.state;
     return (
       <>
         <NavBar />
@@ -144,8 +158,9 @@ class HomePage extends React.Component {
               <text x='3' y='3' fontSize="0.075em">Total police forces: {categories.length}</text>
               {categories.map((category, i) => (
                 <NavLink key={i} className="nav-link"
-                  onMouseEnter={() => {
-                    this.setState({ policeForce: category.id })
+                  onMouseEnter={() => { this.setIsShown(true, i, category.category) }}
+                  onMouseLeave={() => {
+                    this.setIsShown(false, i, category.category)
                   }} to={{
                     pathname: 'neighbourhoods',
                     aboutProps: {
@@ -161,8 +176,13 @@ class HomePage extends React.Component {
                     cy={shapes[i].ycords}
                     r={shapes[i].size}
                   />
-                  <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline=" middle" fontSize="0.075em">{this.wrapText(category.name)}</text>
-
+                  {isShown && i === id ?
+                    <>
+                      <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline=" middle" fontSize="0.075em">{this.neighbourhoodCount(category.id)}</text>
+                    </>
+                    :
+                    <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
+                  }
                 </NavLink>
               ))}
             </svg>
