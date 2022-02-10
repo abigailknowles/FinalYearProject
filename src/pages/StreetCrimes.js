@@ -114,6 +114,8 @@ class StreetCrimes extends React.Component {
     }
     return size
   }
+
+
   componentDidMount() {
     fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
       .then(res => res.json())
@@ -150,24 +152,6 @@ class StreetCrimes extends React.Component {
               <Breadcrumb.Item active> Street Crimes </Breadcrumb.Item>
             </Breadcrumb>
           </Container>
-          {/* <div className="App">
-            <NavLink className="nav-link"
-              onMouseEnter={() => { this.setIsShown(true) }}
-              onMouseLeave={() => { this.setIsShown(false) }}
-              to={{
-                pathname: 'crime-outcomes',
-                aboutProps: {
-                  selectedPoliceForce: this.state.policeForce,
-                  selectedNeighbourhood: this.state.neighbourhood,
-                  selectedStreetCrime: this.state.crime
-                }
-              }}>
-              Hover over me!
-            </NavLink>
-            {isShown && (
-              <text x='6' y='3' fontSize="0.075em">Total street crimes: </text>
-            )}
-          </div> */}
           {!isLoaded
             ? <div><Loading /></div>
             :

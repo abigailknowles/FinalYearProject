@@ -83,45 +83,49 @@ class HomePage extends React.Component {
           });
         }
       )
-    fetch(
-      "https://data.police.uk/api/northamptonshire/neighbourhoods")
-      .then((res) => res.json())
-      .then((json) => {
-        this.setState({
-          neighbourhoods: json,
-          isLoaded: true
-        });
-      })
-    fetch(
-      "https://data.police.uk/api/northamptonshire/SCT102/boundary")
-      .then((res) => res.json())
-      .then((json) => {
-        this.setState({
-          boundary: json,
-          isLoaded: true
-        });
-        console.log("Coordinates:")
-        console.log(json)
-      })
-    fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
-      .then((res) => res.json())
-      .then((json) => {
-        this.setState({
-          data: json,
-          isLoaded: true
-        });
-      })
+    // fetch(
+    //   "https://data.police.uk/api/northamptonshire/neighbourhoods")
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     this.setState({
+    //       neighbourhoods: json,
+    //       isLoaded: true
+    //     });
+    //   })
+    // fetch(
+    //   "https://data.police.uk/api/northamptonshire/SCT102/boundary")
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     this.setState({
+    //       boundary: json,
+    //       isLoaded: true
+    //     });
+    //     console.log("Coordinates:")
+    //     console.log(json)
+    //   })
   }
-  neighbourhoodCount(id) {
-    fetch(`https://data.police.uk/api/${id}/neighbourhoods`)
+
+  neighbourhoodCount() {
+
+    return this.state.length;
+  }
+
+  setIsNotShown() {
+    this.setState({ isShown: false });
+  }
+
+  setIsShown(id, policeForce) {
+    fetch(`https://data.police.uk/api/${policeForce}/neighbourhoods`)
       .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            length: result.length
-          });
-        },
+      .then((result) => {
+        this.setState({
+          isLoaded: true,
+          length: result.length,
+          isShown: true,
+          id: id,
+          policeForce: policeForce
+        });
+      },
         (error) => {
           this.setState({
             isLoaded: true,
@@ -129,21 +133,52 @@ class HomePage extends React.Component {
           });
         }
       )
-    var count = this.state.length;
-    console.log(count, "count")
-    return count;
+
   }
 
-  setIsShown(state, id) {
-    this.setState({ isShown: state, id: id })
+  calculateBubbleSize(value, totalValue) {
+    var percentage = (value / totalValue * 100).toFixed(2);
+    var size = 0;
+
+    if (percentage <= 10) {
+      size = "4.8"
+    }
+    else if (percentage <= 20) {
+      size = "5.8"
+    }
+    else if (percentage <= 30) {
+      size = "6.8"
+    }
+    else if (percentage <= 40) {
+      size = "7.8"
+    }
+    else if (percentage <= 50) {
+      size = "8.8"
+    }
+    else if (percentage <= 60) {
+      size = "9.8"
+    }
+    else if (percentage <= 70) {
+      size = "10.8"
+    }
+    else if (percentage <= 80) {
+      size = "11.8"
+    }
+    else if (percentage <= 90) {
+      size = "12.8"
+    }
+    else if (percentage <= 100) {
+      size = "13.8"
+    }
+    return size
   }
+
   render() {
-    const { shapes, categories, isLoaded, colours, isShown, id, force } = this.state;
+    const { shapes, categories, isLoaded, colours, isShown, id } = this.state;
     return (
       <>
         <NavBar />
         <Container>
-
           <Container className="top-breadcrumb">
             <Breadcrumb >
               <Breadcrumb.Item active>Police Force</Breadcrumb.Item>
@@ -158,9 +193,9 @@ class HomePage extends React.Component {
               <text x='3' y='3' fontSize="0.075em">Total police forces: {categories.length}</text>
               {categories.map((category, i) => (
                 <NavLink key={i} className="nav-link"
-                  onMouseEnter={() => { this.setIsShown(true, i, category.category) }}
+                  onMouseEnter={() => { this.setIsShown(i, category.id) }}
                   onMouseLeave={() => {
-                    this.setIsShown(false, i, category.category)
+                    this.setIsNotShown()
                   }} to={{
                     pathname: 'neighbourhoods',
                     aboutProps: {
@@ -178,7 +213,8 @@ class HomePage extends React.Component {
                   />
                   {isShown && i === id ?
                     <>
-                      <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline=" middle" fontSize="0.075em">{this.neighbourhoodCount(category.id)}</text>
+                      <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
+                      <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline=" middle" fontSize="0.075em">{this.neighbourhoodCount()} neighbourhoods</text>
                     </>
                     :
                     <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>

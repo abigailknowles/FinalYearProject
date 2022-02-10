@@ -76,6 +76,7 @@ class Neighbourhoods extends React.Component {
         { size: '5', xcords: 50, ycords: 49 },
         { size: '8', xcords: 64, ycords: 50 },
 
+
       ]
     };
   }
@@ -126,6 +127,7 @@ class Neighbourhoods extends React.Component {
     }
     return size
   }
+
   componentDidMount() {
     fetch(`https://data.police.uk/api/${this.state.policeForce}/neighbourhoods`)
       .then(res => res.json())
@@ -136,6 +138,7 @@ class Neighbourhoods extends React.Component {
             categories: result,
           });
           console.log(result)
+          console.log(this.state.policeForce);
         },
         (error) => {
           this.setState({
