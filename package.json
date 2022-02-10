@@ -28,6 +28,7 @@
     "react-native-web": "^0.17.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-select": "^5.2.2",
     "typeface-montserrat": "^1.1.13",
     "web-vitals": "^1.1.1"
   },

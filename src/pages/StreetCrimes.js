@@ -1,18 +1,49 @@
 import React, { } from "react";
-import { Container } from 'react-bootstrap';
+import { Container, Row, Button, Col } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
-
 import NavBar from '../components/NavBar';
 import LastUpdated from '../components/LastUpdated';
 import Loading from '../components/Loading';
+import StreetCrimesFilter from "../components/StreetCrimesFilter";
+import Select from 'react-select';
 
+
+const outcomes = [
+  { value: 'resolved', label: 'Resolved' },
+  { value: 'ongoing', label: 'Ongoing' }
+];
+const months = [
+  { value: '01', label: 'January' },
+  { value: '02', label: 'February' },
+  { value: '03', label: 'March' },
+  { value: '04', label: 'April' },
+  { value: '05', label: 'May' },
+  { value: '06', label: 'June' },
+  { value: '07', label: 'July' },
+  { value: '08', label: 'August' },
+  { value: '09', label: 'September' },
+  { value: '10', label: 'October' },
+  { value: '11', label: 'November' },
+  { value: '12', label: 'December' },
+];
+const years = [
+  { value: '2014', label: '2014' },
+  { value: '2015', label: '2015' },
+  { value: '2016', label: '2016' },
+  { value: '2017', label: '2017' },
+  { value: '2018', label: '2018' },
+  { value: '2019', label: '2019' },
+  { value: '2020', label: '2020' },
+  { value: '2021', label: '2021' }
+];
 class StreetCrimes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categories: [],
       date: '',
+      selectedOption: null,
       policeForce: props.location.aboutProps.selectedPoliceForce,
       neighbourhood: props.location.aboutProps.selectedNeighbourhood,
       colours: ['#ccf3ff', '#74bec8', '#d8bfff', '#f75e5b', '#fff88b', '#e80b8c', '#938fff', '#f7c6af', '#ffa661', '#7ee9cf', '#ffeefe',
@@ -115,13 +146,16 @@ class StreetCrimes extends React.Component {
     return size
   }
 
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption }
+    );
+  };
 
   componentDidMount() {
     fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result);
           var categories = this.groupBy(result);
           this.setState({
             isLoaded: true,
@@ -139,12 +173,16 @@ class StreetCrimes extends React.Component {
   setIsShown(state, id, crime) {
     this.setState({ isShown: state, id: id, crime: crime })
   }
+  toggle(state) {
+    this.setState({ isClicked: state })
+  }
   render() {
-    const { shapes, categories, isLoaded, colours, isShown, id, crime } = this.state;
+    const { shapes, categories, isLoaded, colours, isShown, id, isClicked } = this.state;
     return (
       <>
         <NavBar />
         <Container>
+
           <Container className="top-breadcrumb">
             <Breadcrumb >
               <Breadcrumb.Item href="/">Police Force - {this.textFormatter(this.state.policeForce)}</Breadcrumb.Item>
@@ -152,13 +190,76 @@ class StreetCrimes extends React.Component {
               <Breadcrumb.Item active> Street Crimes </Breadcrumb.Item>
             </Breadcrumb>
           </Container>
+          <Row className="filter-padding">
+          </Row>
+          {!isClicked ?
+            <>
+              <Button className="filter-button" variant="light" onClick={() => { this.toggle(true) }}>
+                Enable filters
+              </Button>
+            </>
+            :
+            <>
+              <Button className="filter-button" variant="light" onClick={() => { this.toggle(false) }}>
+                Disable filters
+              </Button>
+              <Row className="filter-padding"></Row>
+
+            </>
+          }
+          {isClicked ?
+            <>
+              <div className="filter-box">
+                <Container >
+                  <Row className="filter-row">
+                    <Col className="no-padding">
+                      <h3 className="filter-text">Filter by</h3>
+                    </Col>
+                  </Row>
+                  <Row className="filter-padding">
+                    <Col >
+                      <Select
+                        placeholder="Crime "
+                        value={this.selectedOption}
+                        onChange={this.handleChange}
+                        options={months}
+                      />
+                    </Col>
+                    <Col>
+                      <Select
+                        placeholder="Month"
+                        value={this.selectedOption}
+                        onChange={this.handleChange}
+                        options={months}
+                      />
+                    </Col>
+                    <Col>
+                      <Select
+                        placeholder="Year"
+                        value={this.selectedOption}
+                        onChange={this.handleChange}
+                        options={years}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="filter-padding">
+                    <Col>
+                      <Button className="filter-button" type="submit" variant="light">Update</Button>
+                    </Col>
+                  </Row>
+                </Container>
+              </div>            </>
+            :
+            <></>
+          }
+
           {!isLoaded
             ? <div><Loading /></div>
             :
             <svg viewBox="0 0 100 70">
 
               <LastUpdated />
-              <text x='3' y='3' fontSize="0.075em">Total street crimes: {categories.count}</text>
+              <text x='1' y='3' fontSize="0.075em">Total street crimes: {categories.count}</text>
               {
                 categories.groups.map((category, i) => (
                   <NavLink key={i} className="nav-link"
