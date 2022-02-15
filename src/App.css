@@ -226,6 +226,14 @@
   .about-padding{
     padding-top:20px;
   }
+  .download-icon{
+    float:right;
+  }
+  .logo-text{
+    color: white;
+    padding-left:6%;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  }
   .question-box{
     border: solid 1px black;
     justify-content: center;

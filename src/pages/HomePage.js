@@ -6,6 +6,9 @@ import LastUpdated from '../components/LastUpdated';
 import Loading from '../components/Loading';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDownload } from '@fortawesome/free-solid-svg-icons'
+
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -179,10 +182,13 @@ class HomePage extends React.Component {
       <>
         <NavBar />
         <Container>
+
           <Container className="top-breadcrumb">
             <Breadcrumb >
               <Breadcrumb.Item active>Police Force</Breadcrumb.Item>
             </Breadcrumb>
+            <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} />
+
           </Container>
 
           {!isLoaded

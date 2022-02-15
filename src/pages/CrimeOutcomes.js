@@ -162,6 +162,45 @@ class StreetCrimes extends React.Component {
   toggle(state) {
     this.setState({ isClicked: state })
   }
+
+  crimeOutcomeDefinition(category) {
+    console.log(category)
+    var definition = "";
+    if (category == "public-order") {
+      definition = "Public order is a condition characterized by the absence of widespread criminal and political violence, such as kidnapping, murder, riots, arson, and intimidation against targeted groups or individuals.";
+    }
+    else if (category == "burglary") {
+      definition = "Burglary, also called breaking and entering and sometimes housebreaking, is the act of entering a building or other areas without permission, with the intention of committing a criminal offence.";
+    }
+    else if (category == "drugs") {
+      definition = "Drugs are related to crime in multiple ways. Most directly, it is a crime to use, possess, manufacture, or distribute drugs classified as having a potential for abuse. Cocaine, heroin, marijuana, and amphetamines are examples of drugs classified to have abuse potential.";
+    }
+    else if (category == "violent-crime") {
+      definition = "A violent crime, is when a victim is harmed by or threatened with violence.Violent crimes include rape and sexual assault, robbery, assault and murder.";
+    }
+    else if (category == "anti-social-behaviour") {
+      definition = "Anti-social behaviour includes a range of nuisance and criminal behaviours which are causing distress to others. Whether someone's actions can be classed as anti-social behaviour relies heavily on the impact it has on other people.";
+    }
+    else if (category == "shoplifting") {
+      definition = "Shoplifting is the theft of goods from an open retail establishment, typically by concealing a store item on one's person, in pockets, under clothes, or in a bag, and leaving the store without paying.";
+    }
+    else if (category == "possession-of-weapons") {
+      definition = "Criminal possession of a weapon is the unlawful possession of a weapon by an individual. ... Such crimes are public order crimes and are considered mala prohibita, in that the possession of a weapon in and of itself is not evil.";
+    }
+    else if (category == "other-theft") {
+      definition = "Criminal possession of a weapon is the unlawful possession of a weapon by an individual. ... Such crimes are public order crimes and are considered mala prohibita, in that the possession of a weapon in and of itself is not evil.";
+    }
+    else if (category == "other-crime") {
+      definition = "Criminal possession of a weapon is the unlawful possession of a weapon by an individual. ... Such crimes are public order crimes and are considered mala prohibita, in that the possession of a weapon in and of itself is not evil.";
+    }
+    else if (category == "vehicle-crime") {
+      definition = "The term 'vehicle crime' refers to the theft and trafficking of vehicles and the illicit trade in spare parts. ... Stolen vehicles are frequently trafficked in order to finance and carry out other criminal activities, ranging from drug trafficking, arms dealing, people smuggling and international terrorism.";
+    }
+    else if (category == "criminal-damage-arson") {
+      definition = "Criminal damage is the intentional and malicious damage to the home other property or vehicles and includes graffiti. Arson is the act of deliberately setting fire to property, including buildings and vehicles.";
+    }
+    return definition
+  }
   render() {
     const { shapes, categories, isLoaded, isShown, id, isClicked } = this.state;
     return (
@@ -237,6 +276,8 @@ class StreetCrimes extends React.Component {
             :
             <></>
           }
+          <a href="/images/myw3schoolsimage.jpg" download>
+            <h1>test</h1></a>
           {!isLoaded
             ? <div><Loading /></div>
             :
@@ -268,6 +309,7 @@ class StreetCrimes extends React.Component {
                     />
                     {isShown && i === id ?
                       <>
+                        <text x={40} y={2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.crimeOutcomeDefinition(category.code)}</text>
                         <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.code}</text>
                         <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
                         <text x={shapes[i].xcords} y={shapes[i].ycords + 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>

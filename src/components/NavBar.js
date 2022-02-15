@@ -18,6 +18,9 @@ class NavBar extends Component {
           <NavLink className="logo" to="/">
             <FontAwesomeIcon size="2x" className="nav-icon" icon={faChartPie} />
           </NavLink>
+          <NavLink className="logo" to="/">
+            <h3 className="logo-text">CRIMEDATA</h3>
+          </NavLink>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto" />
@@ -30,7 +33,7 @@ class NavBar extends Component {
               </NavLink>
               <NavLink className="nav-link" to="/">
                 <Button variant="dark" className="button-logout">
-                  Login
+                  Newsletter
                 </Button>
               </NavLink>
             </Nav>
