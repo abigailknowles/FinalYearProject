@@ -1,18 +1,28 @@
 import React, { } from "react";
-import { Container, Row, Button, Col } from 'react-bootstrap';
+import { Container, Row, Jumbotron, Col, Button, Form } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import NavBar from '../components/NavBar';
 import LastUpdated from '../components/LastUpdated';
 import Loading from '../components/Loading';
-import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import DonutChart from "react-svg-donut";
 
-const outcomes = [
-  { value: 'resolved', label: 'Resolved' },
-  { value: 'ongoing', label: 'Ongoing' }
-];
+const title = "Crimes"
+const data = [
+  { name: "Anti Social Behaviour", value: 4 },
+  { name: "Theft", value: 5 },
+  { name: "Vehicle Crime", value: 6 },
+  { name: "Buglary", value: 1 },
+  { name: "Shoplifting", value: 1 },
+  { name: "Criminal Damage and Arson", value: 1 },
+  { name: "Drugs", value: 1 },
+  { name: "Possesion Of Weapons", value: 4 },
+  { name: "Public Order", value: 4 },
+  { name: "Other Crime ", value: 4 },
+  { name: "Other Theft", value: 4 }
+]
 class StreetCrimes extends React.Component {
   constructor(props) {
     super(props);
@@ -40,7 +50,6 @@ class StreetCrimes extends React.Component {
         { xcords: 66, ycords: 43 },
         { xcords: 52, ycords: 33 },
         { xcords: 55, ycords: 50 },
-
       ]
     };
     this.handleChange = this.handleChange.bind(this);
@@ -154,14 +163,9 @@ class StreetCrimes extends React.Component {
         }
       )
   }
+
   setIsShown(state, id, crime) {
     this.setState({ isShown: state, id: id, crime: crime })
-  }
-  toggle(state) {
-    this.setState({ isClicked: state })
-  }
-  onChange(value) {
-    this.setState({ value: value })
   }
 
   crimeDefinition(category) {
@@ -171,13 +175,13 @@ class StreetCrimes extends React.Component {
       definition = "Public order is a condition characterized by the absence of widespread criminal and political violence, such as kidnapping, murder, riots, arson, and intimidation against targeted groups or individuals.";
     }
     else if (category == "burglary") {
-      definition = "Burglary, also called breaking and entering and sometimes housebreaking, is the act of entering a building or other areas without permission, with the intention of committing a criminal offence.";
+      definition = "Burglary is the act of entering a building or other areas without permission, with the intention of committing a criminal offence.";
     }
     else if (category == "drugs") {
       definition = "Drugs are related to crime in multiple ways. Most directly, it is a crime to use, possess, manufacture, or distribute drugs classified as having a potential for abuse. Cocaine, heroin, marijuana, and amphetamines are examples of drugs classified to have abuse potential.";
     }
     else if (category == "violent-crime") {
-      definition = "A violent crime, is when a victim is harmed by or threatened with violence.Violent crimes include rape and sexual assault, robbery, assault and murder.";
+      definition = "Violent crime, is when a victim is harmed by or threatened with violence. Crimes include rape and sexual assault, robbery, assault and murder.";
     }
     else if (category == "anti-social-behaviour") {
       definition = "Anti-social behaviour includes a range of nuisance and criminal behaviours which are causing distress to others. Whether someone's actions can be classed as anti-social behaviour relies heavily on the impact it has on other people.";
@@ -195,7 +199,7 @@ class StreetCrimes extends React.Component {
       definition = "Criminal possession of a weapon is the unlawful possession of a weapon by an individual. ... Such crimes are public order crimes and are considered mala prohibita, in that the possession of a weapon in and of itself is not evil.";
     }
     else if (category == "vehicle-crime") {
-      definition = "The term 'vehicle crime' refers to the theft and trafficking of vehicles and the illicit trade in spare parts. ... Stolen vehicles are frequently trafficked in order to finance and carry out other criminal activities, ranging from drug trafficking, arms dealing, people smuggling and international terrorism.";
+      definition = "Vehicle crime refers to the theft and trafficking of vehicles and the illicit trade in spare parts. Stolen vehicles are frequently trafficked in order to finance and carry out other criminal activities, ranging from drug trafficking, arms dealing, people smuggling and international terrorism.";
     }
     else if (category == "criminal-damage-arson") {
       definition = "Criminal damage is the intentional and malicious damage to the home other property or vehicles and includes graffiti. Arson is the act of deliberately setting fire to property, including buildings and vehicles.";
@@ -204,130 +208,158 @@ class StreetCrimes extends React.Component {
   }
   render() {
     const { shapes, categories, isLoaded, colours, isShown, id, isClicked, startDate, setStartDate } = this.state;
+    const active = this.state.active;
+
     return (
       <>
         <NavBar />
-        <Container>
-
-          <Container className="top-breadcrumb">
-            <Breadcrumb >
-              <Breadcrumb.Item href="/">Police Force - {this.textFormatter(this.state.policeForce)}</Breadcrumb.Item>
-              <Breadcrumb.Item href="/neighbourhoods"> Neighbourhoods - {this.state.neighbourhood} </Breadcrumb.Item>
-              <Breadcrumb.Item active> Street Crimes </Breadcrumb.Item>
-            </Breadcrumb>
-          </Container>
-          <Row className="filter-padding">
-          </Row>
-          {!isClicked ?
-            <>
-              <Button className="filter-button" variant="light" onClick={() => { this.toggle(true) }}>
-                Enable filters
-              </Button>
-            </>
-            :
-            <>
-              <Button className="filter-button" variant="light" onClick={() => { this.toggle(false) }}>
-                Disable filters
-              </Button>
-              <Row className="filter-padding"></Row>
-
-            </>
-          }
-
-          {isClicked ?
-            <>
-              <div className="filter-box">
-                <Container >
-                  <Row className="filter-row">
-                    <Col className="no-padding">
-                      <h3 className="filter-text">Filter by</h3>
-                    </Col>
-                  </Row>
-                  <Row className="filter-padding">
-                    <Col >
-                      <Select
-                        placeholder="Crime "
-                        value={this.selectedOption}
-                        onChange={this.handleChange}
-                        options={outcomes}
-                      />
-                    </Col>
-                    <Col>
-                      <DatePicker
-                        selected={this.state.endDate}
-                        onChange={this.handleDateChange}
-                        name="endDate"
-                        dateFormat="dd/MM/yyyy"
-                        minDate={new Date(2015, 1, 1)}
-                        maxDate={new Date()}
-                      />
-                    </Col>
-                    <Col>
-                      <DatePicker
-                        selected={this.state.startDate}
-                        onChange={this.handleDateChange}
-                        name="startDate"
-                        dateFormat="dd/MM/yyyy"
-                        minDate={new Date(2015, 1, 1)}
-                      />
-                    </Col>
-                  </Row>
-                  <Row className="filter-padding">
-                    <Col>
-                      <Button className="filter-button" type="submit" variant="light">Update</Button>
-                    </Col>
-                  </Row>
-                </Container>
-              </div>            </>
-            :
-            <></>
-          }
-
-          {!isLoaded
-            ? <div><Loading /></div>
-            :
-            <svg viewBox="0 0 100 70">
-
-              <LastUpdated />
-              <text x='1' y='3' fontSize="0.075em">Total street crimes: {categories.count}</text>
-              {
-                categories.groups.map((category, i) => (
-                  <NavLink key={i} className="nav-link"
-                    onMouseEnter={() => { this.setIsShown(true, i, category.category) }}
-                    onMouseLeave={() => { this.setIsShown(false, i, category.category) }}
-                    to={{
-                      pathname: 'crime-outcomes',
-                      aboutProps: {
-                        selectedPoliceForce: this.state.policeForce,
-                        selectedNeighbourhood: this.state.neighbourhood,
-                        selectedCrime: this.state.crime
-                      }
-                    }}>
-                    <circle
-                      className="circle-css"
-                      style={{
-                        fill: colours[i]
-                      }}
-                      cx={shapes[i].xcords}
-                      cy={shapes[i].ycords}
-                      r={this.calculateBubbleSize(category.group.count, categories.count)}
-                    />
-                    {isShown && i === id ?
-                      <>
-                        <text x={40} y={2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.crimeDefinition(category.category)}</text>
-                        <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
-                        <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
-                        <text x={shapes[i].xcords} y={shapes[i].ycords + 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
-                      </>
-                      :
-                      <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
-                    }
-                  </NavLink>
-                ))}
-            </svg>
-          }
-
+        <Container className="top-breadcrumb">
+          <Breadcrumb >
+            <Breadcrumb.Item href="/">Police Force - {this.textFormatter(this.state.policeForce)}</Breadcrumb.Item>
+            <Breadcrumb.Item href="/neighbourhoods"> Neighbourhoods - {this.state.neighbourhood} </Breadcrumb.Item>
+            <Breadcrumb.Item active> Street Crimes </Breadcrumb.Item>
+          </Breadcrumb>
         </Container>
+        <Row className="filter-padding">
+        </Row>
+        <Container fluid className="personal-details-jumbotron">
+          <Row>
+            <Col sm={4}>
+              <Row>
+                <Jumbotron className="personal-details-jumbotron" align="center">
+                  <DonutChart
+                    size={250}
+                    title={title}
+                    data={data}
+                    onHover={i => {
+                      if (i >= 0) {
+                        console.log("Selected ", data[i].name);
+                        this.setState({
+                          active: i
+                        });
+                      } else {
+                        console.log("Mouse left donut");
+                      }
+                    }}
+                    innerRaduis={0.5}
+                    outerRadius={0.9}
+                  />
+                  <div id="label">
+                    {active >= 0
+                      ? data[active].name + " " + data[active].value + " %"
+                      : "Hover"}
+                  </div>
+                </Jumbotron>
+              </Row>
+              <Row>
+                <Jumbotron className="personal-details-jumbotron">
+                  <Container >
+                    <h3 className="filter-text">Filter by</h3>
+                    <Row className="filter-padding">
+                      <Col >
+                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                          <Row>
+                            <Col>
+                              <Form.Check type="checkbox" label="Anti Social" />
+                            </Col>
+                            <Col>
+                              <Form.Check type="checkbox" label="Theft" />
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col>
+                              <Form.Check type="checkbox" label="Violent" />
+                            </Col>
+                            <Col>
+                              <Form.Check type="checkbox" label="Other" />
+                            </Col>
+                          </Row>
+                        </Form.Group>
+                      </Col>
+                      <Row>
+                        <Col>
+                          <Form.Label htmlFor="inputPassword5">From</Form.Label>
+                          <DatePicker
+                            selected={this.state.endDate}
+                            onChange={this.handleDateChange}
+                            name="endDate"
+                            dateFormat="dd/MM/yyyy"
+                            minDate={new Date(2015, 1, 1)}
+                            maxDate={new Date()}
+                          />
+                        </Col>
+                        <Col>
+                          <Form.Label htmlFor="inputPassword5">To</Form.Label>
+                          <DatePicker
+                            selected={this.state.startDate}
+                            onChange={this.handleDateChange}
+                            name="startDate"
+                            dateFormat="dd/MM/yyyy"
+                            minDate={new Date(2015, 1, 1)}
+                            maxDate={new Date()}
+                          />
+                        </Col>
+                      </Row>
+                    </Row>
+                    <Row className="filter-padding">
+                      <Col>
+                        <Button className="filter-button" type="submit" variant="light">Update</Button>
+                      </Col>
+                    </Row>
+                  </Container>
+                </Jumbotron>
+              </Row>
+            </Col>
+            <Col sm={8}> <Jumbotron className="personal-details-jumbotron">
+              {!isLoaded
+                ? <div><Loading /></div>
+                :
+                <svg viewBox="0 0 100 65">
+
+                  {/* <LastUpdated /> */}
+                  {/* <text x='1' y='3' fontSize="0.075em">Total street crimes: {categories.count}</text> */}
+                  {
+                    categories.groups.map((category, i) => (
+                      <NavLink key={i} className="nav-link"
+                        onMouseEnter={() => { this.setIsShown(true, i, category.category) }}
+                        onMouseLeave={() => { this.setIsShown(false, i, category.category) }}
+                        to={{
+                          pathname: 'crime-outcomes',
+                          aboutProps: {
+                            selectedPoliceForce: this.state.policeForce,
+                            selectedNeighbourhood: this.state.neighbourhood,
+                            selectedCrime: this.state.crime
+                          }
+                        }}>
+                        <circle
+                          className="circle-css"
+                          style={{
+                            fill: colours[i]
+                          }}
+                          cx={shapes[i].xcords}
+                          cy={shapes[i].ycords - 2}
+                          r={this.calculateBubbleSize(category.group.count, categories.count)}
+                        />
+                        {isShown && i === id ?
+                          <>
+                            <text x={40} y={2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.crimeDefinition(category.category)}</text>
+                            <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
+                            <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
+                            <text x={shapes[i].xcords} y={shapes[i].ycords + 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
+                          </>
+                          :
+                          <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
+                        }
+                      </NavLink>
+                    ))}
+                </svg>
+              }
+            </Jumbotron></Col>
+
+          </Row>
+        </Container>
+
+
       </>
     );
   }

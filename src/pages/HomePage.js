@@ -182,13 +182,11 @@ class HomePage extends React.Component {
       <>
         <NavBar />
         <Container>
-
           <Container className="top-breadcrumb">
             <Breadcrumb >
               <Breadcrumb.Item active>Police Force</Breadcrumb.Item>
             </Breadcrumb>
             <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} />
-
           </Container>
 
           {!isLoaded

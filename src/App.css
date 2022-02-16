@@ -186,12 +186,32 @@
   z-index: 10;
 }
 .filter-text{
-  color:white;
-  font-size: 20px;
+  color:black;
+  font-size: 16px;
 }
 .filter-row{
   width:20%;
 }
+.donut-chart-arcs > path {
+  /*fill: #3395eb;*/
+  stroke: #ccc;
+  cursor: pointer;
+  transition: transform 0.2s linear;
+  transform-origin: center;
+}
+/*.donut-chart-arcs > path:nth-child(2) {
+  opacity: 0.75;
+}
+.donut-chart-arcs > path:nth-child(3) {
+  opacity: 0.5;
+}*/
+.donut-chart-arcs > path:hover {
+  transform: scale(1.03);
+}
+.donut-chart-text {
+  display: none;
+}
+
 .filter-padding{
   padding-top:10px;
 }
@@ -219,7 +239,11 @@
   }
   .about-icon-text{
     text-align: center;
-  }
+   }
+.donut-container{
+  width: 35%;
+  text-align: center;
+}
   .about-icon{
     text-align: center;
   }
@@ -311,9 +335,24 @@
       -o-transform: translate(150%,0);
       transform: translate(150%,0);
   }
-  
+  .full-width{
+    margin:0;
+    height: 100vh;
+  }
+  .personal-details-jumbotron {
+    background-color: #ffffff;
+    border-style:solid;
+    border-color: #73b9ed;
+    border-radius: 12px;
+    width: 100%;
+    padding: 24px 30px 24px 37px
+  }
   /* Span on :hover and :active */
-  
+  .test-box{
+    border:solid 2px black;
+    width:80%;
+    height:100%;
+  }
   .button:hover span,
   .button:active span {
       opacity: 0;
