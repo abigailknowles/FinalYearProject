@@ -15,21 +15,21 @@ class NavBar extends Component {
     return (
       <>
         <Navbar collapseOnSelect expand="lg" variant="dark" className="navbar-custom">
-          <NavLink className="logo" to="/">
+          <NavLink className="nav-logo" to="/">
             <FontAwesomeIcon size="2x" className="nav-icon" icon={faChartPie} />
           </NavLink>
           <NavLink className="logo" to="/">
-            <h3 className="logo-text">CRIMEDATA</h3>
+            <h3 className="nav-logo-text">CRIMEDATA</h3>
           </NavLink>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto" />
             <Nav>
               <NavLink className="nav-link" to="/">
-                <h5 className="nav-bar-text">Home</h5>
+                <h5 className="nav-text">Home</h5>
               </NavLink>
               <NavLink className="nav-link" to="/about">
-                <h5 className="nav-bar-text">About</h5>
+                <h5 className="nav-text">About</h5>
               </NavLink>
               <NavLink className="nav-link" to="/">
                 <Button variant="dark" className="button-logout">

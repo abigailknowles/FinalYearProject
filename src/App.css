@@ -7,204 +7,22 @@
   pointer-events: none;
 }
 
-.navbar-icons {
-  color: white;
-}
-.test{
-  pointer-events: auto;
-}
-.bob{
-  border: solid 2px pink;
-}
-.crime-types-text{
-  font-size: 18px;
-  text-align: center;
-}
-.account-name {
-  padding-top: 5px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #ffffff;
-}
-
-.home-page-buttons {
-  width: 280px;
-  height: 250px;
-  border-radius: 15px;
-  background-color: #343a40;
-  border: none;
-}
-
-.home-page-text {
-  padding-top: 2rem;
-  font-size: 18px;
-}
-
-.top-padding {
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
-
-.middle-padding {
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-.exit-modal{
-  border:none;
-  background-color: transparent;
-}
-.exit-modal:hover{
-  border:none;
-  background-color: transparent;
-}
-.exit{
-  color: #000000;
-}
-.forgot-password-button{
-  padding-bottom: 20px;
-}
-.forgot-password-header{
-  font-size: 16px;
-}
-.forgot-password-sub-header{
-  font-size: 12px;
-  padding-bottom:18px;
-}
-.page-header {
-  height: 24px;
-  font-size: 20px;
-  font-weight: 600;
-  color: black;
-  float: left;
-}
-
-.page-sub-header {
-  padding-bottom: 14px;
-  font-size: 12px;
-  font-weight: 500;
-  font-style: italic;
-  color: #000000;
-  float: left;
-}
-
-.personal-details h5 {
-  font-size: 12px;
-  font-weight: bold;
-  text-align: left;
-  color: #000000;
-}
-
-.personal-details h6 {
-  font-size: 12px;
-  font-weight: 500;
-  text-align: left;
-  color: #000000;
-}
-
-.personal-details-jumbotron-background {
-  background-color: #F8F8F8;
-  border-radius: 24px;
-  width: 100%;
-  padding: 32px 30px 2px 32px
-}
-
 .personal-details-jumbotron {
   background-color: #fdfdfd;
   width: 100%;
   padding: 24px 30px 24px 37px
 }
 
-.previous-page-icon {
-  float: right;
-  color: rgb(185, 185, 185);
-}
-
-.welcome-header {
-  text-align: left;
-  font: normal normal bold 37px/45px Montserrat;
-  letter-spacing: 0px;
-  color: #717171;
-  opacity: 1;
-}
 .loading-spinner{
   background-color: #65c4c2;
 }
-.visualisation-header{
-  font-size: 24px;
-  color:grey;
-  padding-top: 30px;
-  padding-bottom: none;
-}
-.nav-bar-text {
-  font-size: 12px;
-  color: #ffffff;
-  padding-right: 30px;
-  padding-top: 6px;
-}
-.nav-link-text {
-  font-size: 12px;
-  padding-right: 30px;
-  padding-top: 6px;
-  color: #007bff;
-}
 
-.navbar-custom {
-  background-color: #65c4c2;
-  opacity: 1;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-.padding{
-  padding-top:100px;
-}
-.footer{
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-.nav-col{
-  padding:none;
-  width:20%;
-}
-.visualisation-nav{
-  padding-top: 20px;
-}
-
-.filter-box{
-  background-color: #65c4c2;
-  border-radius: 20px 20px 20px 20px;
-  padding:20px 20px 20px 20px;
-}
-.filter-button {
-  color: white;
-  border:solid white;
-  border-radius:20px;
-  font-size: 14px;
-  width: 130px;
-  height: 40px;
-  opacity: 1;
-  background-color: #65c4c2;
-  z-index: 10;
-}
-.filter-text{
-  color:black;
-  font-size: 16px;
-}
-.filter-row{
-  width:20%;
-}
 .donut-chart-arcs > path {
-  /*fill: #3395eb;*/
   stroke: #ccc;
   cursor: pointer;
   transition: transform 0.2s linear;
   transform-origin: center;
 }
-/*.donut-chart-arcs > path:nth-child(2) {
-  opacity: 0.75;
-}
-.donut-chart-arcs > path:nth-child(3) {
-  opacity: 0.5;
-}*/
 .donut-chart-arcs > path:hover {
   transform: scale(1.03);
 }
@@ -212,67 +30,18 @@
   display: none;
 }
 
-.filter-padding{
-  padding-top:10px;
-}
-.breadcrumb{
-  background-color: white!important;
-}
+
 .circle-css:hover{
   fill:rgb(221, 221, 221)!important;
   r:12;
   transition-duration: 0.8s;
   }
-  .banner{
-    width:100%;
-    height:300px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;    background-image: url("police.jpeg");
-  }
-  .about-header{
-    text-align: center;
-    font-size:1.2em;
-  }
-  .about-icon-header{
-    text-align: center;
-  }
-  .about-icon-text{
-    text-align: center;
-   }
-.donut-container{
-  width: 35%;
-  text-align: center;
-}
-  .about-icon{
-    text-align: center;
-  }
-  .about-padding{
-    padding-top:20px;
-  }
+ 
+
   .download-icon{
     float:right;
   }
-  .logo-text{
-    color: white;
-    padding-left:6%;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
-  }
-  .question-box{
-    border: solid 1px black;
-    justify-content: center;
-    width:50%;
-  }
-    .svg-border{
-      border-left: solid #e5e8eb;
-      border-right: solid #e5e8eb;
-      border-bottom: solid #e5e8eb;
-
-    }
-    .test-text{
-      width:2%;
-    }
-
+  
     .button {
       display: inline-block;
       position: relative;
@@ -314,8 +83,6 @@
       transition: .4s,opacity .6s;
   }
   
-  /* :before */
-  
   .button:before {
       content: attr(data-hover);
       -webkit-transform: translate(-150%,0);
@@ -325,8 +92,6 @@
       transform: translate(-150%,0);
   }
   
-  /* :after */
-  
   .button:after {
       content: attr(data-active);
       -webkit-transform: translate(150%,0);
@@ -335,10 +100,6 @@
       -o-transform: translate(150%,0);
       transform: translate(150%,0);
   }
-  .full-width{
-    margin:0;
-    height: 100vh;
-  }
   .personal-details-jumbotron {
     background-color: #ffffff;
     border-style:solid;
@@ -346,12 +107,6 @@
     border-radius: 12px;
     width: 100%;
     padding: 24px 30px 24px 37px
-  }
-  /* Span on :hover and :active */
-  .test-box{
-    border:solid 2px black;
-    width:80%;
-    height:100%;
   }
   .button:hover span,
   .button:active span {
@@ -362,11 +117,6 @@
       -o-transform: scale(0.3);
       transform: scale(0.3);
   }
-  
-  /*  
-      We show :before pseudo-element on :hover 
-      and :after pseudo-element on :active 
-  */
   
   .button:hover:before,
   .button:active:after {
@@ -382,10 +132,6 @@
       transition-delay: .4s;
   }
   
-  /* 
-    We hide :before pseudo-element on :active
-  */
-  
   .button:active:before {
       -webkit-transform: translate(-150%,0);
       -moz-transform: translate(-150%,0);
@@ -397,18 +143,80 @@
       -o-transition-delay: 0s;
       transition-delay: 0s;
   }
+
+/* breadcrumb */
+  .breadcrumb{
+    background-color: white!important;
+  }
+
   .top-breadcrumb{
     padding-top:30px;
     border-bottom: solid 1px #65c4c2;
   }
 
+/* about page */
+.about-header{
+  text-align: center;
+  font-size:1.2em;
+}
+.about-icon-header{
+  text-align: center;
+}
+.about-icon-text{
+  text-align: center;
+ }
+
+ .about-icon{
+  text-align: center;
+}
+.about-padding{
+  padding-top:20px;
+}
+
+.banner{
+  width:100%;
+  height:300px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;    background-image: url("police.jpeg");
+}
+
+
+.question-box{
+  border: solid 1px black;
+  justify-content: center;
+  width:50%;
+}
+
+/* navbar*/
+.nav-logo {
+  font-size: 20px;
+  padding: none;
+}
+
+.nav-logo-text{
+  color: white;
+  padding-left:6%;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
 
 .nav-icon{
   color:White;
 }
-.testtext{
-  color:pink
+
+.nav-text{
+  font-size: 12px;
+  color: #ffffff;
+  padding-right: 30px;
+  padding-top: 6px;
 }
+.navbar-custom {
+  background-color: #65c4c2;
+  opacity: 1;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 .button-logout {
   font-weight: bolder;
   color: white;
@@ -422,100 +230,28 @@
   z-index: 10;
 }
 
-.button-logout:hover {
-  color: black;
-  background-color: white;
-}
-
-.button-logout:hover {
-  background: white;
-}
-
-.logo {
-  font-size: 20px;
-  padding: none;
-}
-
-.full-width{
-  max-width: '100%';
-  height:100vh;
-}
-.login-header{
-  padding-top: 30%;
-  padding-bottom:2%;
-  font-weight: 500;
-}
-.login-page-text{
-  padding-top:38%;
-  padding-left:4%;
-  font-size: 14px;
-  text-align: left;
-}
-.login-button{
-  background-color: rgb(185, 185, 185);
-  border:none;
-  color:white;
-  width:16%;
-  border-radius: 0;
-}
-
-.home-page-header{
-  padding-top:38px;
-  padding-bottom:38px;
-
-}
-.home-page-buttons{
-  width:380px;
-  height:220px;
-  background-color: rgb(218, 218, 218);
-}
-.home-page-buttons-text{
-  color:white;
-  font-size: 16px;
-  font-weight: 600;
-}
-.home-page-icons{
-  color:white;
-}
-.form-control{
-  width:55%;
-}
-.create-account-padding{
-  padding-bottom: 16px;
-}
-.create-account-label{
-  font-size: 14px;
-}
-.form-text{
-  padding-bottom:2%;
-}
-.manage-holidays-button{
-  background-color: rgb(185, 185, 185);
-  border:none;
-  font-size:12px;
-  width:80%;
-  height:100%;
-}
-.forgot-password{
-  color:black;
-}
-.manage-account-button{
-  background-color: rgb(211, 211, 211);
-  border:none;
-  font-size:12px;
-  width:80%;
-  height:100%;
-}
-.apply-button{
-  background-color: rgb(211, 211, 211);
-  font-size:12px;
-  border:none;
+/* filter box */
+.filter-button {
   color: white;
-  border-radius: 0px;
+  border:solid white;
+  border-radius:20px;
+  font-size: 14px;
+  width: 130px;
+  height: 40px;
+  opacity: 1;
+  background-color: #65c4c2;
+  z-index: 10;
 }
-.a{
-  color:none;
+.filter-text{
+  color:black;
+  font-size: 16px;
 }
+
+.filter-padding{
+  padding-top:10px;
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

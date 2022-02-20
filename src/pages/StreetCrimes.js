@@ -3,11 +3,13 @@ import { Container, Row, Jumbotron, Col, Button, Form } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import NavBar from '../components/NavBar';
-import LastUpdated from '../components/LastUpdated';
 import Loading from '../components/Loading';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import DonutChart from "react-svg-donut";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
 const title = "Crimes"
 const data = [
@@ -28,7 +30,6 @@ class StreetCrimes extends React.Component {
     super(props);
     this.state = {
       categories: [],
-      date: '',
       startDate: new Date(),
       endDate: new Date(),
       selectedOption: null,
@@ -171,54 +172,58 @@ class StreetCrimes extends React.Component {
   crimeDefinition(category) {
     console.log(category)
     var definition = "";
-    if (category == "public-order") {
+    if (category === "public-order") {
       definition = "Public order is a condition characterized by the absence of widespread criminal and political violence, such as kidnapping, murder, riots, arson, and intimidation against targeted groups or individuals.";
     }
-    else if (category == "burglary") {
+    else if (category === "burglary") {
       definition = "Burglary is the act of entering a building or other areas without permission, with the intention of committing a criminal offence.";
     }
-    else if (category == "drugs") {
+    else if (category === "drugs") {
       definition = "Drugs are related to crime in multiple ways. Most directly, it is a crime to use, possess, manufacture, or distribute drugs classified as having a potential for abuse. Cocaine, heroin, marijuana, and amphetamines are examples of drugs classified to have abuse potential.";
     }
-    else if (category == "violent-crime") {
+    else if (category === "violent-crime") {
       definition = "Violent crime, is when a victim is harmed by or threatened with violence. Crimes include rape and sexual assault, robbery, assault and murder.";
     }
-    else if (category == "anti-social-behaviour") {
+    else if (category === "anti-social-behaviour") {
       definition = "Anti-social behaviour includes a range of nuisance and criminal behaviours which are causing distress to others. Whether someone's actions can be classed as anti-social behaviour relies heavily on the impact it has on other people.";
     }
-    else if (category == "shoplifting") {
+    else if (category === "shoplifting") {
       definition = "Shoplifting is the theft of goods from an open retail establishment, typically by concealing a store item on one's person, in pockets, under clothes, or in a bag, and leaving the store without paying.";
     }
-    else if (category == "possession-of-weapons") {
+    else if (category === "possession-of-weapons") {
+      definition = "Criminal possession of a weapon is the unlawful possession of a weapon by an individual.";
+    }
+    else if (category === "other-theft") {
       definition = "Criminal possession of a weapon is the unlawful possession of a weapon by an individual. ... Such crimes are public order crimes and are considered mala prohibita, in that the possession of a weapon in and of itself is not evil.";
     }
-    else if (category == "other-theft") {
+    else if (category === "other-crime") {
       definition = "Criminal possession of a weapon is the unlawful possession of a weapon by an individual. ... Such crimes are public order crimes and are considered mala prohibita, in that the possession of a weapon in and of itself is not evil.";
     }
-    else if (category == "other-crime") {
-      definition = "Criminal possession of a weapon is the unlawful possession of a weapon by an individual. ... Such crimes are public order crimes and are considered mala prohibita, in that the possession of a weapon in and of itself is not evil.";
-    }
-    else if (category == "vehicle-crime") {
+    else if (category === "vehicle-crime") {
       definition = "Vehicle crime refers to the theft and trafficking of vehicles and the illicit trade in spare parts. Stolen vehicles are frequently trafficked in order to finance and carry out other criminal activities, ranging from drug trafficking, arms dealing, people smuggling and international terrorism.";
     }
-    else if (category == "criminal-damage-arson") {
-      definition = "Criminal damage is the intentional and malicious damage to the home other property or vehicles and includes graffiti. Arson is the act of deliberately setting fire to property, including buildings and vehicles.";
+    else if (category === "criminal-damage-arson") {
+      definition = "Criminal damage is the intentional damage to a home or property. Arson is the act of deliberately setting fire to property, including buildings and vehicles.";
     }
     return definition
   }
   render() {
-    const { shapes, categories, isLoaded, colours, isShown, id, isClicked, startDate, setStartDate } = this.state;
+    const { shapes, categories, isLoaded, colours, isShown, id } = this.state;
     const active = this.state.active;
 
     return (
       <>
         <NavBar />
         <Container className="top-breadcrumb">
-          <Breadcrumb >
-            <Breadcrumb.Item href="/">Police Force - {this.textFormatter(this.state.policeForce)}</Breadcrumb.Item>
-            <Breadcrumb.Item href="/neighbourhoods"> Neighbourhoods - {this.state.neighbourhood} </Breadcrumb.Item>
-            <Breadcrumb.Item active> Street Crimes </Breadcrumb.Item>
-          </Breadcrumb>
+          <Row>
+            <Col>
+              <Breadcrumb >
+                <Breadcrumb.Item href="/">Police Force - {this.textFormatter(this.state.policeForce)}</Breadcrumb.Item>
+                <Breadcrumb.Item href="/neighbourhoods"> Neighbourhoods - {this.state.neighbourhood} </Breadcrumb.Item>
+                <Breadcrumb.Item active> Street Crimes </Breadcrumb.Item>
+              </Breadcrumb>
+            </Col>
+          </Row>
         </Container>
         <Row className="filter-padding">
         </Row>
@@ -311,6 +316,8 @@ class StreetCrimes extends React.Component {
               </Row>
             </Col>
             <Col sm={8}> <Jumbotron className="personal-details-jumbotron">
+              <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} />
+
               {!isLoaded
                 ? <div><Loading /></div>
                 :
