@@ -7,6 +7,7 @@ import Loading from '../components/Loading';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import DonutChart from "react-svg-donut";
+import Chart from "react-apexcharts";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
@@ -51,6 +52,30 @@ class StreetCrimes extends React.Component {
         { xcords: 66, ycords: 43 },
         { xcords: 52, ycords: 33 },
         { xcords: 55, ycords: 50 },
+      ],
+      options: {
+        chart: {
+          height: 350,
+          type: 'rangeBar'
+
+        },
+        colors: [
+          "#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0",
+          "#3F51B5", "#546E7A", "#D4526E", "#8D5B4C", "#F86624",
+          "#D7263D", "#1B998B", "#2E294E", "#F46036", "#E2C044"
+        ],
+        fill: {
+          type: 'solid'
+        },
+        xaxis: {
+          categories: ["Controlled drugs", "Stolen goods", "Offensive weapons", 1995, 1996, 1997, 1998, 1999]
+        }
+      },
+      series: [
+        {
+          name: "series-1",
+          data: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+        }
       ]
     };
     this.handleChange = this.handleChange.bind(this);
@@ -232,7 +257,7 @@ class StreetCrimes extends React.Component {
             <Col sm={4}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron" align="center">
-                  <DonutChart
+                  {/* <DonutChart
                     size={250}
                     title={title}
                     data={data}
@@ -253,6 +278,18 @@ class StreetCrimes extends React.Component {
                     {active >= 0
                       ? data[active].name + " " + data[active].value + " %"
                       : "Hover"}
+                  </div> */}
+                  <div className="app">
+                    <div className="row">
+                      <div className="mixed-chart">
+                        <Chart
+                          options={this.state.options}
+                          series={this.state.series}
+                          type="bar"
+                          width="460"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </Jumbotron>
               </Row>
@@ -316,51 +353,51 @@ class StreetCrimes extends React.Component {
               </Row>
             </Col>
             <Col sm={8}>
-               <Jumbotron className="personal-details-jumbotron">
-              <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} />
-              {!isLoaded
-                ? <div><Loading /></div>
-                :
-                <svg viewBox="0 0 100 65">
-                  {/* <LastUpdated /> */}
-                  {/* <text x='1' y='3' fontSize="0.075em">Total street crimes: {categories.count}</text> */}
-                  {
-                    categories.groups.map((category, i) => (
-                      <NavLink key={i} className="nav-link"
-                        onMouseEnter={() => { this.setIsShown(true, i, category.category) }}
-                        onMouseLeave={() => { this.setIsShown(false, i, category.category) }}
-                        to={{
-                          pathname: 'crime-outcomes',
-                          aboutProps: {
-                            selectedPoliceForce: this.state.policeForce,
-                            selectedNeighbourhood: this.state.neighbourhood,
-                            selectedCrime: this.state.crime
-                          }
-                        }}>
-                        <circle
-                          className="circle-css"
-                          style={{
-                            fill: colours[i]
-                          }}
-                          cx={shapes[i].xcords}
-                          cy={shapes[i].ycords - 2}
-                          r={this.calculateBubbleSize(category.group.count, categories.count)}
-                        />
-                        {isShown && i === id ?
-                          <>
-                            <text x={40} y={2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.crimeDefinition(category.category)}</text>
+              <Jumbotron className="personal-details-jumbotron">
+                <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} />
+                {!isLoaded
+                  ? <div><Loading /></div>
+                  :
+                  <svg viewBox="0 0 100 65">
+                    {/* <LastUpdated /> */}
+                    {/* <text x='1' y='3' fontSize="0.075em">Total street crimes: {categories.count}</text> */}
+                    {
+                      categories.groups.map((category, i) => (
+                        <NavLink key={i} className="nav-link"
+                          onMouseEnter={() => { this.setIsShown(true, i, category.category) }}
+                          onMouseLeave={() => { this.setIsShown(false, i, category.category) }}
+                          to={{
+                            pathname: 'crime-outcomes',
+                            aboutProps: {
+                              selectedPoliceForce: this.state.policeForce,
+                              selectedNeighbourhood: this.state.neighbourhood,
+                              selectedCrime: this.state.crime
+                            }
+                          }}>
+                          <circle
+                            className="circle-css"
+                            style={{
+                              fill: colours[i]
+                            }}
+                            cx={shapes[i].xcords}
+                            cy={shapes[i].ycords - 2}
+                            r={this.calculateBubbleSize(category.group.count, categories.count)}
+                          />
+                          {isShown && i === id ?
+                            <>
+                              <text x={40} y={2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.crimeDefinition(category.category)}</text>
+                              <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
+                              <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
+                              <text x={shapes[i].xcords} y={shapes[i].ycords + 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
+                            </>
+                            :
                             <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
-                            <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
-                            <text x={shapes[i].xcords} y={shapes[i].ycords + 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
-                          </>
-                          :
-                          <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
-                        }
-                      </NavLink>
-                    ))}
-                </svg>
-              }
-            </Jumbotron>
+                          }
+                        </NavLink>
+                      ))}
+                  </svg>
+                }
+              </Jumbotron>
             </Col>
           </Row>
         </Container>

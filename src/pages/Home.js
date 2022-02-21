@@ -74,11 +74,6 @@ class Home extends React.Component {
       series: [25, 15, 44, 55, 41, 17],
       options: {
         labels: ["Controlled drugs", "Stolen goods", "Offensive weapons", "Articles for use in criminal damage", "Fireworks", "Firearms"],
-        // theme: {
-        //   monochrome: {
-        //     enabled: true
-        //   }
-        // },
         plotOptions: {
 
           pie: {
@@ -90,11 +85,12 @@ class Home extends React.Component {
         },
         title: {
           text: "Stop and search",
+          align: 'center'
         },
+        colors: [
+          '#ffc1f8', '#fff88b', '#a0a1f5', '#02ccf9', '#ffa366', '#f75e5b'
+        ],
         dataLabels: {
-          style: {
-            colors: ['#ccf3ff', '#74bec8', '#d8bfff', '#f75e5b']
-          },
           formatter(val, opts) {
             const name = opts.w.globals.labels[opts.seriesIndex]
             return [name, val.toFixed(1) + '%']

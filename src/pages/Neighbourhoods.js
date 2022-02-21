@@ -13,43 +13,6 @@ import NavBar from '../components/NavBar';
 import LastUpdated from '../components/LastUpdated';
 import Loading from '../components/Loading';
 
-const test = [
-  {
-    name: 'A',
-    x: 31.47,
-    fill: '#8784d8',
-  },
-  {
-    name: 'B',
-    x: 26.69,
-    fill: '#84a6ed',
-  },
-  {
-    name: 'C',
-    x: 15.69,
-    fill: '#8ed1e1',
-  },
-  {
-    name: 'D',
-    x: 8.22,
-    fill: '#82da9d',
-  },
-  {
-    name: 'E',
-    x: 8.63,
-    fill: '#a2de6c',
-  },
-  {
-    name: 'F',
-    x: 2.63,
-    fill: '#d0dd57',
-  },
-  {
-    name: 'G',
-    x: 6.67,
-    fill: '#ffa658',
-  },
-];
 
 class Neighbourhoods extends React.Component {
   constructor(props) {
@@ -119,31 +82,117 @@ class Neighbourhoods extends React.Component {
         { size: '5', xcords: 50, ycords: 49 },
         { size: '8', xcords: 64, ycords: 50 },
       ],
-      options: {
-        chart: {
-          height: 350,
-          type: 'rangeBar'
+      //   options: {
+      //     chart: {
+      //       height: 350,
+      //       type: 'rangeBar'
 
-        },
-        colors: [
-          "#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0",
-          "#3F51B5", "#546E7A", "#D4526E", "#8D5B4C", "#F86624",
-          "#D7263D", "#1B998B", "#2E294E", "#F46036", "#E2C044"
-        ],
-        fill: {
-          type: 'solid'
-        },
-        xaxis: {
-          categories: ["Controlled drugs", "Stolen goods", "Offensive weapons", 1995, 1996, 1997, 1998, 1999]
-        }
-      },
+      //     },
+      //     colors: [
+      //       "#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0",
+      //       "#3F51B5", "#546E7A", "#D4526E", "#8D5B4C", "#F86624",
+      //       "#D7263D", "#1B998B", "#2E294E", "#F46036", "#E2C044"
+      //     ],
+      //     fill: {
+      //       type: 'solid'
+      //     },
+      //     xaxis: {
+      //       categories: ["Controlled drugs", "Stolen goods", "Offensive weapons", 1995, 1996, 1997, 1998, 1999]
+      //     }
+      //   },
+      //   series: [
+      //     {
+      //       name: "series-1",
+      //       data: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+      //     }
+      //   ]
+      // };
       series: [
         {
-          name: "series-1",
-          data: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+          data: [
+            {
+              x: 'New Delhi',
+              y: 218
+            },
+            {
+              x: 'Kolkata',
+              y: 149
+            },
+            {
+              x: 'Mumbai',
+              y: 184
+            },
+            {
+              x: 'Ahmedabad',
+              y: 55
+            },
+            {
+              x: 'Bangaluru',
+              y: 84
+            },
+            {
+              x: 'Pune',
+              y: 31
+            },
+            {
+              x: 'Chennai',
+              y: 70
+            },
+            {
+              x: 'Jaipur',
+              y: 30
+            },
+            {
+              x: 'Surat',
+              y: 44
+            },
+            {
+              x: 'Hyderabad',
+              y: 68
+            },
+            {
+              x: 'Lucknow',
+              y: 28
+            },
+            {
+              x: 'Indore',
+              y: 19
+            },
+            {
+              x: 'Kanpur',
+              y: 29
+            }
+          ]
         }
-      ]
+      ],
+      options: {
+        legend: {
+          show: false
+        },
+        chart: {
+          height: 350,
+          type: 'treemap'
+        },
+        title: {
+          text: 'Distibuted Treemap ',
+          align: 'center'
+        },
+        colors: [
+          '#ff80aa',
+          '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5', '#ffe6cc',
+          '#e6e6e6', '#6666cc', '#ffdd99', '#b3ffb3', '#80ffdf', '#b3d9ff', '#a0a1f5', '#ffccff', '#b3ccff', '#9fdfbf', '#a3a3c2', '#6699cc'
+        ],
+        plotOptions: {
+          treemap: {
+            distributed: true,
+            enableShades: false
+          }
+        }
+      },
+
+
     };
+
   }
   //     series: [76, 67, 61, 90],
   //     options: {
@@ -300,7 +349,7 @@ class Neighbourhoods extends React.Component {
                     <RadialBar minAngle={15} dataKey="x" />
                   </RadialBarChart> */}
                   {/* <ApexCharts options={this.state.options} series={this.state.series} type="radialBar" height={390} /> */}
-                  <div className="app">
+                  {/* <div className="app">
                     <div className="row">
                       <div className="mixed-chart">
                         <Chart
@@ -311,7 +360,9 @@ class Neighbourhoods extends React.Component {
                         />
                       </div>
                     </div>
-                  </div>
+                  </div> */}
+                  <Chart options={this.state.options} series={this.state.series} type="treemap" height={350} />
+
                 </Jumbotron>
               </Row>
               <Row>
