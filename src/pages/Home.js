@@ -3,6 +3,7 @@ import { Container, Col, Form, Button, Row, Jumbotron } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import Chart from "react-apexcharts";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
@@ -12,53 +13,6 @@ import LastUpdated from '../components/LastUpdated';
 import Loading from '../components/Loading';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
-const dataBar = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  datasets: [
-    {
-      label: 'My First dataset',
-      backgroundColor: '#EC932F',
-      borderColor: 'rgba(255,99,132,1)',
-      borderWidth: 1,
-      hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-      hoverBorderColor: 'rgba(255,99,132,1)',
-      data: [65, 59, 80, 81, 56, 55, 40]
-    },
-    {
-      label: 'My First dataset 2',
-      backgroundColor: 'rgba(255,99,132,0.2)',
-      borderColor: 'rgba(255,99,132,1)',
-      borderWidth: 1,
-      hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-      hoverBorderColor: 'rgba(255,99,132,1)',
-      data: [65, 59, 80, 81, 56, 55, 40]
-    }
-  ]
-};
-
-const dataHorBar = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  datasets: [
-    {
-      label: 'My First dataset',
-      backgroundColor: '#EC932F',
-      borderColor: 'rgba(255,99,132,1)',
-      borderWidth: 1,
-      hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-      hoverBorderColor: 'rgba(255,99,132,1)',
-      data: [65, 59, 80, 81, 56, 55, 40]
-    },
-    {
-      label: 'My First dataset 2',
-      backgroundColor: 'rgba(255,99,132,0.2)',
-      borderColor: 'rgba(255,99,132,1)',
-      borderWidth: 1,
-      hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-      hoverBorderColor: 'rgba(255,99,132,1)',
-      data: [65, 59, 80, 81, 56, 55, 40]
-    }
-  ]
-};
 
 class Home extends React.Component {
   constructor(props) {
@@ -116,8 +70,75 @@ class Home extends React.Component {
         { size: '7.9', xcords: 44, ycords: 132.5 },
         { size: '8', xcords: 80, ycords: 133 },
         { size: '5.3', xcords: 30, ycords: 133 },
-      ]
+      ],
+      series: [25, 15, 44, 55, 41, 17],
+      options: {
+        labels: ["Controlled drugs", "Stolen goods", "Offensive weapons", "Articles for use in criminal damage", "Fireworks", "Firearms"],
+        // theme: {
+        //   monochrome: {
+        //     enabled: true
+        //   }
+        // },
+        plotOptions: {
+
+          pie: {
+            dataLabels: {
+              offset: -5
+            }
+
+          }
+        },
+        title: {
+          text: "Stop and search",
+        },
+        dataLabels: {
+          style: {
+            colors: ['#ccf3ff', '#74bec8', '#d8bfff', '#f75e5b']
+          },
+          formatter(val, opts) {
+            const name = opts.w.globals.labels[opts.seriesIndex]
+            return [name, val.toFixed(1) + '%']
+          }
+
+        },
+        legend: {
+          show: false,
+        }
+      },
     };
+  }
+
+  isGroupInArray(groups, code) {
+    var isFound = false;
+    for (var key in groups) {
+      if (groups[key].code === code) {
+        isFound = true;
+      }
+    }
+
+    return isFound;
+  }
+
+  getByGroupName(arr, code) {
+    var group = [];
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].category.name === code) {
+        group.push(arr[i]);
+      }
+    }
+    return { group: group, count: group.length };
+  }
+
+  groupBy(arr) {
+    var groups = [];
+
+    for (var i = 0; i < arr.length; i++) {
+      var code = arr[i].category.name;
+      if (this.isGroupInArray(groups, code) === false)
+        groups.push({ code: code, group: this.getByGroupName(arr, code) })
+    }
+
+    return { groups: groups, count: arr.length };
   }
 
   componentDidMount() {
@@ -166,7 +187,24 @@ class Home extends React.Component {
           });
         }
       )
+    fetch(`https://data.police.uk/api/stops-force?force=${policeForce}`)
+      .then(res => res.json())
+      .then((result) => {
 
+        this.setState({
+          isLoaded: true,
+          length: result.length,
+          isShown: true
+        });
+        console.log("stop", result)
+      },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
   }
 
   calculateBubbleSize(value, totalValue) {
@@ -227,6 +265,8 @@ class Home extends React.Component {
             <Col sm={4}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron" align="center">
+
+                  <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" />
 
                 </Jumbotron>
               </Row>

@@ -315,14 +315,13 @@ class StreetCrimes extends React.Component {
                 </Jumbotron>
               </Row>
             </Col>
-            <Col sm={8}> <Jumbotron className="personal-details-jumbotron">
+            <Col sm={8}>
+               <Jumbotron className="personal-details-jumbotron">
               <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} />
-
               {!isLoaded
                 ? <div><Loading /></div>
                 :
                 <svg viewBox="0 0 100 65">
-
                   {/* <LastUpdated /> */}
                   {/* <text x='1' y='3' fontSize="0.075em">Total street crimes: {categories.count}</text> */}
                   {
@@ -361,12 +360,10 @@ class StreetCrimes extends React.Component {
                     ))}
                 </svg>
               }
-            </Jumbotron></Col>
-
+            </Jumbotron>
+            </Col>
           </Row>
         </Container>
-
-
       </>
     );
   }
