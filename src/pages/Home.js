@@ -145,7 +145,6 @@ class Home extends React.Component {
           isLoaded: true,
           categories: result,
         });
-        console.log(this.state.categories)
       },
         (error) => {
           this.setState({
@@ -164,6 +163,27 @@ class Home extends React.Component {
     this.setState({ isShown: false });
   }
 
+  stopAndSearch() {
+    fetch(`https://data.police.uk/api/stops-force?force=bedfordshire`)
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({
+          isLoaded: true,
+          total: data.length,
+          isShown: true
+        });
+        // console.log("stop", data)
+      },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+
+    return "Total: " + this.state.total
+  }
   setIsShown(id, policeForce) {
     fetch(`https://data.police.uk/api/${policeForce}/neighbourhoods`)
       .then(res => res.json())
@@ -175,24 +195,6 @@ class Home extends React.Component {
           id: id,
           policeForce: policeForce
         });
-      },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-    fetch(`https://data.police.uk/api/stops-force?force=${policeForce}`)
-      .then(res => res.json())
-      .then((result) => {
-
-        this.setState({
-          isLoaded: true,
-          length: result.length,
-          isShown: true
-        });
-        console.log("stop", result)
       },
         (error) => {
           this.setState({
@@ -263,7 +265,9 @@ class Home extends React.Component {
                 <Jumbotron className="personal-details-jumbotron" align="center">
 
                   <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" />
-
+                  <h6>
+                    {this.stopAndSearch()}
+                  </h6>
                 </Jumbotron>
               </Row>
               <Row>
@@ -332,7 +336,7 @@ class Home extends React.Component {
                   ? <div><Loading /></div>
                   :
                   <svg viewBox="0 0 100 150">
-                    <LastUpdated />
+                    {/* <LastUpdated /> */}
                     <text x='3' y='3' fontSize="0.075em">Total police forces: {categories.length}</text>
                     {categories.map((category, i) => (
                       <NavLink key={i} className="nav-link"
@@ -356,7 +360,7 @@ class Home extends React.Component {
                         />
                         {isShown && i === id ?
                           <>
-                            <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
+                            <text x={shapes[i].xcords} y={shapes[i].ycords - 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
                             <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline=" middle" fontSize="0.075em">{this.neighbourhoodCount()} neighbourhoods</text>
                           </>
                           :

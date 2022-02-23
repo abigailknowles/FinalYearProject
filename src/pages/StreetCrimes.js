@@ -26,6 +26,7 @@ const data = [
   { name: "Other Crime ", value: 4 },
   { name: "Other Theft", value: 4 }
 ]
+var test = "hello"
 class StreetCrimes extends React.Component {
   constructor(props) {
     super(props);
@@ -68,7 +69,7 @@ class StreetCrimes extends React.Component {
           type: 'solid'
         },
         xaxis: {
-          categories: ["Controlled drugs", "Stolen goods", "Offensive weapons", 1995, 1996, 1997, 1998, 1999]
+          categories: [test, "Stolen goods", "Offensive weapons", 1995, 1996, 1997, 1998, 1999]
         }
       },
       series: [
@@ -190,12 +191,67 @@ class StreetCrimes extends React.Component {
       )
   }
 
+  isGroupInOutcomesArray(groups, code) {
+    var isFound = false;
+    for (var key in groups) {
+      if (groups[key].code === code) {
+        isFound = true;
+      }
+    }
+
+    return isFound;
+  }
+
+  getByOutcomesGroupName(arr, code) {
+    var group = [];
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].category.name === code) {
+        group.push(arr[i]);
+      }
+    }
+    return { group: group, count: group.length };
+  }
+
+  groupByOutcomes(arr) {
+    var groups = [];
+
+    for (var i = 0; i < arr.length; i++) {
+      var code = arr[i].category.name;
+      if (this.isGroupInOutcomesArray(groups, code) === false)
+        groups.push({ code: code, group: this.getByOutcomesGroupName(arr, code) })
+    }
+
+    return { groups: groups, count: arr.length };
+  }
+
+  crimeOutcomes() {
+    fetch("https://data.police.uk/api/outcomes-at-location?date=2021-01&poly=52.268,0.543:52.794,0.238:52.130,0.478")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          var out = this.groupByOutcomes(result);
+          this.setState({
+            outcomes: out,
+            total: result.length
+          });
+          // console.log(out.groups[0].code);
+          // console.log(out.groups[0].group.count);
+        },
+        (error) => {
+          this.setState({
+            error
+          });
+        }
+      )
+
+    return "Total: " + this.state.total
+  }
+
   setIsShown(state, id, crime) {
     this.setState({ isShown: state, id: id, crime: crime })
   }
 
   crimeDefinition(category) {
-    console.log(category)
     var definition = "";
     if (category === "public-order") {
       definition = "Public order is a condition characterized by the absence of widespread criminal and political violence, such as kidnapping, murder, riots, arson, and intimidation against targeted groups or individuals.";
@@ -291,6 +347,8 @@ class StreetCrimes extends React.Component {
                       </div>
                     </div>
                   </div>
+                  <h6>          {this.crimeOutcomes()}
+                  </h6>
                 </Jumbotron>
               </Row>
               <Row>
