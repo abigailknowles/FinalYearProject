@@ -178,7 +178,8 @@
   height:300px;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;    background-image: url("police.jpeg");
+  background-size: cover;    
+  background-image: url("img/police.jpeg");
 }
 
 

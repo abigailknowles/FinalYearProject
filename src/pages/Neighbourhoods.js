@@ -1,18 +1,16 @@
 import React, { } from "react";
-import { Container, Jumbotron, Col, Row, Form, Button } from 'react-bootstrap';
+import { Container, Jumbotron, Col, Row } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { RadialBarChart, RadialBar } from 'recharts';
 import Chart from "react-apexcharts";
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
+
 import NavBar from '../components/NavBar';
 import LastUpdated from '../components/LastUpdated';
 import Loading from '../components/Loading';
-
+import NeighbourhoodFilter from '../components/filters/NeighbourhoodFilter';
 
 class Neighbourhoods extends React.Component {
   constructor(props) {
@@ -82,31 +80,6 @@ class Neighbourhoods extends React.Component {
         { size: '5', xcords: 50, ycords: 49 },
         { size: '8', xcords: 64, ycords: 50 },
       ],
-      //   options: {
-      //     chart: {
-      //       height: 350,
-      //       type: 'rangeBar'
-
-      //     },
-      //     colors: [
-      //       "#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0",
-      //       "#3F51B5", "#546E7A", "#D4526E", "#8D5B4C", "#F86624",
-      //       "#D7263D", "#1B998B", "#2E294E", "#F46036", "#E2C044"
-      //     ],
-      //     fill: {
-      //       type: 'solid'
-      //     },
-      //     xaxis: {
-      //       categories: ["Controlled drugs", "Stolen goods", "Offensive weapons", 1995, 1996, 1997, 1998, 1999]
-      //     }
-      //   },
-      //   series: [
-      //     {
-      //       name: "series-1",
-      //       data: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
-      //     }
-      //   ]
-      // };
       series: [
         {
           data: [
@@ -194,66 +167,6 @@ class Neighbourhoods extends React.Component {
     };
 
   }
-  //     series: [76, 67, 61, 90],
-  //     options: {
-  //       chart: {
-  //         height: 390,
-  //         type: 'radialBar',
-  //       },
-  //       plotOptions: {
-  //         radialBar: {
-  //           offsetY: 0,
-  //           startAngle: 0,
-  //           endAngle: 270,
-  //           hollow: {
-  //             margin: 5,
-  //             size: '30%',
-  //             background: 'transparent',
-  //             image: undefined,
-  //           },
-  //           dataLabels: {
-  //             name: {
-  //               show: false,
-  //             },
-  //             value: {
-  //               show: false,
-  //             }
-  //           }
-  //         }
-  //       },
-  //       colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5'],
-  //       labels: ['Vimeo', 'Messenger', 'Facebook', 'LinkedIn'],
-  //       legend: {
-  //         show: true,
-  //         floating: true,
-  //         fontSize: '16px',
-  //         position: 'left',
-  //         offsetX: 160,
-  //         offsetY: 15,
-  //         labels: {
-  //           useSeriesColors: true,
-  //         },
-  //         markers: {
-  //           size: 0
-  //         },
-  //         formatter: function (seriesName, opts) {
-  //           return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex]
-  //         },
-  //         itemMargin: {
-  //           vertical: 3
-  //         }
-  //       },
-  //       responsive: [{
-  //         breakpoint: 480,
-  //         options: {
-  //           legend: {
-  //             show: false
-  //           }
-  //         }
-  //       }]
-  //     },
-  //   };
-  // }
 
   textFormatter(force) {
     const police = force;
@@ -345,82 +258,13 @@ class Neighbourhoods extends React.Component {
             <Col sm={4}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron" align="center">
-                  {/* <RadialBarChart width={500} height={500} data={test}>
-                    <RadialBar minAngle={15} dataKey="x" />
-                  </RadialBarChart> */}
-                  {/* <ApexCharts options={this.state.options} series={this.state.series} type="radialBar" height={390} /> */}
-                  {/* <div className="app">
-                    <div className="row">
-                      <div className="mixed-chart">
-                        <Chart
-                          options={this.state.options}
-                          series={this.state.series}
-                          type="bar"
-                          width="460"
-                        />
-                      </div>
-                    </div>
-                  </div> */}
                   <Chart options={this.state.options} series={this.state.series} type="treemap" height={350} />
 
                 </Jumbotron>
               </Row>
               <Row>
                 <Jumbotron className="personal-details-jumbotron">
-                  <Container >
-                    <h3 className="filter-text">Filter by</h3>
-                    <Row className="filter-padding">
-                      <Col >
-                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                          <Row>
-                            <Col>
-                              <Form.Check type="checkbox" label="Anti Social" />
-                            </Col>
-                            <Col>
-                              <Form.Check type="checkbox" label="Theft" />
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col>
-                              <Form.Check type="checkbox" label="Violent" />
-                            </Col>
-                            <Col>
-                              <Form.Check type="checkbox" label="Other" />
-                            </Col>
-                          </Row>
-                        </Form.Group>
-                      </Col>
-                      <Row>
-                        <Col>
-                          <Form.Label htmlFor="inputPassword5">From</Form.Label>
-                          <DatePicker
-                            selected={this.state.endDate}
-                            onChange={this.handleDateChange}
-                            name="endDate"
-                            dateFormat="dd/MM/yyyy"
-                            minDate={new Date(2015, 1, 1)}
-                            maxDate={new Date()}
-                          />
-                        </Col>
-                        <Col>
-                          <Form.Label htmlFor="inputPassword5">To</Form.Label>
-                          <DatePicker
-                            selected={this.state.startDate}
-                            onChange={this.handleDateChange}
-                            name="startDate"
-                            dateFormat="dd/MM/yyyy"
-                            minDate={new Date(2015, 1, 1)}
-                            maxDate={new Date()}
-                          />
-                        </Col>
-                      </Row>
-                    </Row>
-                    <Row className="filter-padding">
-                      <Col>
-                        <Button className="filter-button" type="submit" variant="light">Update</Button>
-                      </Col>
-                    </Row>
-                  </Container>
+                  <NeighbourhoodFilter />
                 </Jumbotron>
               </Row >
             </Col >

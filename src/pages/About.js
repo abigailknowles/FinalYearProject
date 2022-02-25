@@ -141,10 +141,7 @@ class About extends React.Component {
             </div>
           </Container>
         </Container>
-
       </>
-
-
     );
   }
 }

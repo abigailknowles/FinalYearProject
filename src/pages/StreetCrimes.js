@@ -1,39 +1,20 @@
 import React, { } from "react";
-import { Container, Row, Jumbotron, Col, Button, Form } from 'react-bootstrap';
+import { Container, Row, Jumbotron, Col } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
-import NavBar from '../components/NavBar';
-import Loading from '../components/Loading';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
-import DonutChart from "react-svg-donut";
 import Chart from "react-apexcharts";
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
-const title = "Crimes"
-const data = [
-  { name: "Anti Social Behaviour", value: 4 },
-  { name: "Theft", value: 5 },
-  { name: "Vehicle Crime", value: 6 },
-  { name: "Buglary", value: 1 },
-  { name: "Shoplifting", value: 1 },
-  { name: "Criminal Damage and Arson", value: 1 },
-  { name: "Drugs", value: 1 },
-  { name: "Possesion Of Weapons", value: 4 },
-  { name: "Public Order", value: 4 },
-  { name: "Other Crime ", value: 4 },
-  { name: "Other Theft", value: 4 }
-]
-var test = "hello"
+import NavBar from '../components/NavBar';
+import Loading from '../components/Loading';
+import CrimeFilter from '../components/filters/CrimeFilter'
+
 class StreetCrimes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categories: [],
-      startDate: new Date(),
-      endDate: new Date(),
       selectedOption: null,
       policeForce: props.location.aboutProps.selectedPoliceForce,
       neighbourhood: props.location.aboutProps.selectedNeighbourhood,
@@ -55,31 +36,24 @@ class StreetCrimes extends React.Component {
         { xcords: 55, ycords: 50 },
       ],
       options: {
-        chart: {
-          height: 350,
-          type: 'rangeBar'
-
-        },
-        colors: [
-          "#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0",
-          "#3F51B5", "#546E7A", "#D4526E", "#8D5B4C", "#F86624",
-          "#D7263D", "#1B998B", "#2E294E", "#F46036", "#E2C044"
-        ],
         fill: {
           type: 'solid'
         },
+        colors: [
+          '#02ccf9'
+        ],
         xaxis: {
-          categories: [test, "Stolen goods", "Offensive weapons", 1995, 1996, 1997, 1998, 1999]
+          categories: ["Suspect charged", "Unable to prosecute", "Local resolution", "Offender cautioned", "Investigation complete", "No further action"]
         }
       },
       series: [
         {
           name: "series-1",
-          data: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+          data: [50, 100, 150, 20, 40, 200]
         }
       ]
     };
-    this.handleChange = this.handleChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
   }
 
   isGroupInArray(groups, category) {
@@ -89,7 +63,6 @@ class StreetCrimes extends React.Component {
         isFound = true;
       }
     }
-
     return isFound;
   }
 
@@ -111,7 +84,6 @@ class StreetCrimes extends React.Component {
       if (this.isGroupInArray(groups, category) === false)
         groups.push({ category: category, group: this.getByGroupName(arr, category) })
     }
-
     return { groups: groups, count: arr.length };
   }
 
@@ -119,11 +91,13 @@ class StreetCrimes extends React.Component {
     var percentage = (value / totalValue * 100).toFixed(2);
     return percentage;
   }
+
   textFormatter(category) {
     const cat = category;
     const capitalCat = cat.charAt(0).toUpperCase() + cat.slice(1);
     return capitalCat.replaceAll('-', ' ');
   }
+
   calculateBubbleSize(value, totalValue) {
     var percentage = (value / totalValue * 100).toFixed(2);
     var size = 0;
@@ -161,15 +135,10 @@ class StreetCrimes extends React.Component {
     return size
   }
 
-  handleDateChange = (date) => {
-    var selectedDate = date
-    this.setState({ startDate: selectedDate });
-  };
-
-  handleChange = (selectedOption) => {
-    this.setState({ selectedOption }
-    );
-  };
+  // handleChange = (selectedOption) => {
+  //   this.setState({ selectedOption }
+  //   );
+  // };
 
   componentDidMount() {
     fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
@@ -198,7 +167,6 @@ class StreetCrimes extends React.Component {
         isFound = true;
       }
     }
-
     return isFound;
   }
 
@@ -220,7 +188,6 @@ class StreetCrimes extends React.Component {
       if (this.isGroupInOutcomesArray(groups, code) === false)
         groups.push({ code: code, group: this.getByOutcomesGroupName(arr, code) })
     }
-
     return { groups: groups, count: arr.length };
   }
 
@@ -234,8 +201,6 @@ class StreetCrimes extends React.Component {
             outcomes: out,
             total: result.length
           });
-          // console.log(out.groups[0].code);
-          // console.log(out.groups[0].group.count);
         },
         (error) => {
           this.setState({
@@ -243,7 +208,6 @@ class StreetCrimes extends React.Component {
           });
         }
       )
-
     return "Total: " + this.state.total
   }
 
@@ -290,7 +254,6 @@ class StreetCrimes extends React.Component {
   }
   render() {
     const { shapes, categories, isLoaded, colours, isShown, id } = this.state;
-    const active = this.state.active;
 
     return (
       <>
@@ -310,31 +273,9 @@ class StreetCrimes extends React.Component {
         </Row>
         <Container fluid className="personal-details-jumbotron">
           <Row>
-            <Col sm={4}>
+            <Col sm={5}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron" align="center">
-                  {/* <DonutChart
-                    size={250}
-                    title={title}
-                    data={data}
-                    onHover={i => {
-                      if (i >= 0) {
-                        console.log("Selected ", data[i].name);
-                        this.setState({
-                          active: i
-                        });
-                      } else {
-                        console.log("Mouse left donut");
-                      }
-                    }}
-                    innerRaduis={0.5}
-                    outerRadius={0.9}
-                  />
-                  <div id="label">
-                    {active >= 0
-                      ? data[active].name + " " + data[active].value + " %"
-                      : "Hover"}
-                  </div> */}
                   <div className="app">
                     <div className="row">
                       <div className="mixed-chart">
@@ -342,75 +283,24 @@ class StreetCrimes extends React.Component {
                           options={this.state.options}
                           series={this.state.series}
                           type="bar"
-                          width="460"
+                          width="550"
+                          height="320"
                         />
                       </div>
                     </div>
                   </div>
-                  <h6>          {this.crimeOutcomes()}
+                  <h6>
+                    {this.crimeOutcomes()}
                   </h6>
                 </Jumbotron>
               </Row>
               <Row>
                 <Jumbotron className="personal-details-jumbotron">
-                  <Container >
-                    <h3 className="filter-text">Filter by</h3>
-                    <Row className="filter-padding">
-                      <Col >
-                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                          <Row>
-                            <Col>
-                              <Form.Check type="checkbox" label="Anti Social" />
-                            </Col>
-                            <Col>
-                              <Form.Check type="checkbox" label="Theft" />
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col>
-                              <Form.Check type="checkbox" label="Violent" />
-                            </Col>
-                            <Col>
-                              <Form.Check type="checkbox" label="Other" />
-                            </Col>
-                          </Row>
-                        </Form.Group>
-                      </Col>
-                      <Row>
-                        <Col>
-                          <Form.Label htmlFor="inputPassword5">From</Form.Label>
-                          <DatePicker
-                            selected={this.state.endDate}
-                            onChange={this.handleDateChange}
-                            name="endDate"
-                            dateFormat="dd/MM/yyyy"
-                            minDate={new Date(2015, 1, 1)}
-                            maxDate={new Date()}
-                          />
-                        </Col>
-                        <Col>
-                          <Form.Label htmlFor="inputPassword5">To</Form.Label>
-                          <DatePicker
-                            selected={this.state.startDate}
-                            onChange={this.handleDateChange}
-                            name="startDate"
-                            dateFormat="dd/MM/yyyy"
-                            minDate={new Date(2015, 1, 1)}
-                            maxDate={new Date()}
-                          />
-                        </Col>
-                      </Row>
-                    </Row>
-                    <Row className="filter-padding">
-                      <Col>
-                        <Button className="filter-button" type="submit" variant="light">Update</Button>
-                      </Col>
-                    </Row>
-                  </Container>
+                  <CrimeFilter />
                 </Jumbotron>
               </Row>
             </Col>
-            <Col sm={8}>
+            <Col sm={7}>
               <Jumbotron className="personal-details-jumbotron">
                 <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} />
                 {!isLoaded

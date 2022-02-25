@@ -1,7 +1,6 @@
 import React, { } from "react";
-import { Container, Col, Form, Button, Row, Jumbotron } from 'react-bootstrap';
+import { Container, Col, Row, Jumbotron } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Chart from "react-apexcharts";
 
@@ -9,9 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
 import NavBar from '../components/NavBar';
-import LastUpdated from '../components/LastUpdated';
 import Loading from '../components/Loading';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PoliceForceFilter from "../components/filters/PoliceForceFilter";
 
 
 class Home extends React.Component {
@@ -75,12 +74,10 @@ class Home extends React.Component {
       options: {
         labels: ["Controlled drugs", "Stolen goods", "Offensive weapons", "Articles for use in criminal damage", "Fireworks", "Firearms"],
         plotOptions: {
-
           pie: {
             dataLabels: {
               offset: -5
             }
-
           }
         },
         title: {
@@ -136,8 +133,7 @@ class Home extends React.Component {
 
     return { groups: groups, count: arr.length };
   }
-
-  componentDidMount() {
+  policeForces() {
     fetch("https://data.police.uk/api/forces")
       .then(res => res.json())
       .then((result) => {
@@ -155,14 +151,6 @@ class Home extends React.Component {
       )
   }
 
-  neighbourhoodCount() {
-    return this.state.length;
-  }
-
-  setIsNotShown() {
-    this.setState({ isShown: false });
-  }
-
   stopAndSearch() {
     fetch(`https://data.police.uk/api/stops-force?force=bedfordshire`)
       .then(res => res.json())
@@ -172,7 +160,6 @@ class Home extends React.Component {
           total: data.length,
           isShown: true
         });
-        // console.log("stop", data)
       },
         (error) => {
           this.setState({
@@ -184,6 +171,42 @@ class Home extends React.Component {
 
     return "Total: " + this.state.total
   }
+
+  policeForceInformation() {
+    fetch(`https://data.police.uk/api/forces/bedfordshire`)
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({
+          isLoaded: true,
+          info: data,
+          isShown: true
+        });
+      },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+
+    return this.state.info
+  }
+
+  componentDidMount() {
+    this.policeForces();
+    this.stopAndSearch();
+    // this.policeForceInformation();
+  }
+
+  neighbourhoodCount() {
+    return this.state.length;
+  }
+
+  setIsNotShown() {
+    this.setState({ isShown: false });
+  }
+
   setIsShown(id, policeForce) {
     fetch(`https://data.police.uk/api/${policeForce}/neighbourhoods`)
       .then(res => res.json())
@@ -263,7 +286,6 @@ class Home extends React.Component {
             <Col sm={4}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron" align="center">
-
                   <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" />
                   <h6>
                     {this.stopAndSearch()}
@@ -271,61 +293,13 @@ class Home extends React.Component {
                 </Jumbotron>
               </Row>
               <Row>
+                <Jumbotron className="personal-details-jumbotron" align="center">
+                  {/* {this.policeForceInformation()} */}
+                </Jumbotron>
+              </Row>
+              <Row>
                 <Jumbotron className="personal-details-jumbotron">
-                  <Container >
-                    <h3 className="filter-text">Filter by</h3>
-                    <Row className="filter-padding">
-                      <Col >
-                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                          <Row>
-                            <Col>
-                              <Form.Check type="checkbox" label="Anti Social" />
-                            </Col>
-                            <Col>
-                              <Form.Check type="checkbox" label="Theft" />
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col>
-                              <Form.Check type="checkbox" label="Violent" />
-                            </Col>
-                            <Col>
-                              <Form.Check type="checkbox" label="Other" />
-                            </Col>
-                          </Row>
-                        </Form.Group>
-                      </Col>
-                      <Row>
-                        <Col>
-                          <Form.Label htmlFor="inputPassword5">From</Form.Label>
-                          <DatePicker
-                            selected={this.state.endDate}
-                            onChange={this.handleDateChange}
-                            name="endDate"
-                            dateFormat="dd/MM/yyyy"
-                            minDate={new Date(2015, 1, 1)}
-                            maxDate={new Date()}
-                          />
-                        </Col>
-                        <Col>
-                          <Form.Label htmlFor="inputPassword5">To</Form.Label>
-                          <DatePicker
-                            selected={this.state.startDate}
-                            onChange={this.handleDateChange}
-                            name="startDate"
-                            dateFormat="dd/MM/yyyy"
-                            minDate={new Date(2015, 1, 1)}
-                            maxDate={new Date()}
-                          />
-                        </Col>
-                      </Row>
-                    </Row>
-                    <Row className="filter-padding">
-                      <Col>
-                        <Button className="filter-button" type="submit" variant="light">Update</Button>
-                      </Col>
-                    </Row>
-                  </Container>
+                  <PoliceForceFilter />
                 </Jumbotron>
               </Row>
             </Col>
@@ -335,9 +309,9 @@ class Home extends React.Component {
                 {!isLoaded
                   ? <div><Loading /></div>
                   :
-                  <svg viewBox="0 0 100 150">
+                  <svg viewBox="0 0 100 140">
                     {/* <LastUpdated /> */}
-                    <text x='3' y='3' fontSize="0.075em">Total police forces: {categories.length}</text>
+                    <text x='3' y='2' fontSize="0.090em">Total police forces: {categories.length}</text>
                     {categories.map((category, i) => (
                       <NavLink key={i} className="nav-link"
                         onMouseEnter={() => { this.setIsShown(i, category.id) }}
@@ -355,16 +329,16 @@ class Home extends React.Component {
                             fill: colours[i]
                           }}
                           cx={shapes[i].xcords}
-                          cy={shapes[i].ycords}
+                          cy={shapes[i].ycords - 4}
                           r={shapes[i].size}
                         />
                         {isShown && i === id ?
                           <>
-                            <text x={shapes[i].xcords} y={shapes[i].ycords - 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
-                            <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline=" middle" fontSize="0.075em">{this.neighbourhoodCount()} neighbourhoods</text>
+                            <text x={shapes[i].xcords} y={shapes[i].ycords - 6} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
+                            <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline=" middle" fontSize="0.075em">{this.neighbourhoodCount()} neighbourhoods</text>
                           </>
                           :
-                          <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
+                          <text x={shapes[i].xcords} y={shapes[i].ycords - 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
                         }
                       </NavLink>
                     ))}

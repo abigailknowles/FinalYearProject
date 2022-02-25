@@ -112,16 +112,15 @@ class StreetCrimes extends React.Component {
     return size
   }
   componentDidMount() {
-    fetch("https://data.police.uk/api/outcomes-at-location?date=2021-01&poly=52.268,0.543:52.794,0.238:52.130,0.478")
+    fetch(`https://data.police.uk/api/forces/bedfordshire`)
       .then(res => res.json())
       .then(
         (result) => {
-          var outcomes = this.groupBy(result);
           this.setState({
             isLoaded: true,
-            categories: outcomes,
+            categories: result.description,
           });
-          console.log("outcomes", outcomes);
+          console.log("description", result.description)
         },
         (error) => {
           this.setState({
@@ -131,6 +130,32 @@ class StreetCrimes extends React.Component {
         }
       )
   }
+
+  policeForceInformation(text) {
+    var description = text
+    console.log(description.replace(" world", ""))
+
+  }
+  // componentDidMount() {
+  //   fetch("https://data.police.uk/api/outcomes-at-location?date=2021-01&poly=52.268,0.543:52.794,0.238:52.130,0.478")
+  //     .then(res => res.json())
+  //     .then(
+  //       (result) => {
+  //         var outcomes = this.groupBy(result);
+  //         this.setState({
+  //           isLoaded: true,
+  //           categories: outcomes,
+  //         });
+  //         console.log("outcomes", outcomes);
+  //       },
+  //       (error) => {
+  //         this.setState({
+  //           isLoaded: true,
+  //           error
+  //         });
+  //       }
+  //     )
+  // }
   setIsShown(state, id) {
     this.setState({ isShown: state, id: id })
   }
@@ -142,6 +167,29 @@ class StreetCrimes extends React.Component {
     const { shapes, categories, isLoaded, isShown, id } = this.state;
     return (
       <>
+
+        {/* <DonutChart
+                    size={250}
+                    title={title}
+                    data={data}
+                    onHover={i => {
+                      if (i >= 0) {
+                        console.log("Selected ", data[i].name);
+                        this.setState({
+                          active: i
+                        });
+                      } else {
+                        console.log("Mouse left donut");
+                      }
+                    }}
+                    innerRaduis={0.5}
+                    outerRadius={0.9}
+                  />
+                  <div id="label">
+                    {active >= 0
+                      ? data[active].name + " " + data[active].value + " %"
+                      : "Hover"}
+                  </div> */}
         <NavBar />
         <Container className="top-breadcrumb">
           <Row>
@@ -155,6 +203,7 @@ class StreetCrimes extends React.Component {
           </Row>
         </Container>
         <Row className="filter-padding">
+          {this.state.categories}
         </Row>
         <Container fluid className="personal-details-jumbotron">
           <Row>
@@ -223,7 +272,7 @@ class StreetCrimes extends React.Component {
               </Row>
             </Col>
             <Col sm={8}>
-              <Jumbotron className="personal-details-jumbotron">
+              {/* <Jumbotron className="personal-details-jumbotron">
                 <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} />
                 {!isLoaded
                   ? <div><Loading /></div>
@@ -267,7 +316,7 @@ class StreetCrimes extends React.Component {
                       ))}
                   </svg>
                 }
-              </Jumbotron>
+              </Jumbotron> */}
             </Col>
           </Row>
         </Container>
