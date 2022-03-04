@@ -72,7 +72,7 @@ class Home extends React.Component {
       ],
       series: [25, 15, 44, 55, 41, 17],
       options: {
-        labels: ["Controlled drugs", "Stolen goods", "Offensive weapons", "Articles for use in criminal damage", "Fireworks", "Firearms"],
+        labels: [],
         plotOptions: {
           pie: {
             dataLabels: {
@@ -100,6 +100,44 @@ class Home extends React.Component {
       },
     };
   }
+
+  exists(key, array) {
+    var isFound = false;
+    for (let i = 0; i < array.length; i++) {
+      console.log("KEY: ", array[i].key);
+      if (array[i].key === key) {
+        isFound = true;
+      }
+    }
+
+    console.log("FINEISHED, MOVING ON, FOUND IS:", isFound);
+
+    return isFound;
+  }
+
+  getByKey(key, arr) {
+    var array = [];
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].object_of_search === key) {
+        array.push(arr[i]);
+      }
+    }
+    return { outcomes: array, count: array.length };
+  }
+
+  groupOutcomes(arr) {
+    var groups = [];
+
+    for (var i = 0; i < arr.length; i++) {
+      var key = arr[i].object_of_search;
+      if (this.exists(key, groups) === false)
+        groups.push({ key: key, outcomes: this.getByKey(key, arr) })
+    }
+
+    return { groups: groups, count: arr.length };
+  }
+
+
 
   isGroupInArray(groups, code) {
     var isFound = false;
@@ -155,10 +193,22 @@ class Home extends React.Component {
     fetch(`https://data.police.uk/api/stops-force?force=bedfordshire`)
       .then(res => res.json())
       .then((data) => {
+        var labels = [];
+        var result = this.groupOutcomes(data);
+        console.log("result:", result);
+        for (let i = 0; i < result.groups.length; i++) {
+          console.log("thing I need: ", result.groups[i].key)
+          labels.push(result.groups[i].key);
+        }
+
         this.setState({
           isLoaded: true,
+          result: data,
           total: data.length,
-          isShown: true
+          isShown: true,
+          options: {
+            labels: labels
+          }
         });
       },
         (error) => {
@@ -287,9 +337,9 @@ class Home extends React.Component {
               <Row>
                 <Jumbotron className="personal-details-jumbotron" align="center">
                   <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" />
-                  <h6>
+                  {/* <h6>
                     {this.stopAndSearch()}
-                  </h6>
+                  </h6> */}
                 </Jumbotron>
               </Row>
               <Row>

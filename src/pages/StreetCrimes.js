@@ -53,7 +53,6 @@ class StreetCrimes extends React.Component {
         }
       ]
     };
-    // this.handleChange = this.handleChange.bind(this);
   }
 
   isGroupInArray(groups, category) {
@@ -134,11 +133,6 @@ class StreetCrimes extends React.Component {
     }
     return size
   }
-
-  // handleChange = (selectedOption) => {
-  //   this.setState({ selectedOption }
-  //   );
-  // };
 
   componentDidMount() {
     fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
