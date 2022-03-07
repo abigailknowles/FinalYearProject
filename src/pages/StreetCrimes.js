@@ -9,6 +9,7 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons'
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
 import CrimeFilter from '../components/filters/CrimeFilter'
+import LineChart from "../components/LineChart";
 
 class StreetCrimes extends React.Component {
   constructor(props) {
@@ -27,34 +28,98 @@ class StreetCrimes extends React.Component {
         { xcords: 23, ycords: 27 },
         { xcords: 79, ycords: 39 },
         { xcords: 62, ycords: 19 },
-        { xcords: 42, ycords: 48 },
-        { xcords: 29, ycords: 50 },
+        { xcords: 92, ycords: 34 },
+        { xcords: 20, ycords: 39.5 },
         { xcords: 34, ycords: 36.5 },
         { xcords: 69, ycords: 30 },
         { xcords: 66, ycords: 43 },
         { xcords: 52, ycords: 33 },
-        { xcords: 55, ycords: 50 },
+        { xcords: 81.5, ycords: 26.5 },
       ],
+      //     options: {
+      //       fill: {
+      //         type: 'solid'
+      //       },
+      //       colors: [
+      //         '#02ccf9'
+      //       ],
+      //       xaxis: {
+      //         categories: ["Suspect charged", "Unable to prosecute", "Local resolution", "Offender cautioned", "Investigation complete", "No further action"]
+      //       }
+      //     },
+      //     series: [
+      //       {
+      //         name: "series-1",
+      //         data: [50, 100, 150, 20, 40, 200]
+      //       }
+      //     ]
+      //   };
+      // }
+      series: [25, 15, 44, 55, 41, 17],
       options: {
-        fill: {
-          type: 'solid'
+        labels: [],
+        plotOptions: {
+          pie: {
+            dataLabels: {
+              offset: -5
+            }
+          }
+        },
+        title: {
+          text: "Stop and search",
+          align: 'center'
         },
         colors: [
-          '#02ccf9'
+          '#ffc1f8', '#fff88b', '#a0a1f5', '#02ccf9', '#ffa366', '#f75e5b'
         ],
-        xaxis: {
-          categories: ["Suspect charged", "Unable to prosecute", "Local resolution", "Offender cautioned", "Investigation complete", "No further action"]
+        dataLabels: {
+          formatter(val, opts) {
+            const name = opts.w.globals.labels[opts.seriesIndex]
+            return [name, val.toFixed(1) + '%']
+          }
+
+        },
+        legend: {
+          show: false,
         }
       },
-      series: [
-        {
-          name: "series-1",
-          data: [50, 100, 150, 20, 40, 200]
-        }
-      ]
     };
   }
 
+  exists(key, array) {
+    var isFound = false;
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].key === key) {
+        isFound = true;
+      }
+    }
+    return isFound;
+  }
+
+  getByKey(key, arr) {
+    var array = [];
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].object_of_search === key) {
+        array.push(arr[i]);
+      }
+    }
+    return { outcomes: array, count: array.length };
+  }
+
+  groupOutcomes(arr) {
+    var groups = [];
+
+    for (var i = 0; i < arr.length; i++) {
+      var key = arr[i].object_of_search;
+      if (this.exists(key, groups) === false)
+        groups.push({ key: key, outcomes: this.getByKey(key, arr) })
+    }
+
+    return { groups: groups, count: arr.length };
+  }
+
+
+  // street crimes
   isGroupInArray(groups, category) {
     var isFound = false;
     for (var key in groups) {
@@ -86,6 +151,39 @@ class StreetCrimes extends React.Component {
     return { groups: groups, count: arr.length };
   }
 
+  // crime outcomes
+  isOutcomeInArray(groups, code) {
+    var isFound = false;
+    for (var key in groups) {
+      if (groups[key].code === code) {
+        isFound = true;
+      }
+    }
+
+    return isFound;
+  }
+
+  getByOutcomeName(arr, code) {
+    var group = [];
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].category.name === code) {
+        group.push(arr[i]);
+      }
+    }
+    return { group: group, count: group.length };
+  }
+
+  groupByOutcome(arr) {
+    var groups = [];
+
+    for (var i = 0; i < arr.length; i++) {
+      var code = arr[i].category.name;
+      if (this.isOutcomeInArray(groups, code) === false)
+        groups.push({ code: code, group: this.getByOutcomeName(arr, code) })
+    }
+
+    return { groups: groups, count: arr.length };
+  }
   calculatePercentage(value, totalValue) {
     var percentage = (value / totalValue * 100).toFixed(2);
     return percentage;
@@ -135,6 +233,12 @@ class StreetCrimes extends React.Component {
   }
 
   componentDidMount() {
+    this.StreetCrimes();
+    this.stopAndSearch();
+    // this.crimeOutcomes();
+  }
+
+  StreetCrimes() {
     fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
       .then(res => res.json())
       .then(
@@ -154,56 +258,62 @@ class StreetCrimes extends React.Component {
       )
   }
 
-  isGroupInOutcomesArray(groups, code) {
-    var isFound = false;
-    for (var key in groups) {
-      if (groups[key].code === code) {
-        isFound = true;
-      }
-    }
-    return isFound;
-  }
-
-  getByOutcomesGroupName(arr, code) {
-    var group = [];
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].category.name === code) {
-        group.push(arr[i]);
-      }
-    }
-    return { group: group, count: group.length };
-  }
-
-  groupByOutcomes(arr) {
-    var groups = [];
-
-    for (var i = 0; i < arr.length; i++) {
-      var code = arr[i].category.name;
-      if (this.isGroupInOutcomesArray(groups, code) === false)
-        groups.push({ code: code, group: this.getByOutcomesGroupName(arr, code) })
-    }
-    return { groups: groups, count: arr.length };
-  }
-
-  crimeOutcomes() {
-    fetch("https://data.police.uk/api/outcomes-at-location?date=2021-01&poly=52.268,0.543:52.794,0.238:52.130,0.478")
+  stopAndSearch() {
+    fetch(`https://data.police.uk/api/stops-force?force=bedfordshire`)
       .then(res => res.json())
-      .then(
-        (result) => {
-          var out = this.groupByOutcomes(result);
-          this.setState({
-            outcomes: out,
-            total: result.length
-          });
-        },
+      .then((data) => {
+        var labels = [];
+        var result = this.groupOutcomes(data);
+        for (let i = 0; i < result.groups.length; i++) {
+          labels.push(result.groups[i].key);
+        }
+        this.setState({
+          isLoaded: true,
+          result: data,
+          total: data.length,
+          isShown: true,
+          options: {
+            labels: labels
+          }
+        });
+      },
         (error) => {
           this.setState({
+            isLoaded: true,
             error
           });
         }
       )
+
     return "Total: " + this.state.total
   }
+
+  // crimeOutcomes() {
+  //   fetch("https://data.police.uk/api/outcomes-at-location?date=2021-01&poly=52.268,0.543:52.794,0.238:52.130,0.478")
+  //     .then(res => res.json())
+  //     .then((result) => {
+  //       var labels = [];
+  //       var out = this.groupByOutcome(result);
+  //       // for (let i = 0; i < result.groups.length; i++) {
+  //       //   labels.push(result.groups[i].key);
+  //       // }
+  //       this.setState({
+  //         outcomes: out,
+  //         result: result,
+  //         total: result.length,
+  //         options: {
+  //           labels: labels
+  //         }
+  //       });
+  //     },
+  //       (error) => {
+  //         this.setState({
+  //           error
+  //         });
+  //       }
+  //     )
+  //   return "Total: " + this.state.total
+  // }
 
   setIsShown(state, id, crime) {
     this.setState({ isShown: state, id: id, crime: crime })
@@ -267,40 +377,58 @@ class StreetCrimes extends React.Component {
         </Row>
         <Container fluid className="personal-details-jumbotron">
           <Row>
-            <Col sm={5}>
-              <Row>
+            <Col sm={4}>
+              {/* <Row>
                 <Jumbotron className="personal-details-jumbotron" align="center">
                   <div className="app">
                     <div className="row">
                       <div className="mixed-chart">
-                        <Chart
+                        {/* <Chart
                           options={this.state.options}
                           series={this.state.series}
                           type="bar"
                           width="550"
                           height="320"
-                        />
+                        /> */}
+              {/* <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" /> */}
+              {/* <h1>hello</h1>
                       </div>
                     </div>
                   </div>
-                  <h6>
-                    {this.crimeOutcomes()}
-                  </h6>
+                  <h6> */}
+              {/* {this.crimeOutcomes()} */}
+              {/* </h6>
                 </Jumbotron>
-              </Row>
+              </Row>  */}
               <Row>
-                <Jumbotron className="personal-details-jumbotron">
-                  <CrimeFilter />
+                <Jumbotron className="personal-details-jumbotron" >
+                  <h5>Summary</h5>
+                  <br></br>
+                  <h5>Crimes commited</h5>
+                  <h5>Criminals convicted</h5>
+                  <h5>The most crimes happened in</h5>
                 </Jumbotron>
               </Row>
             </Col>
+            <Col sm={8}>
+              <Jumbotron className="personal-details-jumbotron" align="center">
+                <LineChart />
+              </Jumbotron>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={5}>
+              <Jumbotron className="personal-details-jumbotron" align="center">
+                <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" />
+              </Jumbotron>
+            </Col>
             <Col sm={7}>
               <Jumbotron className="personal-details-jumbotron">
-                <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} />
+                {/* <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} /> */}
                 {!isLoaded
                   ? <div><Loading /></div>
                   :
-                  <svg viewBox="0 0 100 65">
+                  <svg viewBox="0 0 100 50">
                     {/* <LastUpdated /> */}
                     {/* <text x='1' y='3' fontSize="0.075em">Total street crimes: {categories.count}</text> */}
                     {
@@ -321,19 +449,19 @@ class StreetCrimes extends React.Component {
                             style={{
                               fill: colours[i]
                             }}
-                            cx={shapes[i].xcords}
-                            cy={shapes[i].ycords - 2}
+                            cx={shapes[i].xcords - 4}
+                            cy={shapes[i].ycords - 5}
                             r={this.calculateBubbleSize(category.group.count, categories.count)}
                           />
                           {isShown && i === id ?
                             <>
                               <text x={40} y={2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.crimeDefinition(category.category)}</text>
-                              <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
-                              <text x={shapes[i].xcords} y={shapes[i].ycords + 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
-                              <text x={shapes[i].xcords} y={shapes[i].ycords + 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
+                              <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 6} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
+                              <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
+                              <text x={shapes[i].xcords - 4} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
                             </>
                             :
-                            <text x={shapes[i].xcords} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
+                            <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 5} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
                           }
                         </NavLink>
                       ))}

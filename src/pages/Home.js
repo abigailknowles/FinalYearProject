@@ -104,14 +104,10 @@ class Home extends React.Component {
   exists(key, array) {
     var isFound = false;
     for (let i = 0; i < array.length; i++) {
-      console.log("KEY: ", array[i].key);
       if (array[i].key === key) {
         isFound = true;
       }
     }
-
-    console.log("FINEISHED, MOVING ON, FOUND IS:", isFound);
-
     return isFound;
   }
 
@@ -136,8 +132,6 @@ class Home extends React.Component {
 
     return { groups: groups, count: arr.length };
   }
-
-
 
   isGroupInArray(groups, code) {
     var isFound = false;
@@ -195,12 +189,9 @@ class Home extends React.Component {
       .then((data) => {
         var labels = [];
         var result = this.groupOutcomes(data);
-        console.log("result:", result);
         for (let i = 0; i < result.groups.length; i++) {
-          console.log("thing I need: ", result.groups[i].key)
           labels.push(result.groups[i].key);
         }
-
         this.setState({
           isLoaded: true,
           result: data,

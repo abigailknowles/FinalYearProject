@@ -136,26 +136,26 @@ class StreetCrimes extends React.Component {
     console.log(description.replace(" world", ""))
 
   }
-  // componentDidMount() {
-  //   fetch("https://data.police.uk/api/outcomes-at-location?date=2021-01&poly=52.268,0.543:52.794,0.238:52.130,0.478")
-  //     .then(res => res.json())
-  //     .then(
-  //       (result) => {
-  //         var outcomes = this.groupBy(result);
-  //         this.setState({
-  //           isLoaded: true,
-  //           categories: outcomes,
-  //         });
-  //         console.log("outcomes", outcomes);
-  //       },
-  //       (error) => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           error
-  //         });
-  //       }
-  //     )
-  // }
+  componentDidMount() {
+    fetch("https://data.police.uk/api/outcomes-at-location?date=2021-01&poly=52.268,0.543:52.794,0.238:52.130,0.478")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          var outcomes = this.groupBy(result);
+          this.setState({
+            isLoaded: true,
+            categories: outcomes,
+          });
+          console.log("outcomes", outcomes);
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  }
   setIsShown(state, id) {
     this.setState({ isShown: state, id: id })
   }
@@ -272,7 +272,7 @@ class StreetCrimes extends React.Component {
               </Row>
             </Col>
             <Col sm={8}>
-              {/* <Jumbotron className="personal-details-jumbotron">
+              <Jumbotron className="personal-details-jumbotron">
                 <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} />
                 {!isLoaded
                   ? <div><Loading /></div>
@@ -316,7 +316,7 @@ class StreetCrimes extends React.Component {
                       ))}
                   </svg>
                 }
-              </Jumbotron> */}
+              </Jumbotron>
             </Col>
           </Row>
         </Container>

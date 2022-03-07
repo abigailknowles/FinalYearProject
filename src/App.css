@@ -7,12 +7,6 @@
   pointer-events: none;
 }
 
-.personal-details-jumbotron {
-  background-color: #fdfdfd;
-  width: 100%;
-  padding: 24px 30px 24px 37px
-}
-
 .loading-spinner{
   background-color: #65c4c2;
 }
