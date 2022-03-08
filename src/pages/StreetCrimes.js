@@ -3,13 +3,11 @@ import { Container, Row, Jumbotron, Col } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import Chart from "react-apexcharts";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
-import CrimeFilter from '../components/filters/CrimeFilter'
 import LineChart from "../components/LineChart";
+import CrimeSummary from "../components/CrimeSummary";
 
 class StreetCrimes extends React.Component {
   constructor(props) {
@@ -24,65 +22,33 @@ class StreetCrimes extends React.Component {
         '#e6e6ff', '#ff80aa', '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5',
         '#ffe6cc', '#e6e6e6', '#6666cc', '#ffdd99', '#b3ffb3', '#80ffdf', '#b3d9ff', '#a0a1f5', '#ffccff', '#b3ccff', '#9fdfbf', '#a3a3c2', '#6699cc'],
       shapes: [
-        { xcords: 37, ycords: 21 },
-        { xcords: 23, ycords: 27 },
-        { xcords: 79, ycords: 39 },
-        { xcords: 62, ycords: 19 },
-        { xcords: 92, ycords: 34 },
-        { xcords: 20, ycords: 39.5 },
-        { xcords: 34, ycords: 36.5 },
-        { xcords: 69, ycords: 30 },
-        { xcords: 66, ycords: 43 },
-        { xcords: 52, ycords: 33 },
-        { xcords: 81.5, ycords: 26.5 },
+        { xcords: 37, ycords: 19.8 },
+        { xcords: 22.5, ycords: 24 },
+        { xcords: 68, ycords: 36 },
+        { xcords: 64.5, ycords: 22.5 },
+        { xcords: 77.2, ycords: 24 },
+        { xcords: 21.7, ycords: 38 },
+        { xcords: 33.8, ycords: 33.4 },
+        { xcords: 50.5, ycords: 32.8 },
+        { xcords: 82, ycords: 36 },
       ],
-      //     options: {
-      //       fill: {
-      //         type: 'solid'
-      //       },
-      //       colors: [
-      //         '#02ccf9'
-      //       ],
-      //       xaxis: {
-      //         categories: ["Suspect charged", "Unable to prosecute", "Local resolution", "Offender cautioned", "Investigation complete", "No further action"]
-      //       }
-      //     },
-      //     series: [
-      //       {
-      //         name: "series-1",
-      //         data: [50, 100, 150, 20, 40, 200]
-      //       }
-      //     ]
-      //   };
-      // }
-      series: [25, 15, 44, 55, 41, 17],
       options: {
-        labels: [],
-        plotOptions: {
-          pie: {
-            dataLabels: {
-              offset: -5
-            }
-          }
-        },
-        title: {
-          text: "Stop and search",
-          align: 'center'
+        fill: {
+          type: 'solid'
         },
         colors: [
-          '#ffc1f8', '#fff88b', '#a0a1f5', '#02ccf9', '#ffa366', '#f75e5b'
+          '#02ccf9'
         ],
-        dataLabels: {
-          formatter(val, opts) {
-            const name = opts.w.globals.labels[opts.seriesIndex]
-            return [name, val.toFixed(1) + '%']
-          }
-
-        },
-        legend: {
-          show: false,
+        xaxis: {
+          categories: ["Suspect charged", "Unable to prosecute", "Local resolution", "Offender cautioned", "Investigation complete", "No further action"]
         }
       },
+      series: [
+        {
+          name: "series-1",
+          data: [50, 100, 150, 20, 40, 200]
+        }
+      ]
     };
   }
 
@@ -322,37 +288,37 @@ class StreetCrimes extends React.Component {
   crimeDefinition(category) {
     var definition = "";
     if (category === "public-order") {
-      definition = "Public order is a condition characterized by the absence of widespread criminal and political violence, such as kidnapping, murder, riots, arson, and intimidation against targeted groups or individuals.";
+      definition = "Public order involves kidnapping, murder, riots, arson, and intimidation against targeted groups or individuals.";
     }
     else if (category === "burglary") {
-      definition = "Burglary is the act of entering a building or other areas without permission, with the intention of committing a criminal offence.";
+      definition = "Burglary is the act of entering a building or other areas without permission, usually with the intent to steal.";
     }
     else if (category === "drugs") {
-      definition = "Drugs are related to crime in multiple ways. Most directly, it is a crime to use, possess, manufacture, or distribute drugs classified as having a potential for abuse. Cocaine, heroin, marijuana, and amphetamines are examples of drugs classified to have abuse potential.";
+      definition = "It is a crime to use, possess, manufacture, or distribute drugs classified as having a potential for abuse.";
     }
     else if (category === "violent-crime") {
       definition = "Violent crime, is when a victim is harmed by or threatened with violence. Crimes include rape and sexual assault, robbery, assault and murder.";
     }
     else if (category === "anti-social-behaviour") {
-      definition = "Anti-social behaviour includes a range of nuisance and criminal behaviours which are causing distress to others. Whether someone's actions can be classed as anti-social behaviour relies heavily on the impact it has on other people.";
+      definition = "Anti-social behaviour includes a range of nuisance and criminal behaviours which are causing distress to others.";
     }
     else if (category === "shoplifting") {
-      definition = "Shoplifting is the theft of goods from an open retail establishment, typically by concealing a store item on one's person, in pockets, under clothes, or in a bag, and leaving the store without paying.";
+      definition = "Shoplifting is the theft of goods from an open retail establishment.";
     }
     else if (category === "possession-of-weapons") {
       definition = "Criminal possession of a weapon is the unlawful possession of a weapon by an individual.";
     }
     else if (category === "other-theft") {
-      definition = "Criminal possession of a weapon is the unlawful possession of a weapon by an individual. ... Such crimes are public order crimes and are considered mala prohibita, in that the possession of a weapon in and of itself is not evil.";
+      definition = "Other theft describes thef not relating to vehicles, buglary or shoplifting.";
     }
     else if (category === "other-crime") {
-      definition = "Criminal possession of a weapon is the unlawful possession of a weapon by an individual. ... Such crimes are public order crimes and are considered mala prohibita, in that the possession of a weapon in and of itself is not evil.";
+      definition = "Other crime covers things such as domestic abuse, organised crime, sexual assult etc.";
     }
     else if (category === "vehicle-crime") {
-      definition = "Vehicle crime refers to the theft and trafficking of vehicles and the illicit trade in spare parts. Stolen vehicles are frequently trafficked in order to finance and carry out other criminal activities, ranging from drug trafficking, arms dealing, people smuggling and international terrorism.";
+      definition = "Vehicle crime refers to the theft and trafficking of vehicles and the illicit trade in spare parts.";
     }
     else if (category === "criminal-damage-arson") {
-      definition = "Criminal damage is the intentional damage to a home or property. Arson is the act of deliberately setting fire to property, including buildings and vehicles.";
+      definition = "Criminal damage is the intentional damage to a home or property. Arson is the act of deliberately setting fire to property.";
     }
     return definition
   }
@@ -373,40 +339,12 @@ class StreetCrimes extends React.Component {
             </Col>
           </Row>
         </Container>
-        <Row className="filter-padding">
-        </Row>
-        <Container fluid className="personal-details-jumbotron">
+        <Container fluid className="personal-details-container">
           <Row>
             <Col sm={4}>
-              {/* <Row>
-                <Jumbotron className="personal-details-jumbotron" align="center">
-                  <div className="app">
-                    <div className="row">
-                      <div className="mixed-chart">
-                        {/* <Chart
-                          options={this.state.options}
-                          series={this.state.series}
-                          type="bar"
-                          width="550"
-                          height="320"
-                        /> */}
-              {/* <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" /> */}
-              {/* <h1>hello</h1>
-                      </div>
-                    </div>
-                  </div>
-                  <h6> */}
-              {/* {this.crimeOutcomes()} */}
-              {/* </h6>
-                </Jumbotron>
-              </Row>  */}
               <Row>
                 <Jumbotron className="personal-details-jumbotron" >
-                  <h5>Summary</h5>
-                  <br></br>
-                  <h5>Crimes commited</h5>
-                  <h5>Criminals convicted</h5>
-                  <h5>The most crimes happened in</h5>
+                  <CrimeSummary />
                 </Jumbotron>
               </Row>
             </Col>
@@ -419,16 +357,27 @@ class StreetCrimes extends React.Component {
           <Row>
             <Col sm={5}>
               <Jumbotron className="personal-details-jumbotron" align="center">
-                <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" />
+                <div className="app">
+                  <div className="row">
+                    <div className="mixed-chart">
+                      <Chart
+                        options={this.state.options}
+                        series={this.state.series}
+                        type="bar"
+                        width="530"
+                        height="320"
+                      />
+                    </div>
+                  </div>
+                </div>
               </Jumbotron>
             </Col>
             <Col sm={7}>
               <Jumbotron className="personal-details-jumbotron">
-                {/* <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} /> */}
                 {!isLoaded
                   ? <div><Loading /></div>
                   :
-                  <svg viewBox="0 0 100 50">
+                  <svg viewBox="0 0 100 44">
                     {/* <LastUpdated /> */}
                     {/* <text x='1' y='3' fontSize="0.075em">Total street crimes: {categories.count}</text> */}
                     {
@@ -455,7 +404,7 @@ class StreetCrimes extends React.Component {
                           />
                           {isShown && i === id ?
                             <>
-                              <text x={40} y={2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.crimeDefinition(category.category)}</text>
+                              <text x={40} y={2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.085em">{this.crimeDefinition(category.category)}</text>
                               <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 6} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
                               <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
                               <text x={shapes[i].xcords - 4} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>

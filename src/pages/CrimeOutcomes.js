@@ -1,25 +1,19 @@
 import React, { } from "react";
-import { Container, Row, Button, Col, Form, Jumbotron } from 'react-bootstrap';
+import { Container, Row, Jumbotron, Col } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
+import Chart from "react-apexcharts";
+
 import NavBar from '../components/NavBar';
-import LastUpdated from '../components/LastUpdated';
 import Loading from '../components/Loading';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDownload } from '@fortawesome/free-solid-svg-icons'
-
+import LineChart from "../components/LineChart";
+import CrimeSummary from "../components/CrimeSummary";
 class StreetCrimes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categories: [],
       selectedOption: null,
-      policeForce: props.location.aboutProps.selectedPoliceForce,
-      neighbourhood: props.location.aboutProps.selectedNeighbourhood,
-      crime: props.location.aboutProps.selectedCrime,
       shapes: [
         { colour: "#74bec8", xcords: 50, ycords: 28 },
         { colour: "#ccf3ff", xcords: 29, ycords: 22 },
@@ -33,135 +27,135 @@ class StreetCrimes extends React.Component {
     };
   }
 
-  isGroupInArray(groups, code) {
-    var isFound = false;
-    for (var key in groups) {
-      if (groups[key].code === code) {
-        isFound = true;
-      }
-    }
+  // isGroupInArray(groups, code) {
+  //   var isFound = false;
+  //   for (var key in groups) {
+  //     if (groups[key].code === code) {
+  //       isFound = true;
+  //     }
+  //   }
 
-    return isFound;
-  }
+  //   return isFound;
+  // }
 
-  getByGroupName(arr, code) {
-    var group = [];
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].category.name === code) {
-        group.push(arr[i]);
-      }
-    }
-    return { group: group, count: group.length };
-  }
+  // getByGroupName(arr, code) {
+  //   var group = [];
+  //   for (var i = 0; i < arr.length; i++) {
+  //     if (arr[i].category.name === code) {
+  //       group.push(arr[i]);
+  //     }
+  //   }
+  //   return { group: group, count: group.length };
+  // }
 
-  groupBy(arr) {
-    var groups = [];
+  // groupBy(arr) {
+  //   var groups = [];
 
-    for (var i = 0; i < arr.length; i++) {
-      var code = arr[i].category.name;
-      if (this.isGroupInArray(groups, code) === false)
-        groups.push({ code: code, group: this.getByGroupName(arr, code) })
-    }
+  //   for (var i = 0; i < arr.length; i++) {
+  //     var code = arr[i].category.name;
+  //     if (this.isGroupInArray(groups, code) === false)
+  //       groups.push({ code: code, group: this.getByGroupName(arr, code) })
+  //   }
 
-    return { groups: groups, count: arr.length };
-  }
+  //   return { groups: groups, count: arr.length };
+  // }
 
-  textFormatter(force) {
-    const police = force;
-    const formatForce = police.charAt(0).toUpperCase() + police.slice(1);
-    return formatForce;
-  }
-  calculatePercentage(value, totalValue) {
-    var percentage = (value / totalValue * 100).toFixed(2);
-    return percentage;
-  }
+  // textFormatter(force) {
+  //   const police = force;
+  //   const formatForce = police.charAt(0).toUpperCase() + police.slice(1);
+  //   return formatForce;
+  // }
+  // calculatePercentage(value, totalValue) {
+  //   var percentage = (value / totalValue * 100).toFixed(2);
+  //   return percentage;
+  // }
 
-  calculateBubbleSize(value, totalValue) {
-    var percentage = (value / totalValue * 100).toFixed(2);
-    var size = 0;
-    if (percentage <= 10) {
-      size = "7"
-    }
-    else if (percentage <= 20) {
-      size = "7"
-    }
-    else if (percentage <= 30) {
-      size = "8"
-    }
-    else if (percentage <= 40) {
-      size = "9"
-    }
-    else if (percentage <= 50) {
-      size = "10"
-    }
-    else if (percentage <= 60) {
-      size = "11"
-    }
-    else if (percentage <= 70) {
-      size = "12"
-    }
-    else if (percentage <= 80) {
-      size = "13"
-    }
-    else if (percentage <= 90) {
-      size = "14"
-    }
-    else if (percentage <= 100) {
-      size = "15"
-    }
-    return size
-  }
-  componentDidMount() {
-    fetch(`https://data.police.uk/api/forces/bedfordshire`)
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            categories: result.description,
-          });
-          console.log("description", result.description)
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-  }
+  // calculateBubbleSize(value, totalValue) {
+  //   var percentage = (value / totalValue * 100).toFixed(2);
+  //   var size = 0;
+  //   if (percentage <= 10) {
+  //     size = "7"
+  //   }
+  //   else if (percentage <= 20) {
+  //     size = "7"
+  //   }
+  //   else if (percentage <= 30) {
+  //     size = "8"
+  //   }
+  //   else if (percentage <= 40) {
+  //     size = "9"
+  //   }
+  //   else if (percentage <= 50) {
+  //     size = "10"
+  //   }
+  //   else if (percentage <= 60) {
+  //     size = "11"
+  //   }
+  //   else if (percentage <= 70) {
+  //     size = "12"
+  //   }
+  //   else if (percentage <= 80) {
+  //     size = "13"
+  //   }
+  //   else if (percentage <= 90) {
+  //     size = "14"
+  //   }
+  //   else if (percentage <= 100) {
+  //     size = "15"
+  //   }
+  //   return size
+  // }
+  // componentDidMount() {
+  //   fetch(`https://data.police.uk/api/forces/bedfordshire`)
+  //     .then(res => res.json())
+  //     .then(
+  //       (result) => {
+  //         this.setState({
+  //           isLoaded: true,
+  //           categories: result.description,
+  //         });
+  //         console.log("description", result.description)
+  //       },
+  //       (error) => {
+  //         this.setState({
+  //           isLoaded: true,
+  //           error
+  //         });
+  //       }
+  //     )
+  // }
 
-  policeForceInformation(text) {
-    var description = text
-    console.log(description.replace(" world", ""))
+  // policeForceInformation(text) {
+  //   var description = text
+  //   console.log(description.replace(" world", ""))
 
-  }
-  componentDidMount() {
-    fetch("https://data.police.uk/api/outcomes-at-location?date=2021-01&poly=52.268,0.543:52.794,0.238:52.130,0.478")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          var outcomes = this.groupBy(result);
-          this.setState({
-            isLoaded: true,
-            categories: outcomes,
-          });
-          console.log("outcomes", outcomes);
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-  }
-  setIsShown(state, id) {
-    this.setState({ isShown: state, id: id })
-  }
-  toggle(state) {
-    this.setState({ isClicked: state })
-  }
+  // }
+  // componentDidMount() {
+  //   fetch("https://data.police.uk/api/outcomes-at-location?date=2021-01&poly=52.268,0.543:52.794,0.238:52.130,0.478")
+  //     .then(res => res.json())
+  //     .then(
+  //       (result) => {
+  //         var outcomes = this.groupBy(result);
+  //         this.setState({
+  //           isLoaded: true,
+  //           categories: outcomes,
+  //         });
+  //         console.log("outcomes", outcomes);
+  //       },
+  //       (error) => {
+  //         this.setState({
+  //           isLoaded: true,
+  //           error
+  //         });
+  //       }
+  //     )
+  // }
+  // setIsShown(state, id) {
+  //   this.setState({ isShown: state, id: id })
+  // }
+  // toggle(state) {
+  //   this.setState({ isClicked: state })
+  // }
 
   render() {
     const { shapes, categories, isLoaded, isShown, id } = this.state;
@@ -190,7 +184,7 @@ class StreetCrimes extends React.Component {
                       ? data[active].name + " " + data[active].value + " %"
                       : "Hover"}
                   </div> */}
-        <NavBar />
+        {/* <NavBar />
         <Container className="top-breadcrumb">
           <Row>
             <Col >
@@ -311,6 +305,99 @@ class StreetCrimes extends React.Component {
                             </>
                             :
                             <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.code}</text>
+                          }
+                        </NavLink>
+                      ))}
+                  </svg>
+                }
+              </Jumbotron>
+            </Col>
+          </Row>
+        </Container> */}
+        <NavBar />
+        <Container className="top-breadcrumb">
+          <Row>
+            <Col>
+              <Breadcrumb >
+                <Breadcrumb.Item href="/">Police Force - {this.textFormatter(this.state.policeForce)}</Breadcrumb.Item>
+                <Breadcrumb.Item href="/neighbourhoods"> Neighbourhoods - {this.state.neighbourhood} </Breadcrumb.Item>
+                <Breadcrumb.Item active> Street Crimes </Breadcrumb.Item>
+              </Breadcrumb>
+            </Col>
+          </Row>
+        </Container>
+        <Container fluid className="personal-details-container">
+          <Row>
+            <Col sm={4}>
+              <Row>
+                <Jumbotron className="personal-details-jumbotron" >
+                  <CrimeSummary />
+                </Jumbotron>
+              </Row>
+            </Col>
+            <Col sm={8}>
+              <Jumbotron className="personal-details-jumbotron" align="center">
+                <LineChart />
+              </Jumbotron>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={5}>
+              <Jumbotron className="personal-details-jumbotron" align="center">
+                <div className="app">
+                  <div className="row">
+                    <div className="mixed-chart">
+                      <Chart
+                        options={this.state.options}
+                        series={this.state.series}
+                        type="bar"
+                        width="530"
+                        height="320"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Jumbotron>
+            </Col>
+            <Col sm={7}>
+              <Jumbotron className="personal-details-jumbotron">
+                {!isLoaded
+                  ? <div><Loading /></div>
+                  :
+                  <svg viewBox="0 0 100 44">
+                    {/* <LastUpdated /> */}
+                    {/* <text x='1' y='3' fontSize="0.075em">Total street crimes: {categories.count}</text> */}
+                    {
+                      categories.groups.map((category, i) => (
+                        <NavLink key={i} className="nav-link"
+                          onMouseEnter={() => { this.setIsShown(true, i, category.category) }}
+                          onMouseLeave={() => { this.setIsShown(false, i, category.category) }}
+                          to={{
+                            pathname: 'crime-outcomes',
+                            aboutProps: {
+                              selectedPoliceForce: this.state.policeForce,
+                              selectedNeighbourhood: this.state.neighbourhood,
+                              selectedCrime: this.state.crime
+                            }
+                          }}>
+                          <circle
+                            className="circle-css"
+                            style={{
+                              fill: shapes[i].colour
+                            }}
+                            cx={shapes[i].xcords - 4}
+                            cy={shapes[i].ycords - 5}
+                            r={this.calculateBubbleSize(category.group.count, categories.count)}
+                          />
+                          {isShown && i === id ?
+                            <>
+                              <text x={40} y={2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.085em">{this.crimeDefinition(category.category)}</text>
+                              <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 6} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
+                              <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
+                              <text x={shapes[i].xcords - 4} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
+                            </>
+                            :
+                            <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 5} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
                           }
                         </NavLink>
                       ))}

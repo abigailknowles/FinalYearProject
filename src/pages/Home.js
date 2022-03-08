@@ -11,7 +11,7 @@ import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PoliceForceFilter from "../components/filters/PoliceForceFilter";
-
+import PoliceForceSummary from "../components/PoliceForceSummary";
 
 class Home extends React.Component {
   constructor(props) {
@@ -322,37 +322,36 @@ class Home extends React.Component {
         </Container>
         <Row className="filter-padding">
         </Row>
-        <Container fluid className="personal-details-jumbotron">
+        <Container fluid className="personal-details-container">
           <Row>
             <Col sm={4}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron" align="center">
-                  <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" />
-                  {/* <h6>
-                    {this.stopAndSearch()}
-                  </h6> */}
+                  <PoliceForceSummary />
                 </Jumbotron>
               </Row>
               <Row>
                 <Jumbotron className="personal-details-jumbotron" align="center">
-                  {/* {this.policeForceInformation()} */}
+                  <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" />
                 </Jumbotron>
               </Row>
               <Row>
                 <Jumbotron className="personal-details-jumbotron">
-                  <PoliceForceFilter />
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam ultricies lacus scelerisque tempus. Aenean eget ex dapibus, hendrerit tortor id, iaculis lacus. Duis ut metus et metus iaculis aliquet a quis massa. Nulla facilisi. Etiam nunc libero, pellentesque nec est porttitor, tempus porta erat. Aliquam finibus lorem egestas metus porttitor, id porta quam congue. Nulla ullamcorper mi ut tristique consequat. Sed vestibulum sapien at felis iaculis, sit amet vulputate nunc consequat. Donec eu dui in purus elementum posuere. Etiam dictum posuere urna a porttitor. Mauris molestie blandit congue. Nulla leo turpis, pharetra vitae augue quis, volutpat porttitor enim.</p>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam ultricies lacus scelerisque tempus. Aenean eget ex dapibus, hendrerit tortor id, iaculis lacus. Duis ut metus et metus iaculis aliquet a quis massa. Nulla facilisi. Etiam nunc libero, pellentesque nec est porttitor, tempus porta erat. Aliquam finibus lorem egestas metus porttitor, id porta quam congue. Nulla ullamcorper mi ut tristique consequat. Sed vestibulum sapien at felis iaculis, sit amet vulputate nunc consequat. Donec eu dui in purus elementum posuere. Etiam dictum posuere urna a porttitor. Mauris molestie blandit congue. Nulla leo turpis, pharetra vitae augue quis, volutpat porttitor enim.</p>
                 </Jumbotron>
               </Row>
             </Col>
             <Col sm={8}>
               <Jumbotron className="personal-details-jumbotron">
-                <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} />
+                <PoliceForceFilter />
+                {/* <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} /> */}
                 {!isLoaded
                   ? <div><Loading /></div>
                   :
                   <svg viewBox="0 0 100 140">
                     {/* <LastUpdated /> */}
-                    <text x='3' y='2' fontSize="0.090em">Total police forces: {categories.length}</text>
+                    {/* <text x='3' y='2' fontSize="0.090em">Total police forces: {categories.length}</text> */}
                     {categories.map((category, i) => (
                       <NavLink key={i} className="nav-link"
                         onMouseEnter={() => { this.setIsShown(i, category.id) }}
