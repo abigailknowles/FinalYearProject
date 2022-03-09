@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Col, Form, Button, Row } from 'react-bootstrap';
+import { Container, Col, Form, Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
 class PoliceForceFilter extends Component {
@@ -15,10 +15,8 @@ class PoliceForceFilter extends Component {
     return (
       <>
         <Container >
-          {/* <h3 className="filter-text">Filter by</h3> */}
           <Row className="filter-padding">
             <Col >
-              {/* <Form.Label htmlFor="inputPassword5">Reigons</Form.Label> */}
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <Row>
                   <Col>
@@ -52,17 +50,12 @@ class PoliceForceFilter extends Component {
                     <Form.Check type="checkbox" label="Northern Ireland" />
                   </Col>
                   <Col>
-                    <Form.Check type="checkbox" label="Yorkshire and The Humber" />
+                    <Form.Check type="checkbox" label="Yorkshire" />
                   </Col>
                 </Row>
               </Form.Group>
             </Col>
           </Row>
-          {/* <Row className="filter-padding">
-            <Col>
-              <Button className="filter-button" type="submit" variant="light">Update</Button>
-            </Col>
-          </Row> */}
         </Container>
       </>
     );

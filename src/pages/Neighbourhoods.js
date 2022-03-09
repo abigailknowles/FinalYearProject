@@ -4,13 +4,11 @@ import { NavLink } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import "react-datepicker/dist/react-datepicker.css";
 import Chart from "react-apexcharts";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
 import NavBar from '../components/NavBar';
-import LastUpdated from '../components/LastUpdated';
 import Loading from '../components/Loading';
-import NeighbourhoodFilter from '../components/filters/NeighbourhoodFilter';
+import NeighbourhoodInfo from "../components/information/NeighbourhoodInfo";
+import NeighbourhoodSummary from "../components/summaries/NeighbourhoodSummary";
 
 class Neighbourhoods extends React.Component {
   constructor(props) {
@@ -257,26 +255,24 @@ class Neighbourhoods extends React.Component {
           <Row>
             <Col sm={4}>
               <Row>
-                <Jumbotron className="personal-details-jumbotron" align="center">
-                  <Chart options={this.state.options} series={this.state.series} type="treemap" height={350} />
-
+                <Jumbotron className="personal-details-jumbotron">
+                  <NeighbourhoodSummary />
                 </Jumbotron>
               </Row>
               <Row>
-                <Jumbotron className="personal-details-jumbotron">
-                  <NeighbourhoodFilter />
+                <Jumbotron className="personal-details-jumbotron" align="center">
+                  <Chart options={this.state.options} series={this.state.series} type="treemap" height={350} />
                 </Jumbotron>
               </Row >
             </Col >
             <Col sm={8}>
               <Jumbotron className="personal-details-jumbotron">
-                <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} />
                 {!isLoaded
                   ? <div><Loading /></div>
                   :
-                  <svg viewBox="0 0 100 70">
-                    <LastUpdated />
-                    <text x='3' y='3' fontSize="0.075em">Total neighbourhoods: {categories.length}</text>
+                  <svg viewBox="0 0 100 40">
+                    {/* <LastUpdated /> */}
+                    {/* <text x='3' y='3' fontSize="0.075em">Total neighbourhoods: {categories.length}</text> */}
                     {categories.map((category, i) => (
                       <NavLink key={i} className="nav-link"
                         onMouseEnter={() => {
@@ -294,16 +290,21 @@ class Neighbourhoods extends React.Component {
                             fill: colours[i]
                           }}
                           cx={shapes[i].xcords}
-                          cy={shapes[i].ycords}
+                          cy={shapes[i].ycords - 7}
                           r={shapes[i].size}
                         />
-                        <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
+                        <text x={shapes[i].xcords} y={shapes[i].ycords - 7} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
                       </NavLink>
                     ))}
                   </svg>
                 }
               </Jumbotron>
+
+              <Jumbotron className="personal-details-jumbotron" align="center">
+                <NeighbourhoodInfo />
+              </Jumbotron>
             </Col>
+
           </Row >
         </Container >
       </>

@@ -7,7 +7,7 @@ import Chart from "react-apexcharts";
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
 import LineChart from "../components/LineChart";
-import CrimeSummary from "../components/CrimeSummary";
+import CrimeSummary from "../components/summaries/CrimeSummary";
 
 class StreetCrimes extends React.Component {
   constructor(props) {
@@ -201,7 +201,7 @@ class StreetCrimes extends React.Component {
   componentDidMount() {
     this.StreetCrimes();
     this.stopAndSearch();
-    // this.crimeOutcomes();
+    this.crimeOutcomes();
   }
 
   StreetCrimes() {
@@ -254,32 +254,48 @@ class StreetCrimes extends React.Component {
     return "Total: " + this.state.total
   }
 
-  // crimeOutcomes() {
-  //   fetch("https://data.police.uk/api/outcomes-at-location?date=2021-01&poly=52.268,0.543:52.794,0.238:52.130,0.478")
-  //     .then(res => res.json())
-  //     .then((result) => {
-  //       var labels = [];
-  //       var out = this.groupByOutcome(result);
-  //       // for (let i = 0; i < result.groups.length; i++) {
-  //       //   labels.push(result.groups[i].key);
-  //       // }
-  //       this.setState({
-  //         outcomes: out,
-  //         result: result,
-  //         total: result.length,
-  //         options: {
-  //           labels: labels
-  //         }
-  //       });
-  //     },
-  //       (error) => {
-  //         this.setState({
-  //           error
-  //         });
-  //       }
-  //     )
-  //   return "Total: " + this.state.total
-  // }
+  crimeOutcomes() {
+    fetch("https://data.police.uk/api/outcomes-at-location?date=2021-01&poly=52.268,0.543:52.794,0.238:52.130,0.478")
+      .then(res => res.json())
+      .then((result) => {
+        var labels = [];
+        var out = this.groupByOutcome(result);
+        // for (let i = 0; i < result.groups.length; i++) {
+        //   labels.push(result.groups[i].key);
+        // }
+        console.log(out.groups[0].code, out.groups[0].group.count,);
+        console.log(out.groups[1].group.count);
+        console.log(out.groups[2].group.count);
+        console.log(out.groups[3].group.count);
+        console.log(out.groups[4].group.count);
+        console.log(out.groups[5].group.count);
+        console.log(out.groups[6].group.count);
+        console.log(out.groups[7].group.count);
+
+        var myStringArray = out;
+        var arrayLength = myStringArray.length;
+        for (var i = 0; i < arrayLength; i++) {
+          console.log(myStringArray[i]);
+          //Do something
+        }
+        this.setState({
+          outcomes: out,
+          result: result,
+          total: result.length,
+          options: {
+            labels: labels
+          }
+        });
+        console.log(this.state.outcomes)
+      },
+        (error) => {
+          this.setState({
+            error
+          });
+        }
+      )
+    return "Total: " + this.state.total
+  }
 
   setIsShown(state, id, crime) {
     this.setState({ isShown: state, id: id, crime: crime })
@@ -344,7 +360,7 @@ class StreetCrimes extends React.Component {
             <Col sm={4}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron" >
-                  <CrimeSummary />
+                  <CrimeSummary crimeCount={categories.count} />
                 </Jumbotron>
               </Row>
             </Col>

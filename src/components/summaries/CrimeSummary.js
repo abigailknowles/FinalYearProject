@@ -20,7 +20,7 @@ class CrimeSummary extends Component {
         <hr className="summary-line"></hr>
         <Row>
           <FontAwesomeIcon size="1x" className="download-icon" icon={faTaxi} />
-          <h5 className="summary-text">Crimes commited 84,482</h5>
+          <h5 className="summary-text">Crimes commited {this.props.crimeCount}</h5>
         </Row>
         <Row>
           <FontAwesomeIcon size="1x" className="download-icon" icon={faUser} />

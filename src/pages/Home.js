@@ -4,14 +4,13 @@ import { NavLink } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import Chart from "react-apexcharts";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDownload } from '@fortawesome/free-solid-svg-icons'
-
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+
 import PoliceForceFilter from "../components/filters/PoliceForceFilter";
-import PoliceForceSummary from "../components/PoliceForceSummary";
+import PoliceForceSummary from "../components/summaries/PoliceForceSummary";
+import PoliceForceInfo from "../components/information/PoliceForceInfo";
 
 class Home extends React.Component {
   constructor(props) {
@@ -176,7 +175,7 @@ class Home extends React.Component {
       },
         (error) => {
           this.setState({
-            isLoaded: true,
+            isLoaded: false,
             error
           });
         }
@@ -194,13 +193,14 @@ class Home extends React.Component {
         }
         this.setState({
           isLoaded: true,
-          result: data,
+          stopSearchResult: data,
           total: data.length,
           isShown: true,
           options: {
             labels: labels
           }
         });
+        console.log(this.state.stopSearchResult)
       },
         (error) => {
           this.setState({
@@ -237,7 +237,6 @@ class Home extends React.Component {
   componentDidMount() {
     this.policeForces();
     this.stopAndSearch();
-    // this.policeForceInformation();
   }
 
   neighbourhoodCount() {
@@ -327,7 +326,7 @@ class Home extends React.Component {
             <Col sm={4}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron" align="center">
-                  <PoliceForceSummary />
+                  <PoliceForceSummary stopAndSearch={this.state.stopSearchResult} policeCount={categories.length} />
                 </Jumbotron>
               </Row>
               <Row>
@@ -337,21 +336,18 @@ class Home extends React.Component {
               </Row>
               <Row>
                 <Jumbotron className="personal-details-jumbotron">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam ultricies lacus scelerisque tempus. Aenean eget ex dapibus, hendrerit tortor id, iaculis lacus. Duis ut metus et metus iaculis aliquet a quis massa. Nulla facilisi. Etiam nunc libero, pellentesque nec est porttitor, tempus porta erat. Aliquam finibus lorem egestas metus porttitor, id porta quam congue. Nulla ullamcorper mi ut tristique consequat. Sed vestibulum sapien at felis iaculis, sit amet vulputate nunc consequat. Donec eu dui in purus elementum posuere. Etiam dictum posuere urna a porttitor. Mauris molestie blandit congue. Nulla leo turpis, pharetra vitae augue quis, volutpat porttitor enim.</p>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam ultricies lacus scelerisque tempus. Aenean eget ex dapibus, hendrerit tortor id, iaculis lacus. Duis ut metus et metus iaculis aliquet a quis massa. Nulla facilisi. Etiam nunc libero, pellentesque nec est porttitor, tempus porta erat. Aliquam finibus lorem egestas metus porttitor, id porta quam congue. Nulla ullamcorper mi ut tristique consequat. Sed vestibulum sapien at felis iaculis, sit amet vulputate nunc consequat. Donec eu dui in purus elementum posuere. Etiam dictum posuere urna a porttitor. Mauris molestie blandit congue. Nulla leo turpis, pharetra vitae augue quis, volutpat porttitor enim.</p>
+                  <PoliceForceInfo />
                 </Jumbotron>
               </Row>
             </Col>
             <Col sm={8}>
               <Jumbotron className="personal-details-jumbotron">
                 <PoliceForceFilter />
-                {/* <FontAwesomeIcon size="2x" className="download-icon" icon={faDownload} /> */}
                 {!isLoaded
                   ? <div><Loading /></div>
                   :
                   <svg viewBox="0 0 100 140">
                     {/* <LastUpdated /> */}
-                    {/* <text x='3' y='2' fontSize="0.090em">Total police forces: {categories.length}</text> */}
                     {categories.map((category, i) => (
                       <NavLink key={i} className="nav-link"
                         onMouseEnter={() => { this.setIsShown(i, category.id) }}

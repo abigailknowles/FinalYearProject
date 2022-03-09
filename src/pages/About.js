@@ -59,13 +59,13 @@ class About extends React.Component {
           </Row>
           <Row>
             <Col sm={3}>
-              <h6 className="about-icon-text">text</h6>
+              <h6 className="about-icon-text">https://data.police.uk/</h6>
             </Col>
             <Col>
-              <h6 className="about-icon-text">text</h6>
+              <h6 className="about-icon-text">England, Wales and Northern Ireland</h6>
             </Col>
             <Col sm={3}>
-              <h6 className="about-icon-text">text</h6>
+              <h6 className="about-icon-text">2019</h6>
             </Col>
             <Col>
               <h6 className="about-icon-text">text</h6>
