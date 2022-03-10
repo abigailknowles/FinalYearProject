@@ -11,7 +11,25 @@ class NeighbourhoodInfo extends Component {
     };
   }
 
-  componentDidMount() {
+  neighbourhoodCode() {
+    fetch(`https://data.police.uk/api/bedfordshire/neighbourhoods`)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            id: result,
+          });
+          console.log(result.id)
+        },
+        (error) => {
+          this.setState({
+            error
+          });
+        }
+      )
+  }
+
+  neighbourhoodInformation() {
     fetch(`https://data.police.uk/api/leicestershire/NC04`)
       .then(res => res.json())
       .then(
@@ -31,6 +49,11 @@ class NeighbourhoodInfo extends Component {
           });
         }
       )
+  }
+
+  componentDidMount() {
+    this.neighbourhoodCode();
+    this.neighbourhoodInformation();
   }
 
   textFormatter(description) {

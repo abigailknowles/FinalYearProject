@@ -194,13 +194,14 @@ class Home extends React.Component {
         this.setState({
           isLoaded: true,
           stopSearchResult: data,
+          filteredData: result,
           total: data.length,
           isShown: true,
           options: {
             labels: labels
           }
         });
-        console.log(this.state.stopSearchResult)
+        console.log("home", this.state.filteredData)
       },
         (error) => {
           this.setState({
@@ -326,7 +327,7 @@ class Home extends React.Component {
             <Col sm={4}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron" align="center">
-                  <PoliceForceSummary stopAndSearch={this.state.stopSearchResult} policeCount={categories.length} />
+                  <PoliceForceSummary stopAndSearch={this.state.stopSearchResult} filtered={this.state.filteredData} count={this.state.total} policeCount={categories.length} />
                 </Jumbotron>
               </Row>
               <Row>
@@ -346,7 +347,7 @@ class Home extends React.Component {
                 {!isLoaded
                   ? <div><Loading /></div>
                   :
-                  <svg viewBox="0 0 100 140">
+                  <svg viewBox="0 0 100 136">
                     {/* <LastUpdated /> */}
                     {categories.map((category, i) => (
                       <NavLink key={i} className="nav-link"
@@ -365,7 +366,7 @@ class Home extends React.Component {
                             fill: colours[i]
                           }}
                           cx={shapes[i].xcords}
-                          cy={shapes[i].ycords - 4}
+                          cy={shapes[i].ycords - 5.2}
                           r={shapes[i].size}
                         />
                         {isShown && i === id ?
@@ -374,7 +375,7 @@ class Home extends React.Component {
                             <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline=" middle" fontSize="0.075em">{this.neighbourhoodCount()} neighbourhoods</text>
                           </>
                           :
-                          <text x={shapes[i].xcords} y={shapes[i].ycords - 4} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
+                          <text x={shapes[i].xcords} y={shapes[i].ycords - 5.2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
                         }
                       </NavLink>
                     ))}

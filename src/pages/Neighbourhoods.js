@@ -221,6 +221,7 @@ class Neighbourhoods extends React.Component {
           this.setState({
             isLoaded: true,
             categories: result,
+            count: result.length
           });
           console.log(result)
           console.log(this.state.policeForce);
@@ -256,7 +257,7 @@ class Neighbourhoods extends React.Component {
             <Col sm={4}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron">
-                  <NeighbourhoodSummary />
+                  <NeighbourhoodSummary force={this.state.policeForce} neighbourhoodCount={this.state.count} />
                 </Jumbotron>
               </Row>
               <Row>
