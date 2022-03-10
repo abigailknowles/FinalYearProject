@@ -105,15 +105,10 @@ class PoliceForceSummary extends Component {
 
   getMostCommonReason(groups) {
     var sortedArray = groups.sort((elmement1, element2) => {
-
       return elmement1.outcomes.count - element2.outcomes.count;
     });
 
     return sortedArray[sortedArray.length - 1];
-
-  }
-  getArrestCount() {
-
   }
 
   render() {
