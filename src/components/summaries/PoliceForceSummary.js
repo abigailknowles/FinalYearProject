@@ -131,12 +131,12 @@ class PoliceForceSummary extends Component {
           <h5 className="summary-text">Total number of stop and searches {this.props.count} </h5>
         </Row>
         <Row>
-          <FontAwesomeIcon size="1x" className="download-icon" icon={faBars} />
-          <h5 className="summary-text">The most common reason for stop and search is {this.state.mostCommonReason} </h5>
-        </Row>
-        <Row>
           <FontAwesomeIcon size="1x" className="download-icon" icon={faBan} />
           <h5 className="summary-text">Stop and search resulted in arrests {this.state.arrestCount}</h5>
+        </Row>
+        <Row>
+          <FontAwesomeIcon size="1x" className="download-icon" icon={faBars} />
+          <h5 className="summary-text">Most frequent reason for stop and search is {this.state.mostCommonReason} </h5>
         </Row>
       </>
     );

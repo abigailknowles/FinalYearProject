@@ -326,7 +326,7 @@ class Home extends React.Component {
           <Row>
             <Col sm={4}>
               <Row>
-                <Jumbotron className="personal-details-jumbotron" align="center">
+                <Jumbotron className="personal-details-jumbotron" >
                   <PoliceForceSummary stopAndSearch={this.state.stopSearchResult} filtered={this.state.filteredData} count={this.state.total} policeCount={categories.length} />
                 </Jumbotron>
               </Row>

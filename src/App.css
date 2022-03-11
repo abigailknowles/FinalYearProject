@@ -86,9 +86,10 @@
       transform: translate(-150%,0);
   }
   .summary-text{
- font-size: 1em;
+ font-size: 0.95em;
  padding-bottom:1%;
  padding-left:2%;
+
   }
   .summary-header{
   font-size: 1.2em;
