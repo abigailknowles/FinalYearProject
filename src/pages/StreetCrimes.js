@@ -212,8 +212,10 @@ class StreetCrimes extends React.Component {
           var categories = this.groupBy(result);
           this.setState({
             isLoaded: true,
-            categories: categories
+            categories: categories,
+            count: categories.count
           });
+          console.log("2021", this.state.count)
         },
         (error) => {
           this.setState({
@@ -263,20 +265,19 @@ class StreetCrimes extends React.Component {
         // for (let i = 0; i < result.groups.length; i++) {
         //   labels.push(result.groups[i].key);
         // }
-        console.log(out.groups[0].code, out.groups[0].group.count,);
-        console.log(out.groups[1].group.count);
-        console.log(out.groups[2].group.count);
-        console.log(out.groups[3].group.count);
-        console.log(out.groups[4].group.count);
-        console.log(out.groups[5].group.count);
-        console.log(out.groups[6].group.count);
-        console.log(out.groups[7].group.count);
+        // console.log(out.groups[0].code, out.groups[0].group.count,);
+        // console.log(out.groups[1].group.count);
+        // console.log(out.groups[2].group.count);
+        // console.log(out.groups[3].group.count);
+        // console.log(out.groups[4].group.count);
+        // console.log(out.groups[5].group.count);
+        // console.log(out.groups[6].group.count);
+        // console.log(out.groups[7].group.count);
 
         var myStringArray = out;
         var arrayLength = myStringArray.length;
         for (var i = 0; i < arrayLength; i++) {
           console.log(myStringArray[i]);
-          //Do something
         }
         this.setState({
           outcomes: out,
@@ -286,7 +287,6 @@ class StreetCrimes extends React.Component {
             labels: labels
           }
         });
-        console.log(this.state.outcomes)
       },
         (error) => {
           this.setState({

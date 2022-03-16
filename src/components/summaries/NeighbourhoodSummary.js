@@ -3,7 +3,7 @@ import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouseUser, faBalanceScale, faUserFriends, faBan, faTaxi } from '@fortawesome/free-solid-svg-icons'
+import { faHouseUser, faBalanceScale, faUserFriends, faTaxi } from '@fortawesome/free-solid-svg-icons'
 
 class CrimeSummary extends Component {
   constructor() {

@@ -184,7 +184,7 @@ class CrimeSummary extends Component {
 
     return (
       <>
-        <h4 className="summary-header">2021 Summary</h4>
+        <h4 className="summary-header">Summary</h4>
         <hr className="summary-line"></hr>
         <Row>
           <FontAwesomeIcon size="1x" className="download-icon" icon={faTaxi} />

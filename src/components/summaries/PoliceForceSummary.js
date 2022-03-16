@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row } from 'react-bootstrap';
+import { Row, Jumbotron } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -89,6 +89,7 @@ class PoliceForceSummary extends Component {
           mostCommonReason: reason.key,
           arrestCount: count.groups[0].outcomes.count
         });
+        console.log(result);
       },
         (error) => {
           this.setState({
@@ -115,29 +116,31 @@ class PoliceForceSummary extends Component {
 
     return (
       <>
-        <h4 className="summary-header">Summary</h4>
-        <hr className="summary-line"></hr>
-        <Row>
-          <FontAwesomeIcon size="1x" className="download-icon" icon={faUsers} />
-          <h5 className="summary-text">Total number of police forces {this.props.policeCount}
-          </h5>
-        </Row>
-        <Row>
-          <FontAwesomeIcon size="1x" className="download-icon" icon={faGlobe} />
-          <h5 className="summary-text">The largest police force in the UK is {this.state.largestPoliceForce}</h5>
-        </Row>
-        <Row>
-          <FontAwesomeIcon size="1x" className="download-icon" icon={faTaxi} />
-          <h5 className="summary-text">Total number of stop and searches {this.props.count} </h5>
-        </Row>
-        <Row>
-          <FontAwesomeIcon size="1x" className="download-icon" icon={faBan} />
-          <h5 className="summary-text">Stop and search resulted in arrests {this.state.arrestCount}</h5>
-        </Row>
-        <Row>
-          <FontAwesomeIcon size="1x" className="download-icon" icon={faBars} />
-          <h5 className="summary-text">Most frequent reason for stop and search is {this.state.mostCommonReason} </h5>
-        </Row>
+        <Jumbotron className="personal-details-jumbotron" >
+          <h4 className="summary-header">Summary</h4>
+          <hr className="summary-line"></hr>
+          <Row>
+            <FontAwesomeIcon size="1x" className="download-icon" icon={faUsers} />
+            <h5 className="summary-text">Total number of police forces {this.props.policeCount}
+            </h5>
+          </Row>
+          <Row>
+            <FontAwesomeIcon size="1x" className="download-icon" icon={faGlobe} />
+            <h5 className="summary-text">The largest police force in the UK is {this.state.largestPoliceForce}</h5>
+          </Row>
+          <Row>
+            <FontAwesomeIcon size="1x" className="download-icon" icon={faTaxi} />
+            <h5 className="summary-text">Total number of stop and searches {this.props.count} </h5>
+          </Row>
+          <Row>
+            <FontAwesomeIcon size="1x" className="download-icon" icon={faBan} />
+            <h5 className="summary-text">Stop and search resulted in arrests {this.state.arrestCount}</h5>
+          </Row>
+          <Row>
+            <FontAwesomeIcon size="1x" className="download-icon" icon={faBars} />
+            <h5 className="summary-text">Most frequent reason for stop and search is {this.state.mostCommonReason} </h5>
+          </Row>
+        </Jumbotron>
       </>
     );
   }

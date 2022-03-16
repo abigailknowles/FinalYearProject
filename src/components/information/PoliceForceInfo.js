@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Jumbotron } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
 import Loading from '../Loading';
@@ -41,16 +42,19 @@ class PoliceForceInfo extends Component {
 
     return (
       <>
-        {!isLoaded
-          ? <div><Loading /></div>
-          :
-          <>
-            <h4 className="police-name">{this.state.info.name}</h4>
-            <h5 className="police-url">{this.state.info.url}</h5>
-            <hr className="summary-line"></hr>
-            <p className="police-description">{this.textFormatter(this.state.info.description)}</p>
-          </>
-        }
+        <Jumbotron className="personal-details-jumbotron">
+          {!isLoaded
+            ? <div><Loading /></div>
+            :
+            <>
+              <h4 className="police-name">{this.state.info.name}</h4>
+              <h5 className="police-url">{this.state.info.url}</h5>
+              <hr className="summary-line"></hr>
+              <p className="police-description">{this.textFormatter(this.state.info.description)}</p>
+
+            </>
+          }
+        </Jumbotron>
       </>
     );
   }

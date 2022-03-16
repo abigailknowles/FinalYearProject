@@ -31,7 +31,12 @@
   transition-duration: 0.8s;
   }
  
-
+  .circle-css:focus{
+    fill:rgb(221, 221, 221)!important;
+    r:12;
+    transition-duration: 0.8s;
+    }
+   
   .download-icon{
     float:right;
   }

@@ -1,8 +1,6 @@
 import React, { } from "react";
 import { Container, Col, Row, Jumbotron } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import "react-datepicker/dist/react-datepicker.css";
-import Chart from "react-apexcharts";
 
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
@@ -11,6 +9,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PoliceForceFilter from "../components/filters/PoliceForceFilter";
 import PoliceForceSummary from "../components/summaries/PoliceForceSummary";
 import PoliceForceInfo from "../components/information/PoliceForceInfo";
+import StopAndSearchChart from "../components/visualisations/StopAndSearchChart";
 
 class Home extends React.Component {
   constructor(props) {
@@ -69,67 +68,7 @@ class Home extends React.Component {
         { size: '8', xcords: 80, ycords: 133 },
         { size: '5.3', xcords: 30, ycords: 133 },
       ],
-      series: [25, 15, 44, 55, 41, 17],
-      options: {
-        labels: [],
-        plotOptions: {
-          pie: {
-            dataLabels: {
-              offset: -5
-            }
-          }
-        },
-        title: {
-          text: "Stop and search",
-          align: 'center'
-        },
-        colors: [
-          '#ffc1f8', '#fff88b', '#a0a1f5', '#02ccf9', '#ffa366', '#f75e5b'
-        ],
-        dataLabels: {
-          formatter(val, opts) {
-            const name = opts.w.globals.labels[opts.seriesIndex]
-            return [name, val.toFixed(1) + '%']
-          }
-
-        },
-        legend: {
-          show: false,
-        }
-      },
     };
-  }
-
-  exists(key, array) {
-    var isFound = false;
-    for (let i = 0; i < array.length; i++) {
-      if (array[i].key === key) {
-        isFound = true;
-      }
-    }
-    return isFound;
-  }
-
-  getByKey(key, arr) {
-    var array = [];
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].object_of_search === key) {
-        array.push(arr[i]);
-      }
-    }
-    return { outcomes: array, count: array.length };
-  }
-
-  groupOutcomes(arr) {
-    var groups = [];
-
-    for (var i = 0; i < arr.length; i++) {
-      var key = arr[i].object_of_search;
-      if (this.exists(key, groups) === false)
-        groups.push({ key: key, outcomes: this.getByKey(key, arr) })
-    }
-
-    return { groups: groups, count: arr.length };
   }
 
   isGroupInArray(groups, code) {
@@ -164,7 +103,8 @@ class Home extends React.Component {
 
     return { groups: groups, count: arr.length };
   }
-  policeForces() {
+
+  componentDidMount() {
     fetch("https://data.police.uk/api/forces")
       .then(res => res.json())
       .then((result) => {
@@ -180,64 +120,6 @@ class Home extends React.Component {
           });
         }
       )
-  }
-
-  stopAndSearch() {
-    fetch(`https://data.police.uk/api/stops-force?force=bedfordshire`)
-      .then(res => res.json())
-      .then((data) => {
-        var labels = [];
-        var result = this.groupOutcomes(data);
-        for (let i = 0; i < result.groups.length; i++) {
-          labels.push(result.groups[i].key);
-        }
-        this.setState({
-          isLoaded: true,
-          stopSearchResult: data,
-          filteredData: result,
-          total: data.length,
-          isShown: true,
-          options: {
-            labels: labels
-          }
-        });
-        console.log("home", this.state.filteredData)
-      },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-
-    return "Total: " + this.state.total
-  }
-
-  policeForceInformation() {
-    fetch(`https://data.police.uk/api/forces/bedfordshire`)
-      .then(res => res.json())
-      .then((data) => {
-        this.setState({
-          isLoaded: true,
-          info: data,
-          isShown: true
-        });
-      },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-
-    return this.state.info
-  }
-
-  componentDidMount() {
-    this.policeForces();
-    this.stopAndSearch();
   }
 
   neighbourhoodCount() {
@@ -306,11 +188,18 @@ class Home extends React.Component {
     return size
   }
 
+  sayHello() {
+    console.log('Hello!');
+
+  }
+
   render() {
     const { shapes, categories, isLoaded, colours, isShown, id } = this.state;
     return (
       <>
         <NavBar />
+        <button onClick={this.sayHello}>hello</button>
+
         <Container className="top-breadcrumb">
           <Row>
             <Col>
@@ -326,19 +215,13 @@ class Home extends React.Component {
           <Row>
             <Col sm={4}>
               <Row>
-                <Jumbotron className="personal-details-jumbotron" >
-                  <PoliceForceSummary stopAndSearch={this.state.stopSearchResult} filtered={this.state.filteredData} count={this.state.total} policeCount={categories.length} />
-                </Jumbotron>
+                <PoliceForceSummary stopAndSearch={this.state.stopSearchResult} filtered={this.state.filteredData} count={this.state.total} policeCount={categories.length} />
               </Row>
               <Row>
-                <Jumbotron className="personal-details-jumbotron" align="center">
-                  <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" />
-                </Jumbotron>
+                <StopAndSearchChart />
               </Row>
               <Row>
-                <Jumbotron className="personal-details-jumbotron">
-                  <PoliceForceInfo />
-                </Jumbotron>
+                <PoliceForceInfo />
               </Row>
             </Col>
             <Col sm={8}>
@@ -348,14 +231,13 @@ class Home extends React.Component {
                   ? <div><Loading /></div>
                   :
                   <svg viewBox="0 0 100 136">
-                    {/* <LastUpdated /> */}
                     {categories.map((category, i) => (
                       <NavLink key={i} className="nav-link"
                         onMouseEnter={() => { this.setIsShown(i, category.id) }}
                         onMouseLeave={() => {
                           this.setIsNotShown()
                         }} to={{
-                          pathname: 'neighbourhoods',
+                          pathname: '/neighbourhoods',
                           aboutProps: {
                             selectedPoliceForce: this.state.policeForce
                           }
