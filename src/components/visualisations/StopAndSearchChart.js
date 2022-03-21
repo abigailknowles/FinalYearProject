@@ -7,7 +7,7 @@ class StopAndSearchChart extends Component {
     constructor() {
         super();
         this.state = {
-            series: [25, 15, 44, 55, 41, 17],
+            series: [],
             options: {
                 labels: [],
                 plotOptions: {
@@ -79,12 +79,18 @@ class StopAndSearchChart extends Component {
                 for (let i = 0; i < result.groups.length; i++) {
                     labels.push(result.groups[i].key);
                 }
+                const series = [];
+                for (let i = 0; i < result.groups.length; i++) {
+                    series.push(result.groups[i].outcomes.count);
+                }
+                console.log("result", series)
                 this.setState({
                     isLoaded: true,
                     stopSearchResult: data,
                     filteredData: result,
                     total: data.length,
                     isShown: true,
+                    series: series,
                     options: {
                         labels: labels
                     }

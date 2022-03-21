@@ -49,17 +49,13 @@ class LineChart extends Component {
         .then(res => res.json())
         .then(
           (result) => {
-
             data.push(result.length);
-
             this.setState({
               isShown: true,
               series: [{
                 data: data
               }],
             });
-            console.log("data", data)
-
           },
           (error) => {
             this.setState({
