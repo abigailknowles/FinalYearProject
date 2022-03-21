@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import { withRouter, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChartPie } from '@fortawesome/free-solid-svg-icons'
+import PdfGenerator from '../components/PdfGenerator';
 
 class NavBar extends Component {
   constructor() {
@@ -32,9 +33,7 @@ class NavBar extends Component {
                 <h5 className="nav-text">About</h5>
               </NavLink>
               <NavLink className="nav-link" to="/">
-                <Button variant="dark" className="button-logout">
-                  Newsletter
-                </Button>
+                <PdfGenerator />
               </NavLink>
             </Nav>
           </Navbar.Collapse>

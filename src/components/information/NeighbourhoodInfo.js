@@ -38,9 +38,6 @@ class NeighbourhoodInfo extends Component {
             isLoaded: true,
             info: result,
           });
-          console.log(result)
-          console.log(result.links[0].url)
-
         },
         (error) => {
           this.setState({

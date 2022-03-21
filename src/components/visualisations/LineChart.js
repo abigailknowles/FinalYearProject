@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Chart from "react-apexcharts";
-import { count } from 'd3';
 
 class LineChart extends Component {
   constructor() {
@@ -25,7 +24,7 @@ class LineChart extends Component {
           curve: 'straight'
         },
         title: {
-          text: 'Crimes in 2021',
+          text: 'All crimes in the past 6 months',
           align: 'left'
         },
         grid: {

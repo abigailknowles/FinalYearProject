@@ -188,18 +188,11 @@ class Home extends React.Component {
     return size
   }
 
-  sayHello() {
-    console.log('Hello!');
-
-  }
-
   render() {
     const { shapes, categories, isLoaded, colours, isShown, id } = this.state;
     return (
       <>
         <NavBar />
-        <button onClick={this.sayHello}>hello</button>
-
         <Container className="top-breadcrumb">
           <Row>
             <Col>
@@ -221,7 +214,7 @@ class Home extends React.Component {
                 <StopAndSearchChart />
               </Row>
               <Row>
-                <PoliceForceInfo />
+                <PoliceForceInfo force={this.state.policeForce} />
               </Row>
             </Col>
             <Col sm={8}>

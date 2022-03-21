@@ -3,12 +3,12 @@ import { Container, Jumbotron, Col, Row } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import "react-datepicker/dist/react-datepicker.css";
-import Chart from "react-apexcharts";
 
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
 import NeighbourhoodInfo from "../components/information/NeighbourhoodInfo";
 import NeighbourhoodSummary from "../components/summaries/NeighbourhoodSummary";
+import StreetCrimesTree from "../components/visualisations/StreetCrimesTree";
 
 class Neighbourhoods extends React.Component {
   constructor(props) {
@@ -78,92 +78,7 @@ class Neighbourhoods extends React.Component {
         { size: '5', xcords: 50, ycords: 49 },
         { size: '8', xcords: 64, ycords: 50 },
       ],
-      series: [
-        {
-          data: [
-            {
-              x: 'New Delhi',
-              y: 218
-            },
-            {
-              x: 'Kolkata',
-              y: 149
-            },
-            {
-              x: 'Mumbai',
-              y: 184
-            },
-            {
-              x: 'Ahmedabad',
-              y: 55
-            },
-            {
-              x: 'Bangaluru',
-              y: 84
-            },
-            {
-              x: 'Pune',
-              y: 31
-            },
-            {
-              x: 'Chennai',
-              y: 70
-            },
-            {
-              x: 'Jaipur',
-              y: 30
-            },
-            {
-              x: 'Surat',
-              y: 44
-            },
-            {
-              x: 'Hyderabad',
-              y: 68
-            },
-            {
-              x: 'Lucknow',
-              y: 28
-            },
-            {
-              x: 'Indore',
-              y: 19
-            },
-            {
-              x: 'Kanpur',
-              y: 29
-            }
-          ]
-        }
-      ],
-      options: {
-        legend: {
-          show: false
-        },
-        chart: {
-          height: 350,
-          type: 'treemap'
-        },
-        title: {
-          text: 'Distibuted Treemap ',
-          align: 'center'
-        },
-        colors: [
-          '#ff80aa',
-          '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5', '#ffe6cc',
-          '#e6e6e6', '#6666cc', '#ffdd99', '#b3ffb3', '#80ffdf', '#b3d9ff', '#a0a1f5', '#ffccff', '#b3ccff', '#9fdfbf', '#a3a3c2', '#6699cc'
-        ],
-        plotOptions: {
-          treemap: {
-            distributed: true,
-            enableShades: false
-          }
-        }
-      },
-
-
-    };
-
+    }
   }
 
   textFormatter(force) {
@@ -261,9 +176,7 @@ class Neighbourhoods extends React.Component {
                 </Jumbotron>
               </Row>
               <Row>
-                <Jumbotron className="personal-details-jumbotron" align="center">
-                  <Chart options={this.state.options} series={this.state.series} type="treemap" height={350} />
-                </Jumbotron>
+                <StreetCrimesTree />
               </Row >
             </Col >
             <Col sm={8}>
@@ -277,7 +190,7 @@ class Neighbourhoods extends React.Component {
                     {categories.map((category, i) => (
                       <NavLink key={i} className="nav-link"
                         onMouseEnter={() => {
-                          this.setState({ neighbourhood: category.id })
+                          this.setState({ neighbourhood: category.name })
                         }} to={{
                           pathname: 'street-crimes',
                           aboutProps: {
@@ -302,7 +215,7 @@ class Neighbourhoods extends React.Component {
               </Jumbotron>
 
               <Jumbotron className="personal-details-jumbotron" align="center">
-                <NeighbourhoodInfo />
+                <NeighbourhoodInfo policeForce={this.state.policeForce} />
               </Jumbotron>
             </Col>
 

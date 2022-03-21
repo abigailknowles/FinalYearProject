@@ -6,7 +6,7 @@ import Chart from "react-apexcharts";
 
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
-import LineChart from "../components/LineChart";
+import LineChart from "../components/visualisations/LineChart";
 import CrimeSummary from "../components/summaries/CrimeSummary";
 
 class StreetCrimes extends React.Component {
@@ -200,7 +200,6 @@ class StreetCrimes extends React.Component {
 
   componentDidMount() {
     this.StreetCrimes();
-    this.stopAndSearch();
     this.crimeOutcomes();
   }
 
@@ -210,7 +209,6 @@ class StreetCrimes extends React.Component {
       .then(r => r.json())
       .then((res) => {
         var out = this.groupByOutcome(res);
-        console.log("out length:", out.groups.length)
         for (let i = 0; i < out.groups.length; i++) {
           categories.push(out.groups[i].code);
         }
@@ -218,16 +216,14 @@ class StreetCrimes extends React.Component {
         for (let i = 0; i < out.groups.length; i++) {
           data.push(out.groups[i].group.count);
         }
-        console.log("data", data)
-        console.log("a", out.groups[1].group.count)
         this.setState({
           series: [
             {
               data: data
             }
           ],
-          xaxis: {
-            categories: categories
+          options: {
+            labels: categories
           }
         });
       },
@@ -251,7 +247,6 @@ class StreetCrimes extends React.Component {
             categories: categories,
             count: categories.count
           });
-          console.log("Street crimes count: ", this.state.count)
         },
         (error) => {
           this.setState({
@@ -363,6 +358,7 @@ class StreetCrimes extends React.Component {
             </Col>
             <Col sm={8}>
               <Jumbotron className="personal-details-jumbotron" align="center">
+
                 <LineChart />
               </Jumbotron>
             </Col>

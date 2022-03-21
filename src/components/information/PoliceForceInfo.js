@@ -12,8 +12,8 @@ class PoliceForceInfo extends Component {
     };
   }
 
-  componentDidMount() {
-    fetch(`https://data.police.uk/api/forces/bedfordshire`)
+  forceInfo() {
+    fetch(`https://data.police.uk/api/forces/${this.props.force}`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -29,6 +29,10 @@ class PoliceForceInfo extends Component {
           });
         }
       )
+  }
+
+  componentDidMount() {
+    this.forceInfo();
   }
 
   textFormatter(description) {
