@@ -66,19 +66,15 @@ class LineChart extends Component {
   }
 
   componentDidMount() {
-    // this.LineChartCrimes();
     this.chartResults();
 
   }
-
-
-
 
   render() {
 
     return (
       <>
-        <Chart options={this.state.options} series={this.state.series} type="line" height={215} width={840} />
+        <Chart options={this.state.options} series={this.state.series} type="line" height={215} width={750} />
       </>
     );
   }

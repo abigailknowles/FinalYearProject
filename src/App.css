@@ -211,6 +211,13 @@
   background-image: url("img/police.jpeg");
 }
 
+.about-summary{
+  border-radius: 25px;
+  background-color:white;
+  border: solid 0.5px #e2e2e2;
+  box-shadow: 5px 5px #e2e2e2;
+  padding: 10px 10px 10px 10px;
+}
 
 .question-box{
   border: solid 1px black;

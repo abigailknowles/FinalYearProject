@@ -20,67 +20,68 @@ class About extends React.Component {
         <NavBar />
         <Row className="about-padding"> </Row>
         <div className="banner"></div>
-        <Container>
-          <Row className="about-padding">
-            <Col sm={3} >
+        <Row className="about-padding"> </Row>
+        <Container className="about-summary">
+          <Row>
+            <Col sm={4} >
               <Container className="about-icon">
-                <FontAwesomeIcon size="4x" icon={faDatabase} />
+                <FontAwesomeIcon size="3x" icon={faDatabase} />
               </Container>
             </Col>
-            <Col sm={3}>
+            <Col sm={4}>
               <Container className="about-icon">
-                <FontAwesomeIcon size="4x" className="about-icon" icon={faGlobe} />
+                <FontAwesomeIcon size="3x" className="about-icon" icon={faGlobe} />
               </Container>
             </Col>
-            <Col sm={3}>
+            <Col sm={4}>
               <Container className="about-icon">
-                <FontAwesomeIcon size="4x" className="about-icon" icon={faCalendarDay} />
-              </Container>
-            </Col>
-            <Col sm={3}>
-              <Container className="about-icon">
-                <FontAwesomeIcon size="4x" className="about-icon" icon={faAddressBook} />
+                <FontAwesomeIcon size="3x" className="about-icon" icon={faCalendarDay} />
               </Container>
             </Col>
           </Row>
           <Row>
-            <Col sm={3}>
+            <Col sm={4}>
               <h3 className="about-icon-header">Data Source</h3>
             </Col>
-            <Col sm={3}>
+            <Col sm={4}>
               <h3 className="about-icon-header">Location</h3>
             </Col>
-            <Col sm={3}>
+            <Col sm={4}>
               <h3 className="about-icon-header">From</h3>
             </Col>
-            <Col sm={3}>
+            {/* <Col sm={3}>
               <h3 className="about-icon-header">Contacts</h3>
-            </Col>
+            </Col> */}
           </Row>
           <Row>
-            <Col sm={3}>
+            <Col sm={4}>
               <h6 className="about-icon-text">https://data.police.uk/</h6>
             </Col>
-            <Col>
+            <Col sm={4}>
               <h6 className="about-icon-text">England, Wales and Northern Ireland</h6>
             </Col>
-            <Col sm={3}>
+            <Col sm={4}>
               <h6 className="about-icon-text">2019</h6>
             </Col>
-            <Col>
+            {/* <Col>
               <h6 className="about-icon-text">text</h6>
-            </Col>
+            </Col> */}
           </Row>
         </Container>
+        <Row className="about-padding"> </Row>
+
         <Container>
           <Row className="about-padding">
             <Col>
               <h4 className="about-header">What is the purpose of the project?</h4>
             </Col>
           </Row>
+          <hr />
           <Row>
             <Col>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam ultricies lacus scelerisque tempus. Aenean eget ex dapibus, hendrerit tortor id, iaculis lacus. Duis ut metus et metus iaculis aliquet a quis massa. Nulla facilisi. Etiam nunc libero, pellentesque nec est porttitor, tempus porta erat. Aliquam finibus lorem egestas metus porttitor, id porta quam congue. Nulla ullamcorper mi ut tristique consequat. Sed vestibulum sapien at felis iaculis, sit amet vulputate nunc consequat. Donec eu dui in purus elementum posuere. Etiam dictum posuere urna a porttitor. Mauris molestie blandit congue. Nulla leo turpis, pharetra vitae augue quis, volutpat porttitor enim.</p>
+              <p>The purpose of this project is to turn a large crime-related data source, and displaying present the data in the form of multiple
+                interactive and filterable visualisations. The data will be displayed on an accessible and responsive web application, where users
+                can also generate and download a PDF report for each of the data pages.</p>
             </Col>
           </Row>
           <Row className="about-padding">
@@ -88,9 +89,12 @@ class About extends React.Component {
               <h4 className="about-header">Where has the data come from?</h4>
             </Col>
           </Row>
+          <hr />
           <Row>
             <Col>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam ultricies lacus scelerisque tempus. Aenean eget ex dapibus, hendrerit tortor id, iaculis lacus. Duis ut metus et metus iaculis aliquet a quis massa. Nulla facilisi. Etiam nunc libero, pellentesque nec est porttitor, tempus porta erat. Aliquam finibus lorem egestas metus porttitor, id porta quam congue. Nulla ullamcorper mi ut tristique consequat. Sed vestibulum sapien at felis iaculis, sit amet vulputate nunc consequat. Donec eu dui in purus elementum posuere. Etiam dictum posuere urna a porttitor. Mauris molestie blandit congue. Nulla leo turpis, pharetra vitae augue quis, volutpat porttitor enim.</p>
+              <p>The data provided for the visualisations has come from https://data.police.uk/data/. They provide data about crimes, outcomes,
+                police forces and neighbourhoods for England, Wales and Northern Ireland. They make their data available through the Open Government Licence v3.0.
+              </p>
             </Col>
           </Row>
           <Row className="about-padding">
@@ -98,9 +102,10 @@ class About extends React.Component {
               <h4 className="about-header">What is the quality of the data like?</h4>
             </Col>
           </Row>
+          <hr />
           <Row>
             <Col>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam ultricies lacus scelerisque tempus. Aenean eget ex dapibus, hendrerit tortor id, iaculis lacus. Duis ut metus et metus iaculis aliquet a quis massa. Nulla facilisi. Etiam nunc libero, pellentesque nec est porttitor, tempus porta erat. Aliquam finibus lorem egestas metus porttitor, id porta quam congue. Nulla ullamcorper mi ut tristique consequat. Sed vestibulum sapien at felis iaculis, sit amet vulputate nunc consequat. Donec eu dui in purus elementum posuere. Etiam dictum posuere urna a porttitor. Mauris molestie blandit congue. Nulla leo turpis, pharetra vitae augue quis, volutpat porttitor enim.</p>
+              <p>The main advantage to using this data source would be how reliable it is. It provides open data regarding policing and crime in the UK and mentions how it supplies its data using the police annual data requirements (ADR) and the open government license. Another advantage to using this data source would be the extensive documentation it provides. It provides information on how to download the CSV, technical documentation on how to use the API, a changelog, contact details, and an about section.</p>
             </Col>
           </Row>
           <Row className="about-padding">
@@ -108,9 +113,10 @@ class About extends React.Component {
               <h4 className="about-header">How can I work with this data source?</h4>
             </Col>
           </Row>
+          <hr />
           <Row>
             <Col>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam ultricies lacus scelerisque tempus. Aenean eget ex dapibus, hendrerit tortor id, iaculis lacus. Duis ut metus et metus iaculis aliquet a quis massa. Nulla facilisi. Etiam nunc libero, pellentesque nec est porttitor, tempus porta erat. Aliquam finibus lorem egestas metus porttitor, id porta quam congue. Nulla ullamcorper mi ut tristique consequat. Sed vestibulum sapien at felis iaculis, sit amet vulputate nunc consequat. Donec eu dui in purus elementum posuere. Etiam dictum posuere urna a porttitor. Mauris molestie blandit congue. Nulla leo turpis, pharetra vitae augue quis, volutpat porttitor enim.</p>
+              <p>Data.police.uk provide two methods of accessing their data; through calling an API or downloading a CSV.</p>
             </Col>
           </Row>
           <Row className="about-padding">
@@ -118,14 +124,17 @@ class About extends React.Component {
               <h4 className="about-header">Who can I contact regarding this project?</h4>
             </Col>
           </Row>
+          <hr />
           <Row>
             <Col>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam ultricies lacus scelerisque tempus. Aenean eget ex dapibus, hendrerit tortor id, iaculis lacus. Duis ut metus et metus iaculis aliquet a quis massa. Nulla facilisi. Etiam nunc libero, pellentesque nec est porttitor, tempus porta erat. Aliquam finibus lorem egestas metus porttitor, id porta quam congue. Nulla ullamcorper mi ut tristique consequat. Sed vestibulum sapien at felis iaculis, sit amet vulputate nunc consequat. Donec eu dui in purus elementum posuere. Etiam dictum posuere urna a porttitor. Mauris molestie blandit congue. Nulla leo turpis, pharetra vitae augue quis, volutpat porttitor enim.</p>
+              <p>For any data related queries data.police.uk should be the first place of contact. There contact details can be found on
+                the following link: https://data.police.uk/contact/. For any other queries regarding the web application you are currently on,
+                you can contact A.Knowles@2018.ljmu.ac.uk</p>
             </Col>
           </Row>
           <Row className="about-padding"></Row>
 
-          <Container>
+          {/* <Container>
             <div className="question-box">
               <Form>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -139,7 +148,7 @@ class About extends React.Component {
               </Form>
               <Button variant="light">Submit</Button>
             </div>
-          </Container>
+          </Container> */}
         </Container>
       </>
     );

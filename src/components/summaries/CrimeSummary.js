@@ -111,6 +111,7 @@ class CrimeSummary extends Component {
       .then(res => res.json())
       .then(
         (result) => {
+          console.log("result crime summary:", result)
           var crimes = this.groupCrimes(result);
           var commonCrime = this.getMostCommonCrime(crimes.groups)
           this.setState({

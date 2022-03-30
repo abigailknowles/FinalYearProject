@@ -2,12 +2,13 @@ import React, { } from "react";
 import { Container, Row, Jumbotron, Col } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
-import Chart from "react-apexcharts";
 
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
+import PdfGenerator from '../components/PdfGenerator';
 import LineChart from "../components/visualisations/LineChart";
 import CrimeSummary from "../components/summaries/CrimeSummary";
+import CrimeOutcomesChart from "../components/visualisations/CrimeOutcomesChart";
 
 class StreetCrimes extends React.Component {
   constructor(props) {
@@ -15,6 +16,10 @@ class StreetCrimes extends React.Component {
     this.state = {
       categories: [],
       selectedOption: null,
+      criminals: "183",
+      commonCrime: "Theft",
+      prosecutionRate: "32%",
+      ssCount: "321",
       policeForce: props.location.aboutProps.selectedPoliceForce,
       neighbourhood: props.location.aboutProps.selectedNeighbourhood,
       colours: ['#ccf3ff', '#74bec8', '#d8bfff', '#f75e5b', '#fff88b', '#e80b8c', '#938fff', '#f7c6af', '#ffa661', '#7ee9cf', '#ffeefe',
@@ -31,23 +36,6 @@ class StreetCrimes extends React.Component {
         { xcords: 33.8, ycords: 33.4 },
         { xcords: 50.5, ycords: 32.8 },
         { xcords: 82, ycords: 36 },
-      ],
-      options: {
-        fill: {
-          type: 'solid'
-        },
-        colors: [
-          '#02ccf9'
-        ],
-        xaxis: {
-          categories: []
-        }
-      },
-      series: [
-        {
-          name: "series-1",
-          data: []
-        }
       ]
     };
   }
@@ -117,39 +105,6 @@ class StreetCrimes extends React.Component {
     return { groups: groups, count: arr.length };
   }
 
-  // crime outcomes
-  isOutcomeInArray(groups, code) {
-    var isFound = false;
-    for (var key in groups) {
-      if (groups[key].code === code) {
-        isFound = true;
-      }
-    }
-
-    return isFound;
-  }
-
-  getByOutcomeName(arr, code) {
-    var group = [];
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].category.name === code) {
-        group.push(arr[i]);
-      }
-    }
-    return { group: group, count: group.length };
-  }
-
-  groupByOutcome(arr) {
-    var groups = [];
-
-    for (var i = 0; i < arr.length; i++) {
-      var code = arr[i].category.name;
-      if (this.isOutcomeInArray(groups, code) === false)
-        groups.push({ code: code, group: this.getByOutcomeName(arr, code) })
-    }
-
-    return { groups: groups, count: arr.length };
-  }
   calculatePercentage(value, totalValue) {
     var percentage = (value / totalValue * 100).toFixed(2);
     return percentage;
@@ -200,41 +155,8 @@ class StreetCrimes extends React.Component {
 
   componentDidMount() {
     this.StreetCrimes();
-    this.crimeOutcomes();
   }
 
-  crimeOutcomes() {
-    const categories = [];
-    fetch("https://data.police.uk/api/outcomes-at-location?date=2021-01&poly=52.268,0.543:52.794,0.238:52.130,0.478")
-      .then(r => r.json())
-      .then((res) => {
-        var out = this.groupByOutcome(res);
-        for (let i = 0; i < out.groups.length; i++) {
-          categories.push(out.groups[i].code);
-        }
-        const data = [];
-        for (let i = 0; i < out.groups.length; i++) {
-          data.push(out.groups[i].group.count);
-        }
-        this.setState({
-          series: [
-            {
-              data: data
-            }
-          ],
-          options: {
-            labels: categories
-          }
-        });
-      },
-        (error) => {
-          this.setState({
-            error
-          });
-        }
-      )
-    return "Total: " + this.state.total
-  }
 
   StreetCrimes() {
     fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
@@ -245,7 +167,8 @@ class StreetCrimes extends React.Component {
           this.setState({
             isLoaded: true,
             categories: categories,
-            count: categories.count
+            count: categories.count,
+            streetCrimesResponse: result
           });
         },
         (error) => {
@@ -304,7 +227,7 @@ class StreetCrimes extends React.Component {
       definition = "It is a crime to use, possess, manufacture, or distribute drugs classified as having a potential for abuse.";
     }
     else if (category === "violent-crime") {
-      definition = "Violent crime, is when a victim is harmed by or threatened with violence. Crimes include rape and sexual assault, robbery, assault and murder.";
+      definition = "Violent crime includes rape and sexual assault, robbery, assault and murder.";
     }
     else if (category === "anti-social-behaviour") {
       definition = "Anti-social behaviour includes a range of nuisance and criminal behaviours which are causing distress to others.";
@@ -338,12 +261,15 @@ class StreetCrimes extends React.Component {
 
         <Container className="top-breadcrumb">
           <Row>
-            <Col>
+            <Col sm={9}>
               <Breadcrumb >
                 <Breadcrumb.Item href="/">Police Force - {this.textFormatter(this.state.policeForce)}</Breadcrumb.Item>
                 <Breadcrumb.Item href="/neighbourhoods"> Neighbourhoods - {this.state.neighbourhood} </Breadcrumb.Item>
                 <Breadcrumb.Item active> Street Crimes </Breadcrumb.Item>
               </Breadcrumb>
+            </Col>
+            <Col sm={3} align="right">
+              <PdfGenerator criminals={this.state.criminals} ssCount={this.state.ssCount} commonCrime={this.state.commonCrime} prosecutionRate={this.state.prosecutionRate} />
             </Col>
           </Row>
         </Container>
@@ -352,13 +278,12 @@ class StreetCrimes extends React.Component {
             <Col sm={4}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron" >
-                  <CrimeSummary crimeCount={categories.count} />
+                  <CrimeSummary crimeCount={categories.count} streetCrimesResponse={this.state.streetCrimesResponse} />
                 </Jumbotron>
               </Row>
             </Col>
             <Col sm={8}>
               <Jumbotron className="personal-details-jumbotron" align="center">
-
                 <LineChart />
               </Jumbotron>
             </Col>
@@ -366,19 +291,7 @@ class StreetCrimes extends React.Component {
           <Row>
             <Col sm={5}>
               <Jumbotron className="personal-details-jumbotron" align="center">
-                <div className="app">
-                  <div className="row">
-                    <div className="mixed-chart">
-                      <Chart
-                        options={this.state.options}
-                        series={this.state.series}
-                        type="bar"
-                        width="530"
-                        height="320"
-                      />
-                    </div>
-                  </div>
-                </div>
+                <CrimeOutcomesChart />
               </Jumbotron>
             </Col>
             <Col sm={7}>
@@ -387,8 +300,6 @@ class StreetCrimes extends React.Component {
                   ? <div><Loading /></div>
                   :
                   <svg viewBox="0 0 100 44">
-                    {/* <LastUpdated /> */}
-                    {/* <text x='1' y='3' fontSize="0.075em">Total street crimes: {categories.count}</text> */}
                     {
                       categories.groups.map((category, i) => (
                         <NavLink key={i} className="nav-link"

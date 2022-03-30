@@ -4,78 +4,88 @@ import { withRouter } from 'react-router-dom';
 
 // reigon array
 const northEast = ["durham", "northumbria"];
-const southWest = ["wiltshire", "gloucestshire", "devon and cornwall", "dorset"]
-const southEast = ["thames valley", "hertfordshire", "essex", "sussex", "kent", "cambridgeshire", "hampshire", "surrey"];
-const northWest = ["greater manchester", "lancashire", "cheshire", "merseyside", "cumbria"];
-const yorkshireHumber = ["west yorkshire", "south yorkshire", "north yorkshire", "humberside", "cleveland"];
-const greaterLondon = ["metro", "city of london"];
-const other = ["northern ireland", "north wales", "south wales", "dyfed-powys"];
-const eastOfEngland = ["Norfolk", "Suffolk and Cambridgeshire"];
+const southWest = ["wiltshire", "gloucestshire", "devon-and-cornwall", "dorset"]
+const southEast = ["thames-valley", "hertfordshire", "essex", "sussex", "kent", "cambridgeshire", "hampshire", "surrey"];
+const northWest = ["greater-manchester", "lancashire", "cheshire", "merseyside", "cumbria"];
+const yorkshireHumber = ["west-yorkshire", "south-yorkshire", "north-yorkshire", "humberside", "cleveland"];
+const greaterLondon = ["metro", "city-of-london"];
+const other = ["northern-ireland", "north-wales", "south-wales", "dyfed-powys"];
+const eastOfEngland = ["norfolk", "suffolk"];
 const eastMidlands = ["leicestershire, lincolnshire, northamptonshire, derbyshire, nottginhamshire"];
-const westMidlands = ["wes mercia", "warwickshire", "west midlands", "staffordshire"];
-
-const testArray = ["thames valley", "hertfordshire", "essex", "sussex", "kent", "cambridgeshire", "hampshire", "surrey", "wes mercia", "warwickshire", "west midlands", "staffordshire"];
+const westMidlands = ["wes-mercia", "warwickshire", "west-midlands", "staffordshire"];
 
 class PoliceForceFilter extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
+      forceArr: this.props.forceArr,
+      selectedReigon: [],
+      eventValue: ""
     };
-
+    this.handleChange = this.handleChange.bind(this);
   }
 
+
   handleChange(event) {
+    this.setArray(event.target.value);
+  }
+
+  setArray(event) {
+    var value = event;
     var arr;
 
-    if (event.target.value === 'north-east') {
+    if (value === 'north-east') {
       arr = northEast;
     }
-    else if (event.target.value === 'south-west') {
+    else if (value === 'south-west') {
       arr = southWest;
     }
-    else if (event.target.value === 'south-east') {
+    else if (value === 'south-east') {
       arr = southEast;
     }
-    else if (event.target.value === 'north-west') {
+    else if (value === 'north-west') {
       arr = northWest;
     }
-    else if (event.target.value === 'yorkshire-humber') {
+    else if (value === 'yorkshire-humber') {
       arr = yorkshireHumber;
     }
-    else if (event.target.value === 'greater-london') {
+    else if (value === 'greater-london') {
       arr = greaterLondon;
     }
-    else if (event.target.value === 'other') {
+    else if (value === 'other') {
       arr = other;
     }
-    else if (event.target.value === 'east-of-england') {
+    else if (value === 'east-of-england') {
       arr = eastOfEngland;
     }
-    else if (event.target.value === 'east-midlands') {
+    else if (value === 'east-midlands') {
       arr = eastMidlands;
 
-    } else if (event.target.value === 'west-midlands') {
+    } else if (value === 'west-midlands') {
       arr = westMidlands;
     } else {
       console.log("error")
     }
-    console.log("chosen array:", arr);
-    console.log("test results", testArray);
-
+    this.filterArray(arr);
   }
 
-  // updateArray(arr) {
-  //   console.log("test:", arr)
-  //   const t = ["kent", "essex"]
-  //   console.log(places.find(p => p === t));
-  // }
+  filterArray(arr) {
+    const filteredForces = [];
+    const forceArr = this.state.forceArr;
+    for (let i = 0; i < arr.length; i++) {
+      const arrayFilter = forceArr.filter(element => element.id === "essex");
+
+      filteredForces.push(arrayFilter);
+      console.log(filteredForces)
+      console.log("filter array", arrayFilter)
+
+    }
+  }
 
   render() {
 
     return (
       <>
-        {/* {this.test()} */}
-        {this.updateArray}
         <Container >
           <Row className="filter-padding">
             <Col >
