@@ -32,9 +32,6 @@ class NavBar extends Component {
               <NavLink className="nav-link" to="/about">
                 <h5 className="nav-text">About</h5>
               </NavLink>
-              <NavLink className="nav-link" to="/">
-                <PdfGenerator />
-              </NavLink>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

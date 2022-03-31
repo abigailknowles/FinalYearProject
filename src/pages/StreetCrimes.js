@@ -27,15 +27,17 @@ class StreetCrimes extends React.Component {
         '#e6e6ff', '#ff80aa', '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5',
         '#ffe6cc', '#e6e6e6', '#6666cc', '#ffdd99', '#b3ffb3', '#80ffdf', '#b3d9ff', '#a0a1f5', '#ffccff', '#b3ccff', '#9fdfbf', '#a3a3c2', '#6699cc'],
       shapes: [
-        { xcords: 37, ycords: 19.8 },
-        { xcords: 22.5, ycords: 24 },
-        { xcords: 68, ycords: 36 },
-        { xcords: 64.5, ycords: 22.5 },
-        { xcords: 77.2, ycords: 24 },
-        { xcords: 21.7, ycords: 38 },
-        { xcords: 33.8, ycords: 33.4 },
-        { xcords: 50.5, ycords: 32.8 },
-        { xcords: 82, ycords: 36 },
+        { xcords: 35.5, ycords: 32 },
+        { xcords: 20, ycords: 30 },
+        { xcords: 54, ycords: 49 },
+        { xcords: 72.5, ycords: 31 },
+        { xcords: 68, ycords: 45 },
+        { xcords: 24, ycords: 47 },
+        { xcords: 39.5, ycords: 46 },
+        { xcords: 82.5, ycords: 43 },
+        { xcords: 54, ycords: 30.5 },
+        { xcords: 87, ycords: 29 },
+
       ]
     };
   }
@@ -121,34 +123,34 @@ class StreetCrimes extends React.Component {
     var size = 0;
 
     if (percentage <= 10) {
-      size = "6"
-    }
-    else if (percentage <= 20) {
       size = "7"
     }
-    else if (percentage <= 30) {
+    else if (percentage <= 20) {
       size = "8"
     }
-    else if (percentage <= 40) {
+    else if (percentage <= 30) {
       size = "9"
     }
-    else if (percentage <= 50) {
+    else if (percentage <= 40) {
       size = "10"
     }
-    else if (percentage <= 60) {
+    else if (percentage <= 50) {
       size = "11"
     }
-    else if (percentage <= 70) {
+    else if (percentage <= 60) {
       size = "12"
     }
-    else if (percentage <= 80) {
+    else if (percentage <= 70) {
       size = "13"
     }
-    else if (percentage <= 90) {
+    else if (percentage <= 80) {
       size = "14"
     }
-    else if (percentage <= 100) {
+    else if (percentage <= 90) {
       size = "15"
+    }
+    else if (percentage <= 100) {
+      size = "16"
     }
     return size
   }
@@ -299,7 +301,9 @@ class StreetCrimes extends React.Component {
                 {!isLoaded
                   ? <div><Loading /></div>
                   :
-                  <svg viewBox="0 0 100 44">
+                  <svg viewBox="0 0 100 55">
+                    <text x={20} y={5} textAnchor='middle' alignmentBaseline="middle" fontSize="0.10em">Street Crimes</text>
+
                     {
                       categories.groups.map((category, i) => (
                         <NavLink key={i} className="nav-link"

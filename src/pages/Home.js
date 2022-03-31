@@ -74,7 +74,6 @@ class Home extends React.Component {
 
   calculateBubbleSize(forceLength) {
     var length = forceLength.length;
-    console.log("Length", length)
     var size = 0;
 
     if (length <= 10) {
