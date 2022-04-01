@@ -158,7 +158,7 @@ class CrimeOutcomesChart extends Component {
                                 series={this.state.series}
                                 type="bar"
                                 width="500"
-                                height="380"
+                                height="320"
                             />
                         </div>
                     </div>
