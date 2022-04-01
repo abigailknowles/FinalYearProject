@@ -2,6 +2,7 @@ import React, { } from "react";
 import { Container, Row, Jumbotron, Col } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
+import Select from 'react-select'
 
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
@@ -9,6 +10,21 @@ import PdfGenerator from '../components/PdfGenerator';
 import LineChart from "../components/visualisations/LineChart";
 import CrimeSummary from "../components/summaries/CrimeSummary";
 import CrimeOutcomesChart from "../components/visualisations/CrimeOutcomesChart";
+
+const options = [
+  { value: 'all-crime', label: 'All crime' },
+  { value: 'violent-crime', label: 'Violent crime' },
+  { value: 'anti-social-behaviour', label: 'Anti social behaviour' },
+  { value: 'buglary', label: 'Buglary' },
+  { value: 'public-order', label: 'Public order' },
+  { value: 'criminal-damage-arson', label: 'Criminal damage and arson' },
+  { value: 'drugs', label: 'Drugs' },
+  { value: 'vehicle-crime', label: 'Vehicle crime' },
+  { value: 'theft-from-person', label: 'Theft from person' },
+  { value: 'other-theft', label: 'Other theft' },
+  { value: 'other-crime', label: 'Other crime' }
+
+]
 
 class StreetCrimes extends React.Component {
   constructor(props) {
@@ -286,6 +302,10 @@ class StreetCrimes extends React.Component {
             </Col>
             <Col sm={8}>
               <Jumbotron className="personal-details-jumbotron" align="center">
+                <Col align="left">
+                  <Select className="crime-select" options={options} placeholder="Choose a crime category.." />
+                </Col>
+
                 <LineChart />
               </Jumbotron>
             </Col>

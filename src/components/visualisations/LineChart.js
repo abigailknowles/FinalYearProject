@@ -74,7 +74,7 @@ class LineChart extends Component {
 
     return (
       <>
-        <Chart options={this.state.options} series={this.state.series} type="line" height={215} width={750} />
+        <Chart options={this.state.options} series={this.state.series} type="line" height={215} width={860} />
       </>
     );
   }

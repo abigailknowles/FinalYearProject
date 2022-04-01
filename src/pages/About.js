@@ -70,7 +70,8 @@ class About extends React.Component {
         </Container>
         <Row className="about-padding"> </Row>
 
-        <Container>
+        <Container className="about-information">
+          <br />
           <Row className="about-padding">
             <Col>
               <h4 className="about-header">What is the purpose of the project?</h4>
@@ -84,6 +85,7 @@ class About extends React.Component {
                 can also generate and download a PDF report for each of the data pages.</p>
             </Col>
           </Row>
+          <br />
           <Row className="about-padding">
             <Col>
               <h4 className="about-header">Where has the data come from?</h4>
@@ -97,6 +99,7 @@ class About extends React.Component {
               </p>
             </Col>
           </Row>
+          <br />
           <Row className="about-padding">
             <Col>
               <h4 className="about-header">What is the quality of the data like?</h4>
@@ -108,6 +111,7 @@ class About extends React.Component {
               <p>The main advantage to using this data source would be how reliable it is. It provides open data regarding policing and crime in the UK and mentions how it supplies its data using the police annual data requirements (ADR) and the open government license. Another advantage to using this data source would be the extensive documentation it provides. It provides information on how to download the CSV, technical documentation on how to use the API, a changelog, contact details, and an about section.</p>
             </Col>
           </Row>
+          <br />
           <Row className="about-padding">
             <Col>
               <h4 className="about-header">How can I work with this data source?</h4>
@@ -119,6 +123,7 @@ class About extends React.Component {
               <p>Data.police.uk provide two methods of accessing their data; through calling an API or downloading a CSV.</p>
             </Col>
           </Row>
+          <br />
           <Row className="about-padding">
             <Col>
               <h4 className="about-header">Who can I contact regarding this project?</h4>
@@ -133,22 +138,7 @@ class About extends React.Component {
             </Col>
           </Row>
           <Row className="about-padding"></Row>
-
-          {/* <Container>
-            <div className="question-box">
-              <Form>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="name@example.com" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                  <Form.Label>Example textarea</Form.Label>
-                  <Form.Control as="textarea" rows={3} />
-                </Form.Group>
-              </Form>
-              <Button variant="light">Submit</Button>
-            </div>
-          </Container> */}
+          <br />
         </Container>
       </>
     );

@@ -7,222 +7,250 @@
   pointer-events: none;
 }
 
-.loading-spinner{
+.loading-spinner {
   background-color: #65c4c2;
 }
 
-.donut-chart-arcs > path {
+.donut-chart-arcs>path {
   stroke: #ccc;
   cursor: pointer;
   transition: transform 0.2s linear;
   transform-origin: center;
 }
-.donut-chart-arcs > path:hover {
+
+.donut-chart-arcs>path:hover {
   transform: scale(1.03);
 }
+
 .donut-chart-text {
   display: none;
 }
 
 
-.circle-css:hover{
-  fill:rgb(221, 221, 221)!important;
-  r:12;
+.circle-css:hover {
+  fill: rgb(221, 221, 221) !important;
+  r: 12;
   transition-duration: 0.8s;
-  }
- 
-  .circle-css:focus{
-    fill:rgb(221, 221, 221)!important;
-    r:12;
-    transition-duration: 0.8s;
-    }
-   
-  .download-icon{
-    float:right;
-  }
-  
-    .button {
-      display: inline-block;
-      position: relative;
-      margin: 1em;
-      padding: 0.67em;
-      border: 2px solid rgb(100, 100, 100);
-      overflow: hidden;
-      text-decoration: none;
-      font-size: 2em;
-      outline: none;
-      color: rgb(100, 100, 100);
-      background: transparent;
-      font-family: 'raleway', sans-serif;
-  }
-  
-  .button span {
-      -webkit-transition: 0.6s;
-      -moz-transition: 0.6s;
-      -o-transition: 0.6s;
-      transition: 0.6s;
-      -webkit-transition-delay: 0.2s;
-      -moz-transition-delay: 0.2s;
-      -o-transition-delay: 0.2s;
-      transition-delay: 0.2s;
-  }
-  
-  .button:before,
-  .button:after {
-      content: '';
-      position: absolute;
-      top: 0.67em;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      opacity: 0;
-      -webkit-transition: .4s,opacity .6s;
-      -moz-transition: .4s,opacity .6s;
-      -o-transition: .4s,opacity .6s;
-      transition: .4s,opacity .6s;
-  }
-  
-  .button:before {
-      content: attr(data-hover);
-      -webkit-transform: translate(-150%,0);
-      -moz-transform: translate(-150%,0);
-      -ms-transform: translate(-150%,0);
-      -o-transform: translate(-150%,0);
-      transform: translate(-150%,0);
-  }
-  .summary-text{
- font-size: 0.95em;
- padding-bottom:1%;
- padding-left:2%;
+}
 
-  }
-  .summary-header{
+.circle-css:focus {
+  fill: rgb(221, 221, 221) !important;
+  r: 12;
+  transition-duration: 0.8s;
+}
+
+.download-icon {
+  float: right;
+}
+
+.button {
+  display: inline-block;
+  position: relative;
+  margin: 1em;
+  padding: 0.67em;
+  border: 2px solid rgb(100, 100, 100);
+  overflow: hidden;
+  text-decoration: none;
+  font-size: 2em;
+  outline: none;
+  color: rgb(100, 100, 100);
+  background: transparent;
+  font-family: 'raleway', sans-serif;
+}
+
+.button span {
+  -webkit-transition: 0.6s;
+  -moz-transition: 0.6s;
+  -o-transition: 0.6s;
+  transition: 0.6s;
+  -webkit-transition-delay: 0.2s;
+  -moz-transition-delay: 0.2s;
+  -o-transition-delay: 0.2s;
+  transition-delay: 0.2s;
+}
+
+.button:before,
+.button:after {
+  content: '';
+  position: absolute;
+  top: 0.67em;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  -webkit-transition: .4s, opacity .6s;
+  -moz-transition: .4s, opacity .6s;
+  -o-transition: .4s, opacity .6s;
+  transition: .4s, opacity .6s;
+}
+
+.button:before {
+  content: attr(data-hover);
+  -webkit-transform: translate(-150%, 0);
+  -moz-transform: translate(-150%, 0);
+  -ms-transform: translate(-150%, 0);
+  -o-transform: translate(-150%, 0);
+  transform: translate(-150%, 0);
+}
+
+.summary-text {
+  font-size: 0.95em;
+  padding-bottom: 1%;
+  padding-left: 2%;
+
+}
+
+.summary-header {
   font-size: 1.2em;
-  padding-bottom:0.8%;
-  }
-  .summary-line{
-    padding-bottom:2.5%
-  }
-  .button:after {
-      content: attr(data-active);
-      -webkit-transform: translate(150%,0);
-      -moz-transform: translate(150%,0);
-      -ms-transform: translate(150%,0);
-      -o-transform: translate(150%,0);
-      transform: translate(150%,0);
-  }
-  .personal-details-jumbotron {
-    background-color: #ffffff;
-    border-style:solid;
-    border-color: #73b9ed;
-    border-radius: 12px;
-    width: 100%;
-    padding: 24px 30px 24px 37px
-  }
-  .personal-details-container {
-    border-radius: 12px;
-    width: 100%;
-    padding: 24px 30px 0px 37px
-  }
-  .police-name{
-    font-size: 1.3em;
-    padding-bottom: 1%;
-    font-weight: 600;
-  }
-  .police-url{
-    font-size:1em;
-    padding-bottom: 1%;
-    font-weight: 500;
-  }
-  .police-description{
-    font-size:0.9em;
-  }
-  .button:hover span,
-  .button:active span {
-      opacity: 0;
-      -webkit-transform: scale(0.3);
-      -moz-transform: scale(0.3);
-      -ms-transform: scale(0.3);
-      -o-transform: scale(0.3);
-      transform: scale(0.3);
-  }
-  
-  .button:hover:before,
-  .button:active:after {
-      opacity: 1;
-      -webkit-transform: translate(0,0);
-      -moz-transform: translate(0,0);
-      -ms-transform: translate(0,0);
-      -o-transform: translate(0,0);
-      transform: translate(0,0);
-      -webkit-transition-delay: .4s;
-      -moz-transition-delay: .4s;
-      -o-transition-delay: .4s;
-      transition-delay: .4s;
-  }
-  
-  .button:active:before {
-      -webkit-transform: translate(-150%,0);
-      -moz-transform: translate(-150%,0);
-      -ms-transform: translate(-150%,0);
-      -o-transform: translate(-150%,0);
-      transform: translate(-150%,0);
-      -webkit-transition-delay: 0s;
-      -moz-transition-delay: 0s;
-      -o-transition-delay: 0s;
-      transition-delay: 0s;
-  }
+  padding-bottom: 0.8%;
+}
+
+.summary-line {
+  padding-bottom: 2.5%
+}
+
+.button:after {
+  content: attr(data-active);
+  -webkit-transform: translate(150%, 0);
+  -moz-transform: translate(150%, 0);
+  -ms-transform: translate(150%, 0);
+  -o-transform: translate(150%, 0);
+  transform: translate(150%, 0);
+}
+
+.personal-details-jumbotron {
+  background-color: #ffffff;
+  border-style: solid;
+  border-color: #65c4c2;
+  border-radius: 12px;
+  width: 100%;
+  padding: 24px 30px 24px 37px
+}
+
+.personal-details-container {
+  border-radius: 12px;
+  width: 100%;
+  padding: 24px 30px 0px 37px
+}
+
+.police-name {
+  font-size: 1.3em;
+  padding-bottom: 1%;
+  font-weight: 600;
+}
+
+.police-url {
+  font-size: 1em;
+  padding-bottom: 1%;
+  font-weight: 500;
+}
+
+.police-description {
+  font-size: 0.9em;
+}
+
+.crime-select {
+  width: 50%;
+  padding-bottom: 20px;
+}
+
+.button:hover span,
+.button:active span {
+  opacity: 0;
+  -webkit-transform: scale(0.3);
+  -moz-transform: scale(0.3);
+  -ms-transform: scale(0.3);
+  -o-transform: scale(0.3);
+  transform: scale(0.3);
+}
+
+.button:hover:before,
+.button:active:after {
+  opacity: 1;
+  -webkit-transform: translate(0, 0);
+  -moz-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+  -webkit-transition-delay: .4s;
+  -moz-transition-delay: .4s;
+  -o-transition-delay: .4s;
+  transition-delay: .4s;
+}
+
+.button:active:before {
+  -webkit-transform: translate(-150%, 0);
+  -moz-transform: translate(-150%, 0);
+  -ms-transform: translate(-150%, 0);
+  -o-transform: translate(-150%, 0);
+  transform: translate(-150%, 0);
+  -webkit-transition-delay: 0s;
+  -moz-transition-delay: 0s;
+  -o-transition-delay: 0s;
+  transition-delay: 0s;
+}
 
 /* breadcrumb */
-  .breadcrumb{
-    background-color: white!important;
-  }
+.breadcrumb {
+  background-color: white !important;
+}
 
-  .top-breadcrumb{
-    padding-top:30px;
-    border-bottom: solid 1px #65c4c2;
-  }
+.top-breadcrumb {
+  padding-top: 30px;
+  border-bottom: solid 1px #65c4c2;
+}
 
 /* about page */
-.about-header{
+.about-header {
   text-align: center;
-  font-size:1.2em;
-}
-.about-icon-header{
-  text-align: center;
-}
-.about-icon-text{
-  text-align: center;
- }
-
- .about-icon{
-  text-align: center;
-}
-.about-padding{
-  padding-top:20px;
+  font-size: 1.2em;
 }
 
-.banner{
-  width:100%;
-  height:300px;
+.about-icon-header {
+  text-align: center;
+}
+
+.about-icon-text {
+  text-align: center;
+}
+
+.about-icon {
+  text-align: center;
+}
+
+.about-padding {
+  padding-top: 20px;
+}
+
+.banner {
+  width: 100%;
+  height: 300px;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;    
+  background-size: cover;
   background-image: url("img/police.jpeg");
 }
 
-.about-summary{
+.about-summary {
   border-radius: 25px;
-  background-color:white;
+  background-color: white;
   border: solid 0.5px #e2e2e2;
   box-shadow: 5px 5px #e2e2e2;
   padding: 10px 10px 10px 10px;
 }
 
-.question-box{
+.about-information {
+  border-radius: 25px;
+  border: solid 2px #e2e2e2;
+  padding-left: 50px;
+  padding-right: 50px;
+  text-align: center;
+}
+
+.question-box {
   border: solid 1px black;
   justify-content: center;
-  width:50%;
+  width: 50%;
 }
 
 /* navbar*/
@@ -231,22 +259,23 @@
   padding: none;
 }
 
-.nav-logo-text{
+.nav-logo-text {
   color: white;
-  padding-left:6%;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  padding-left: 6%;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
-.nav-icon{
-  color:White;
+.nav-icon {
+  color: White;
 }
 
-.nav-text{
+.nav-text {
   font-size: 12px;
   color: #ffffff;
   padding-right: 30px;
   padding-top: 6px;
 }
+
 .navbar-custom {
   background-color: #65c4c2;
   opacity: 1;
@@ -257,8 +286,8 @@
 .button-logout {
   font-weight: bolder;
   color: white;
-  border:solid white;
-  border-radius:20px;
+  border: solid white;
+  border-radius: 20px;
   font-size: 12px;
   width: 130px;
   height: 30.8px;
@@ -271,8 +300,8 @@
 /* filter box */
 .filter-button {
   color: white;
-  border:solid white;
-  border-radius:20px;
+  border: solid white;
+  border-radius: 20px;
   font-size: 14px;
   width: 130px;
   height: 40px;
@@ -280,13 +309,14 @@
   background-color: #65c4c2;
   z-index: 10;
 }
-.filter-text{
-  color:black;
+
+.filter-text {
+  color: black;
   font-size: 16px;
 }
 
-.filter-padding{
-  padding-top:10px;
+.filter-padding {
+  padding-top: 10px;
 }
 
 
@@ -300,6 +330,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
