@@ -11,21 +11,6 @@ import LineChart from "../components/visualisations/LineChart";
 import CrimeSummary from "../components/summaries/CrimeSummary";
 import CrimeOutcomesChart from "../components/visualisations/CrimeOutcomesChart";
 
-const options = [
-  { value: 'all-crime', label: 'All crime' },
-  { value: 'violent-crime', label: 'Violent crime' },
-  { value: 'anti-social-behaviour', label: 'Anti social behaviour' },
-  { value: 'buglary', label: 'Buglary' },
-  { value: 'public-order', label: 'Public order' },
-  { value: 'criminal-damage-arson', label: 'Criminal damage and arson' },
-  { value: 'drugs', label: 'Drugs' },
-  { value: 'vehicle-crime', label: 'Vehicle crime' },
-  { value: 'theft-from-person', label: 'Theft from person' },
-  { value: 'other-theft', label: 'Other theft' },
-  { value: 'other-crime', label: 'Other crime' }
-
-]
-
 class StreetCrimes extends React.Component {
   constructor(props) {
     super(props);
@@ -43,19 +28,20 @@ class StreetCrimes extends React.Component {
         '#e6e6ff', '#ff80aa', '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5',
         '#ffe6cc', '#e6e6e6', '#6666cc', '#ffdd99', '#b3ffb3', '#80ffdf', '#b3d9ff', '#a0a1f5', '#ffccff', '#b3ccff', '#9fdfbf', '#a3a3c2', '#6699cc'],
       shapes: [
-        { xcords: 35.5, ycords: 32 },
-        { xcords: 20, ycords: 30 },
-        { xcords: 54, ycords: 49 },
-        { xcords: 72.5, ycords: 31 },
-        { xcords: 68, ycords: 45 },
-        { xcords: 24, ycords: 47 },
-        { xcords: 39.5, ycords: 46 },
-        { xcords: 82.5, ycords: 43 },
-        { xcords: 54, ycords: 30.5 },
-        { xcords: 87, ycords: 29 },
+        { xcords: 35.5, ycords: 21 },
+        { xcords: 20, ycords: 19 },
+        { xcords: 54, ycords: 38 },
+        { xcords: 72.5, ycords: 20 },
+        { xcords: 68, ycords: 34 },
+        { xcords: 24, ycords: 35 },
+        { xcords: 39.5, ycords: 35 },
+        { xcords: 82.5, ycords: 33 },
+        { xcords: 54, ycords: 19.5 },
+        { xcords: 87, ycords: 19 },
 
       ]
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   exists(key, array) {
@@ -270,6 +256,14 @@ class StreetCrimes extends React.Component {
     }
     return definition
   }
+  handleChange(e) {
+    this.setState({ selection: e.target.value });
+    this.test(e.target.value)
+  }
+  test(selection) {
+    console.log("Crime type selected:", selection);
+
+  }
   render() {
     const { shapes, categories, isLoaded, colours, isShown, id } = this.state;
 
@@ -302,10 +296,6 @@ class StreetCrimes extends React.Component {
             </Col>
             <Col sm={8}>
               <Jumbotron className="personal-details-jumbotron" align="center">
-                <Col align="left">
-                  <Select className="crime-select" options={options} placeholder="Choose a crime category.." />
-                </Col>
-
                 <LineChart />
               </Jumbotron>
             </Col>
@@ -318,12 +308,11 @@ class StreetCrimes extends React.Component {
             </Col>
             <Col sm={7}>
               <Jumbotron className="personal-details-jumbotron">
+                <h5 className="crimes-header">Street Crimes</h5>
                 {!isLoaded
                   ? <div><Loading /></div>
                   :
-                  <svg viewBox="0 0 100 55">
-                    <text x={20} y={5} textAnchor='middle' alignmentBaseline="middle" fontSize="0.10em">Street Crimes</text>
-
+                  <svg viewBox="0 0 100 41">
                     {
                       categories.groups.map((category, i) => (
                         <NavLink key={i} className="nav-link"
@@ -354,7 +343,11 @@ class StreetCrimes extends React.Component {
                               <text x={shapes[i].xcords - 4} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
                             </>
                             :
-                            <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 5} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
+                            <>
+                              <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 5} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
+                              <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
+                              <text x={shapes[i].xcords - 4} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
+                            </>
                           }
                         </NavLink>
                       ))}

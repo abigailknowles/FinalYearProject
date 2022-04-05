@@ -1,11 +1,27 @@
 import React, { Component } from 'react';
+import { Col } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import Chart from "react-apexcharts";
+
+const options = [
+  { value: 'all-crime', label: 'All crime' },
+  { value: 'violent-crime', label: 'Violent crime' },
+  { value: 'anti-social-behaviour', label: 'Anti social behaviour' },
+  { value: 'buglary', label: 'Buglary' },
+  { value: 'public-order', label: 'Public order' },
+  { value: 'criminal-damage-arson', label: 'Criminal damage and arson' },
+  { value: 'drugs', label: 'Drugs' },
+  { value: 'vehicle-crime', label: 'Vehicle crime' },
+  { value: 'theft-from-person', label: 'Theft from person' },
+  { value: 'other-theft', label: 'Other theft' },
+  { value: 'other-crime', label: 'Other crime' }
+]
 
 class LineChart extends Component {
   constructor() {
     super();
     this.state = {
+      selection: "all-crime",
       series: [{
         name: "Crime count",
         data: []
@@ -34,17 +50,18 @@ class LineChart extends Component {
           },
         },
         xaxis: {
-          categories: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          categories: ['Sept 2021', 'Oct 2021', 'Nov 2021', 'Dec 2021', 'Jan 2022', 'Feb 2022'],
         }
       },
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  chartResults() {
-    const months = ["2021-07", "2021-08", "2021-09", "2021-10", "2021-11", "2021-12"];
+  chartResults(selection) {
+    const months = ["2021-09", "2021-10", "2021-11", "2021-12", "2022-01", "2022-02"];
     const data = [];
     for (let i = 0; i < months.length; i++) {
-      fetch(`https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478&date=${months[i]}`)
+      fetch(`https://data.police.uk/api/crimes-street/${selection}?poly=52.268,0.543:52.794,0.238:52.130,0.478&date=${months[i]}`)
         .then(res => res.json())
         .then(
           (result) => {
@@ -70,10 +87,22 @@ class LineChart extends Component {
 
   }
 
+  handleChange(e) {
+    this.setState({ selection: e.target.value });
+    this.chartResults(e.target.value)
+  }
+
   render() {
 
     return (
       <>
+        <Col align="left">
+          <select value={this.state.selection} onChange={this.handleChange}>
+            {options.map((option) => (
+              <option value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </Col>
         <Chart options={this.state.options} series={this.state.series} type="line" height={215} width={860} />
       </>
     );

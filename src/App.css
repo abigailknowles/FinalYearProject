@@ -154,6 +154,12 @@
   padding-bottom: 20px;
 }
 
+.crimes-header {
+  font-size: 14px;
+  font-weight: 900;
+  text-align: center;
+}
+
 .button:hover span,
 .button:active span {
   opacity: 0;

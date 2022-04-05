@@ -206,7 +206,13 @@ class CrimeSummary extends Component {
         <Row>
           <FontAwesomeIcon size="1x" className="download-icon" icon={faGavel} />
           <h5 className="summary-text">The most common crime outcome is {this.state.mostCommonOutcome}</h5>
-        </Row>      </>
+        </Row>
+        <Row>
+          <FontAwesomeIcon size="1x" className="download-icon" icon={faGavel} />
+          <h5 className="summary-text">The most common crime outcome is {this.state.mostCommonOutcome}</h5>
+        </Row>
+
+      </>
     );
   }
 }
