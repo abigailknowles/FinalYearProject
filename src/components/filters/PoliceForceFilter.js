@@ -66,6 +66,7 @@ class PoliceForceFilter extends Component {
     } else {
       console.log("error")
     }
+    console.log(arr)
     this.filterArray(arr);
   }
 

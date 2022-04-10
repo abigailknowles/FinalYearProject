@@ -74,6 +74,12 @@ class CrimeOutcomesChart extends Component {
         return { groups: groups, count: arr.length };
     }
 
+    textFormatter(category) {
+        const cat = category;
+        const capitalCat = cat.charAt(0).toUpperCase() + cat.slice(1);
+        return capitalCat.replaceAll('-', ' ');
+    }
+
     StreetCrimes() {
         fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
             .then(res => res.json())
@@ -83,7 +89,8 @@ class CrimeOutcomesChart extends Component {
                     const y = [];
                     var categories = this.groupBy(result);
                     for (let i = 0; i < categories.groups.length; i++) {
-                        x.push(categories.groups[i].category);
+                        var cat = this.textFormatter(categories.groups[i].category)
+                        x.push(cat);
                     }
                     for (let i = 0; i < categories.groups.length; i++) {
                         y.push(categories.groups[i].group.count);

@@ -127,6 +127,16 @@
   padding: 24px 30px 24px 37px
 }
 
+.police-force-jumbotron {
+  background-color: #ffffff;
+  border-style: solid;
+  border-color: #65c4c2;
+  border-radius: 12px;
+  width: 100%;
+  height: 599px;
+  padding: 24px 30px 24px 37px
+}
+
 .personal-details-container {
   border-radius: 12px;
   width: 100%;
@@ -135,13 +145,12 @@
 
 .police-name {
   font-size: 1.3em;
-  padding-bottom: 1%;
+  padding-top: 8%;
   font-weight: 600;
 }
 
 .police-url {
-  font-size: 1em;
-  padding-bottom: 1%;
+  font-size: 0.9em;
   font-weight: 500;
 }
 

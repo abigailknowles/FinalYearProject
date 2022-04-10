@@ -55,7 +55,7 @@ class About extends React.Component {
           </Row>
           <Row>
             <Col sm={4}>
-              <h6 className="about-icon-text">https://data.police.uk/</h6>
+              <h6 className="about-icon-text"> <a href="https://data.police.uk/">https://data.police.uk/</a></h6>
             </Col>
             <Col sm={4}>
               <h6 className="about-icon-text">England, Wales and Northern Ireland</h6>
@@ -94,7 +94,7 @@ class About extends React.Component {
           <hr />
           <Row>
             <Col>
-              <p>The data provided for the visualisations has come from https://data.police.uk/data/. They provide data about crimes, outcomes,
+              <p>The data provided for the visualisations has come from <a href="https://data.police.uk/data/"> https://data.police.uk/data/</a>. They provide data about crimes, outcomes,
                 police forces and neighbourhoods for England, Wales and Northern Ireland. They make their data available through the Open Government Licence v3.0.
               </p>
             </Col>
@@ -133,7 +133,7 @@ class About extends React.Component {
           <Row>
             <Col>
               <p>For any data related queries data.police.uk should be the first place of contact. There contact details can be found on
-                the following link: https://data.police.uk/contact/. For any other queries regarding the web application you are currently on,
+                the following link: <a href="https://data.police.uk/contact/">https://data.police.uk/contact/</a>. For any other queries regarding the web application you are currently on,
                 you can contact A.Knowles@2018.ljmu.ac.uk</p>
             </Col>
           </Row>

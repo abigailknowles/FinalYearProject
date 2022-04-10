@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
+import { Row, Col } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-
 import Loading from '../Loading';
 
 class NeighbourhoodInfo extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       info: [],
+      selection: "LU3"
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   neighbourhoodCode() {
@@ -17,9 +19,8 @@ class NeighbourhoodInfo extends Component {
       .then(
         (result) => {
           this.setState({
-            id: result,
+            neighbourhoods: result,
           });
-          console.log(result.id)
         },
         (error) => {
           this.setState({
@@ -29,14 +30,15 @@ class NeighbourhoodInfo extends Component {
       )
   }
 
-  neighbourhoodInformation() {
-    fetch(`https://data.police.uk/api/leicestershire/NC04`)
+  neighbourhoodPriorities() {
+    var policeForce = this.props.policeForce
+    fetch(`https://data.police.uk/api/${policeForce}/${this.state.selection}/priorities`)
       .then(res => res.json())
       .then(
         (result) => {
           this.setState({
             isLoaded: true,
-            info: result,
+            info: result[0],
           });
         },
         (error) => {
@@ -50,17 +52,30 @@ class NeighbourhoodInfo extends Component {
 
   componentDidMount() {
     this.neighbourhoodCode();
-    this.neighbourhoodInformation();
+    this.neighbourhoodPriorities();
+  }
+
+  forceFormatter(force) {
+    const police = force;
+    const formatForce = police.charAt(0).toUpperCase() + police.slice(1);
+    return formatForce;
   }
 
   textFormatter(description) {
     const desc = String(description);
-    const formattedDesc = desc.replaceAll('<p>', '');
-    return formattedDesc.replaceAll('</p>', '\n');
+    const formattedDesc1 = desc.replaceAll('<p>', '');
+    const formattedDesc2 = formattedDesc1.replaceAll('-<br />', '');
+
+    return formattedDesc2.replaceAll('</p>', '\n');
+  }
+
+  handleChange(e) {
+    this.setState({ selection: e.target.value });
+    this.neighbourhoodPriorities()
   }
 
   render() {
-    const { isLoaded } = this.state;
+    const { isLoaded, neighbourhoods } = this.state;
 
     return (
       <>
@@ -68,10 +83,25 @@ class NeighbourhoodInfo extends Component {
           ? <div><Loading /></div>
           :
           <>
-            <h4 className="police-name">Leicestershire</h4>
-            <h5 className="police-url">{this.state.info.links[0].url}</h5>
+            <Row>
+              <Col sm={5} align="left">
+                <h4 className="police-name">Neighbourhood Priorities</h4>
+              </Col>
+              <Col sm={7}>
+                <select value={this.state.selection} onChange={this.handleChange}>
+                  {neighbourhoods.map((neighbourhoods) => (
+                    <option value={neighbourhoods.id}>{neighbourhoods.name}</option>
+                  ))}
+                </select>
+              </Col>
+            </Row>
+            <Row>
+              <Col align="left">
+                <h5 className="police-url">{this.forceFormatter(this.props.policeForce)} - {this.state.selection}</h5>
+              </Col>
+            </Row>
             <hr className="summary-line"></hr>
-            <p className="police-description">{this.textFormatter(this.state.info.description)}</p>
+            <p className="police-description">{this.textFormatter(this.state.info.issue)}</p>
           </>
         }
       </>

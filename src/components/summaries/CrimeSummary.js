@@ -12,37 +12,6 @@ class CrimeSummary extends Component {
     }
   }
 
-  // isGroupInOutcomesArray(groups, category) {
-  //   var isFound = false;
-  //   for (var key in groups) {
-  //     if (groups[key].category === category) {
-  //       isFound = true;
-  //     }
-  //   }
-  //   return isFound;
-  // }
-
-  // getByOutcomeName(arr, category) {
-  //   var group = [];
-  //   for (var i = 0; i < arr.length; i++) {
-  //     if (arr[i].category === category) {
-  //       group.push(arr[i]);
-  //     }
-  //   }
-  //   return { group: group, count: group.length };
-  // }
-
-  // groupByOutcome(arr) {
-  //   var groups = [];
-
-  //   for (var i = 0; i < arr.length; i++) {
-  //     var category = arr[i].category;
-  //     if (this.isGroupInOutcomesArray(groups, category) === false)
-  //       groups.push({ category: category, group: this.getByOutcomeName(arr, category) })
-  //   }
-  //   return { groups: groups, count: arr.length };
-  // }
-
   exists(key, array) {
     var isFound = false;
     for (let i = 0; i < array.length; i++) {
@@ -208,8 +177,8 @@ class CrimeSummary extends Component {
           <h5 className="summary-text">The most common crime outcome is {this.state.mostCommonOutcome}</h5>
         </Row>
         <Row>
-          <FontAwesomeIcon size="1x" className="download-icon" icon={faGavel} />
-          <h5 className="summary-text">The most common crime outcome is {this.state.mostCommonOutcome}</h5>
+          <FontAwesomeIcon size="1x" className="download-icon" icon={faCalendar} />
+          <h5 className="summary-text">The highest month for crime is October</h5>
         </Row>
 
       </>

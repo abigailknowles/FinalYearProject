@@ -2,7 +2,6 @@ import React, { } from "react";
 import { Container, Row, Jumbotron, Col } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
-import Select from 'react-select'
 
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
@@ -17,10 +16,6 @@ class StreetCrimes extends React.Component {
     this.state = {
       categories: [],
       selectedOption: null,
-      criminals: "183",
-      commonCrime: "Theft",
-      prosecutionRate: "32%",
-      ssCount: "321",
       policeForce: props.location.aboutProps.selectedPoliceForce,
       neighbourhood: props.location.aboutProps.selectedNeighbourhood,
       colours: ['#ccf3ff', '#74bec8', '#d8bfff', '#f75e5b', '#fff88b', '#e80b8c', '#938fff', '#f7c6af', '#ffa661', '#7ee9cf', '#ffeefe',
@@ -52,16 +47,6 @@ class StreetCrimes extends React.Component {
       }
     }
     return isFound;
-  }
-
-  getByKey(key, arr) {
-    var array = [];
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].object_of_search === key) {
-        array.push(arr[i]);
-      }
-    }
-    return { outcomes: array, count: array.length };
   }
 
   groupOutcomes(arr) {
@@ -159,8 +144,39 @@ class StreetCrimes extends React.Component {
 
   componentDidMount() {
     this.StreetCrimes();
+    this.crimeOutcomes();
+    this.stopAndSearch();
   }
 
+  getByKey(key, arr) {
+    var array = [];
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].category === key) {
+        array.push(arr[i]);
+      }
+    }
+    return { outcomes: array, count: array.length };
+  }
+
+  groupCrimes(arr) {
+    var groups = [];
+
+    for (var i = 0; i < arr.length; i++) {
+      var key = arr[i].category;
+      if (this.exists(key, groups) === false)
+        groups.push({ key: key, outcomes: this.getByKey(key, arr) })
+    }
+
+    return { groups: groups, count: arr.length };
+  }
+
+  getMostCommonCrime(groups) {
+    var sortedArray = groups.sort((elmement1, element2) => {
+      return elmement1.outcomes.count - element2.outcomes.count;
+    });
+
+    return sortedArray[sortedArray.length - 1];
+  }
 
   StreetCrimes() {
     fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
@@ -168,11 +184,15 @@ class StreetCrimes extends React.Component {
       .then(
         (result) => {
           var categories = this.groupBy(result);
+          var crimes = this.groupCrimes(result);
+          var commonCrime = this.getMostCommonCrime(crimes.groups)
           this.setState({
             isLoaded: true,
             categories: categories,
             count: categories.count,
-            streetCrimesResponse: result
+            streetCrimesResponse: result,
+            mostCommonCrime: this.textFormatter(commonCrime.key)
+
           });
         },
         (error) => {
@@ -184,34 +204,36 @@ class StreetCrimes extends React.Component {
       )
   }
 
-  stopAndSearch() {
-    fetch(`https://data.police.uk/api/stops-force?force=bedfordshire`)
-      .then(res => res.json())
-      .then((data) => {
-        var labels = [];
-        var result = this.groupOutcomes(data);
-        for (let i = 0; i < result.groups.length; i++) {
-          labels.push(result.groups[i].key);
-        }
+  crimeOutcomes() {
+    fetch("https://data.police.uk/api/outcomes-at-location?poly=52.268,0.543:52.794,0.238:52.130,0.478")
+      .then(r => r.json())
+      .then((res) => {
         this.setState({
-          isLoaded: true,
-          result: data,
-          total: data.length,
-          isShown: true,
-          options: {
-            labels: labels
-          }
+          outcomesCount: res.length,
         });
       },
         (error) => {
           this.setState({
-            isLoaded: true,
             error
           });
         }
       )
+  }
 
-    return "Total: " + this.state.total
+  stopAndSearch() {
+    fetch(`https://data.police.uk/api/stops-force?force=bedfordshire`)
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({
+          ssCount: data.length,
+        });
+      },
+        (error) => {
+          this.setState({
+            error
+          });
+        }
+      )
   }
 
 
@@ -262,8 +284,9 @@ class StreetCrimes extends React.Component {
   }
   test(selection) {
     console.log("Crime type selected:", selection);
-
   }
+
+
   render() {
     const { shapes, categories, isLoaded, colours, isShown, id } = this.state;
 
@@ -281,7 +304,7 @@ class StreetCrimes extends React.Component {
               </Breadcrumb>
             </Col>
             <Col sm={3} align="right">
-              <PdfGenerator criminals={this.state.criminals} ssCount={this.state.ssCount} commonCrime={this.state.commonCrime} prosecutionRate={this.state.prosecutionRate} />
+              <PdfGenerator criminals={categories.count} stopAndSearch={this.state.ssCount} commonCrime={this.state.mostCommonCrime} crimeOutcomes={this.state.outcomesCount} />
             </Col>
           </Row>
         </Container>
@@ -345,8 +368,6 @@ class StreetCrimes extends React.Component {
                             :
                             <>
                               <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 5} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.textFormatter(category.category)}</text>
-                              <text x={shapes[i].xcords - 4} y={shapes[i].ycords - 2} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.group.count} </text>
-                              <text x={shapes[i].xcords - 4} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{this.calculatePercentage(category.group.count, categories.count)} %</text>
                             </>
                           }
                         </NavLink>

@@ -17,7 +17,7 @@ class NavBar extends Component {
       <>
         <Navbar collapseOnSelect expand="lg" variant="dark" className="navbar-custom">
           <NavLink className="nav-logo" to="/">
-            <FontAwesomeIcon size="2x" className="nav-icon" icon={faChartPie} />
+            <FontAwesomeIcon size="2x" className="nav-icon" aria-label="data-logo" icon={faChartPie} />
           </NavLink>
           <NavLink className="logo" to="/">
             <h3 className="nav-logo-text">CRIMEDATA</h3>
@@ -27,7 +27,7 @@ class NavBar extends Component {
             <Nav className="mr-auto" />
             <Nav>
               <NavLink className="nav-link" to="/">
-                <h5 className="nav-text">Home</h5>
+                <h5 WAI-ARIA role="heading" className="nav-text">Home</h5>
               </NavLink>
               <NavLink className="nav-link" to="/about">
                 <h5 className="nav-text">About</h5>

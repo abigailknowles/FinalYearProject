@@ -56,22 +56,46 @@ class LineChart extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
   }
+  highestMonth(unorderedList) {
+    const arr = unorderedList;
+    console.log("arr", arr);
+    // const m = Math.max(arr.data);
+    // console.log("max", m)
+    // console.log(arr[0])
+    // for (let i = 0; i < arr.length; i++) {
+    //   console.log(arr[i])
+    // }
+    // console.log("unordered arr:", arr)
+    // console.log("unordered arr:", arr[0].data)
+
+  }
 
   chartResults(selection) {
     const months = ["2021-09", "2021-10", "2021-11", "2021-12", "2022-01", "2022-02"];
-    const data = [];
+    const orderedData = [];
+    let unorderedList = [];
+    let counter = 0;
     for (let i = 0; i < months.length; i++) {
       fetch(`https://data.police.uk/api/crimes-street/${selection}?poly=52.268,0.543:52.794,0.238:52.130,0.478&date=${months[i]}`)
         .then(res => res.json())
         .then(
           (result) => {
-            data.push(result.length);
-            this.setState({
-              isShown: true,
-              series: [{
-                data: data
-              }],
-            });
+            unorderedList.push({ "month": months[i], data: result.length });
+
+            counter++;
+            if (counter === 6) {
+              let orderedList = unorderedList.sort(function (a, b) { return new Date(a.month) - new Date(b.month); });
+              for (let i = 0; i < orderedList.length; i++) {
+                orderedData.push(orderedList[i].data)
+              }
+              this.setState({
+                isShown: true,
+                unorderedList: unorderedList,
+                series: [{
+                  data: orderedData
+                }],
+              });
+            }
           },
           (error) => {
             this.setState({
@@ -80,7 +104,9 @@ class LineChart extends Component {
           }
         )
     }
+    this.highestMonth(this.state.unorderedList);
   }
+
 
   componentDidMount() {
     this.chartResults();
@@ -92,10 +118,17 @@ class LineChart extends Component {
     this.chartResults(e.target.value)
   }
 
+  handleClick = () => {
+    // force a re-render
+    this.forceUpdate()
+  };
+
   render() {
 
     return (
       <>
+        {/* <button onClick={this.handleClick}>Update</button> */}
+
         <Col align="left">
           <select value={this.state.selection} onChange={this.handleChange}>
             {options.map((option) => (

@@ -21,62 +21,47 @@ class Neighbourhoods extends React.Component {
         '#e6e6ff', '#ff80aa', '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5',
         '#ffe6cc', '#e6e6e6', '#6666cc', '#ffdd99', '#b3ffb3', '#80ffdf', '#b3d9ff', '#a0a1f5', '#ffccff', '#b3ccff', '#9fdfbf', '#a3a3c2', '#6699cc'],
       shapes: [
-        { size: '10', xcords: 23.5, ycords: 22.5 },
-        { size: '10', xcords: 23.5, ycords: 22.5 },
-        { size: '5.3', xcords: 39.5, ycords: 21 },
-        { size: '7.1', xcords: 52, ycords: 17 },
-        { size: '8.3', xcords: 68, ycords: 20 },
-        { size: '5.4', xcords: 81.7, ycords: 25 },
-        { size: '6', xcords: 24, ycords: 39.4 },
-        { size: '8', xcords: 38.2, ycords: 35 },
-        { size: '9.3', xcords: 56.2, ycords: 34 },
-        { size: '7', xcords: 73.6, ycords: 36 },
-        { size: '5.2', xcords: 13, ycords: 35 },
-        { size: '7', xcords: 37, ycords: 51 },
-        { size: '9', xcords: 82, ycords: 51 },
-        { size: '6.5', xcords: 88, ycords: 36 },
-        { size: '5', xcords: 50, ycords: 49 },
-        { size: '8', xcords: 64, ycords: 50 },
-        { size: '8.3', xcords: 68, ycords: 20 },
-        { size: '5.4', xcords: 81.7, ycords: 25 },
-        { size: '6', xcords: 24, ycords: 39.4 },
-        { size: '8', xcords: 38.2, ycords: 35 },
-        { size: '9.3', xcords: 56.2, ycords: 34 },
-        { size: '7', xcords: 73.6, ycords: 36 },
-        { size: '5.2', xcords: 13, ycords: 35 },
-        { size: '7', xcords: 37, ycords: 51 },
-        { size: '9', xcords: 82, ycords: 51 },
-        { size: '6.5', xcords: 88, ycords: 36 },
-        { size: '5', xcords: 50, ycords: 49 },
-        { size: '8', xcords: 64, ycords: 50 },
-        { size: '10', xcords: 23.5, ycords: 22.5 },
-        { size: '10', xcords: 23.5, ycords: 22.5 },
-        { size: '5.3', xcords: 39.5, ycords: 21 },
-        { size: '7.1', xcords: 52, ycords: 17 },
-        { size: '8.3', xcords: 68, ycords: 20 },
-        { size: '5.4', xcords: 81.7, ycords: 25 },
-        { size: '6', xcords: 24, ycords: 39.4 },
-        { size: '8', xcords: 38.2, ycords: 35 },
-        { size: '9.3', xcords: 56.2, ycords: 34 },
-        { size: '7', xcords: 73.6, ycords: 36 },
-        { size: '5.2', xcords: 13, ycords: 35 },
-        { size: '7', xcords: 37, ycords: 51 },
-        { size: '9', xcords: 82, ycords: 51 },
-        { size: '6.5', xcords: 88, ycords: 36 },
-        { size: '5', xcords: 50, ycords: 49 },
-        { size: '8', xcords: 64, ycords: 50 },
-        { size: '8.3', xcords: 68, ycords: 20 },
-        { size: '5.4', xcords: 81.7, ycords: 25 },
-        { size: '6', xcords: 24, ycords: 39.4 },
-        { size: '8', xcords: 38.2, ycords: 35 },
-        { size: '9.3', xcords: 56.2, ycords: 34 },
-        { size: '7', xcords: 73.6, ycords: 36 },
-        { size: '5.2', xcords: 13, ycords: 35 },
-        { size: '7', xcords: 37, ycords: 51 },
-        { size: '9', xcords: 82, ycords: 51 },
-        { size: '6.5', xcords: 88, ycords: 36 },
-        { size: '5', xcords: 50, ycords: 49 },
-        { size: '8', xcords: 64, ycords: 50 },
+        { xcords: 18, ycords: 54 },
+        { xcords: 54, ycords: 47 },
+        { xcords: 8.5, ycords: 23.5 },
+        { xcords: 82, ycords: 23 },
+        { xcords: 40, ycords: 30 },
+        { xcords: 61, ycords: 28 },
+        { xcords: 23.5, ycords: 18.5 },
+        { xcords: 34, ycords: 49 },
+        { xcords: 85, ycords: 57 },
+        { xcords: 44, ycords: 63 },
+        { xcords: 66, ycords: 13 },
+        { xcords: 51, ycords: 14 },
+        { xcords: 37, ycords: 12 },
+        { xcords: 12, ycords: 88 },
+        { xcords: 68, ycords: 60 },
+        { xcords: 73, ycords: 43 },
+        { xcords: 20, ycords: 36 },
+        // { xcords: 84, ycords: 50 },
+        // { xcords: 11, ycords: 61.5 },
+        // { xcords: 27, ycords: 61 },
+        // { xcords: 54, ycords: 63.5 },
+        // { xcords: 45.5, ycords: 31.5 },
+        // { xcords: 68.5, ycords: 64.5 },
+        // { xcords: 89, ycords: 107 },
+        // { xcords: 34.5, ycords: 47 },
+        // { xcords: 51, ycords: 48.5 },
+        // { xcords: 11, ycords: 116 },
+        // { xcords: 20, ycords: 75.5 },
+        // { xcords: 83, ycords: 18 },
+        // { xcords: 25.5, ycords: 90 },
+        // { xcords: 58.5, ycords: 105 },
+        // { xcords: 83, ycords: 120.5 },
+        // { xcords: 68.5, ycords: 120 },
+        // { xcords: 82.5, ycords: 95 },
+        // { xcords: 51, ycords: 76.5 },
+        // { xcords: 64.5, ycords: 79 },
+        // { xcords: 12, ycords: 101.5 },
+        // { xcords: 26.5, ycords: 104.5 },
+        // { xcords: 40, ycords: 89 },
+        // { xcords: 26, ycords: 120 },
+        // { xcords: 69, ycords: 93 },
       ],
     }
   }
@@ -90,41 +75,34 @@ class Neighbourhoods extends React.Component {
     var percentage = (value / totalValue * 100).toFixed(2);
     return percentage;
   }
-
-  calculateBubbleSize(value, totalValue) {
-    var percentage = (value / totalValue * 100).toFixed(2);
+  calculateBubbleSize(forceLength) {
+    var length = forceLength.length;
     var size = 0;
 
-    if (percentage <= 10) {
-      size = "4.8"
+    if (length <= 10) {
+      size = "5"
     }
-    else if (percentage <= 20) {
-      size = "5.8"
+    else if (length <= 15) {
+      size = "6"
     }
-    else if (percentage <= 30) {
-      size = "6.8"
+    else if (length <= 20) {
+      size = "7"
     }
-    else if (percentage <= 40) {
-      size = "7.8"
+    else if (length <= 25) {
+      size = "8"
     }
-    else if (percentage <= 50) {
-      size = "8.8"
+    else if (length <= 30) {
+      size = "9"
     }
-    else if (percentage <= 60) {
-      size = "9.8"
+    else if (length <= 35) {
+      size = "10"
     }
-    else if (percentage <= 70) {
-      size = "10.8"
-    }
-    else if (percentage <= 80) {
+    else if (length <= 40) {
+      size = "11"
+    } else {
       size = "11.8"
     }
-    else if (percentage <= 90) {
-      size = "12.8"
-    }
-    else if (percentage <= 100) {
-      size = "13.8"
-    }
+
     return size
   }
 
@@ -138,8 +116,7 @@ class Neighbourhoods extends React.Component {
             categories: result,
             count: result.length
           });
-          console.log(result)
-          console.log(this.state.policeForce);
+          console.log("neighbourhoods", result)
         },
         (error) => {
           this.setState({
@@ -150,6 +127,31 @@ class Neighbourhoods extends React.Component {
       )
   }
 
+  coordCalculator(policeForce) {
+    var lat;
+    var lng;
+
+    if (policeForce === "bedfordshire") {
+      lat = 52.135712;
+      lng = -0.468040
+    }
+    else if (policeForce === "cambridgeshire") {
+    }
+    else if (policeForce === "city-of-london") {
+      lat = 51.513329;
+      lng = 0.088950;
+    }
+    else if (policeForce === "mersyside") {
+      lat = 53.40505862970294;
+      lng = -2.986139308510133;
+    }
+    else if (policeForce === "north-yorkshire") {
+    }
+    else if (policeForce === "north-hamptonshire") {
+    }
+    else if (policeForce === "wiltshire") {
+    }
+  }
   render() {
     const { shapes, categories, isLoaded, colours } = this.state;
     return (
@@ -184,7 +186,7 @@ class Neighbourhoods extends React.Component {
                 {!isLoaded
                   ? <div><Loading /></div>
                   :
-                  <svg viewBox="0 0 100 40">
+                  <svg viewBox="0 0 100 72">
                     {/* <LastUpdated /> */}
                     {/* <text x='3' y='3' fontSize="0.075em">Total neighbourhoods: {categories.length}</text> */}
                     {categories.map((category, i) => (
@@ -204,22 +206,29 @@ class Neighbourhoods extends React.Component {
                             fill: colours[i]
                           }}
                           cx={shapes[i].xcords}
-                          cy={shapes[i].ycords - 7}
-                          r={shapes[i].size}
+                          cy={shapes[i].ycords}
+                          r={this.calculateBubbleSize(category.name)}
                         />
-                        <text x={shapes[i].xcords} y={shapes[i].ycords - 7} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
+                        <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
                       </NavLink>
                     ))}
                   </svg>
                 }
               </Jumbotron>
 
+            </Col>
+          </Row >
+          <Row>
+            <Col sm>
               <Jumbotron className="personal-details-jumbotron" align="center">
                 <NeighbourhoodInfo policeForce={this.state.policeForce} />
               </Jumbotron>
             </Col>
-
-          </Row >
+            <Col sm>
+              <Jumbotron className="personal-details-jumbotron" align="center">
+              </Jumbotron>
+            </Col>
+          </Row>
         </Container >
       </>
     );

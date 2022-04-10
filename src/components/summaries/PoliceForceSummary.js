@@ -86,6 +86,7 @@ class PoliceForceSummary extends Component {
         this.setState({
           isLoaded: true,
           stopSearchResult: data,
+          count: data.length,
           mostCommonReason: reason.key,
           arrestCount: count.groups[0].outcomes.count
         });
@@ -120,17 +121,17 @@ class PoliceForceSummary extends Component {
           <h4 className="summary-header">Summary</h4>
           <hr className="summary-line"></hr>
           <Row>
-            <FontAwesomeIcon size="1x" className="download-icon" icon={faUsers} />
+            <FontAwesomeIcon size="1x" className="download-icon" aria-label="download-icon" icon={faUsers} />
             <h5 className="summary-text">Total number of police forces {this.props.policeCount}
             </h5>
           </Row>
           <Row>
-            <FontAwesomeIcon size="1x" className="download-icon" icon={faGlobe} />
+            <FontAwesomeIcon size="1x" className="download-icon" aria-label="globe-icon" icon={faGlobe} />
             <h5 className="summary-text">The largest police force in the UK is {this.state.largestPoliceForce}</h5>
           </Row>
           <Row>
-            <FontAwesomeIcon size="1x" className="download-icon" icon={faTaxi} />
-            <h5 className="summary-text">Total number of stop and searches {this.props.count} </h5>
+            <FontAwesomeIcon size="1x" className="download-icon" aria-label="download-icon" icon={faTaxi} />
+            <h5 className="summary-text">Total number of stop and searches {this.state.count} </h5>
           </Row>
           <Row>
             <FontAwesomeIcon size="1x" className="download-icon" icon={faBan} />
