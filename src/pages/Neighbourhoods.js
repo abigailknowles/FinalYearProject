@@ -6,9 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
-import NeighbourhoodPriorities from "../components/information/NeighbourhoodPriorities";
-import NeighbourhoodEvents from "../components/information/NeighbourhoodEvents";
-
+import NeighbourhoodInfo from "../components/information/NeighbourhoodInfo";
 import NeighbourhoodSummary from "../components/summaries/NeighbourhoodSummary";
 import StreetCrimesTree from "../components/visualisations/StreetCrimesTree";
 
@@ -108,7 +106,34 @@ class Neighbourhoods extends React.Component {
     return size
   }
 
-  componentDidMount() {
+  defineCoords() {
+    let poly = [];
+    fetch(`https://data.police.uk/api/leicestershire/NC04/boundary`)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            coords: result,
+          });
+          console.log("coords", result)
+          for (let i = 0; i < result.length; i++) {
+            poly.push(`${result[i].latitude},${result[i].longitude}`);
+            this.setState({
+              coordsArr: poly.join(":")
+            });
+          }
+          // this.streetCrimes(this.state.coordsArr)
+          console.log(this.state.coordsArr)
+        },
+        (error) => {
+          this.setState({
+            error
+          });
+        }
+      )
+  }
+
+  neighbourhoods() {
     fetch(`https://data.police.uk/api/${this.state.policeForce}/neighbourhoods`)
       .then(res => res.json())
       .then(
@@ -129,31 +154,11 @@ class Neighbourhoods extends React.Component {
       )
   }
 
-  coordCalculator(policeForce) {
-    var lat;
-    var lng;
-
-    if (policeForce === "bedfordshire") {
-      lat = 52.135712;
-      lng = -0.468040
-    }
-    else if (policeForce === "cambridgeshire") {
-    }
-    else if (policeForce === "city-of-london") {
-      lat = 51.513329;
-      lng = 0.088950;
-    }
-    else if (policeForce === "mersyside") {
-      lat = 53.40505862970294;
-      lng = -2.986139308510133;
-    }
-    else if (policeForce === "north-yorkshire") {
-    }
-    else if (policeForce === "north-hamptonshire") {
-    }
-    else if (policeForce === "wiltshire") {
-    }
+  componentDidMount() {
+    this.defineCoords();
+    this.neighbourhoods();
   }
+
   render() {
     const { shapes, categories, isLoaded, colours } = this.state;
     return (
@@ -180,7 +185,7 @@ class Neighbourhoods extends React.Component {
                 </Jumbotron>
               </Row>
               <Row>
-                <StreetCrimesTree />
+                <StreetCrimesTree poly={this.state.coordsArr} />
               </Row >
             </Col >
             <Col sm={8}>
@@ -194,12 +199,13 @@ class Neighbourhoods extends React.Component {
                     {categories.map((category, i) => (
                       <NavLink key={i} className="nav-link"
                         onMouseEnter={() => {
-                          this.setState({ neighbourhood: category.name })
+                          this.setState({ neighbourhood: category.name, code: category.id })
                         }} to={{
                           pathname: 'street-crimes',
                           aboutProps: {
                             selectedPoliceForce: this.state.policeForce,
-                            selectedNeighbourhood: this.state.neighbourhood
+                            selectedNeighbourhood: this.state.neighbourhood,
+                            selectedNeighbourhoodCode: this.state.code
                           }
                         }}>
                         <circle
@@ -221,7 +227,7 @@ class Neighbourhoods extends React.Component {
             </Col>
           </Row >
           <Row>
-            <NeighbourhoodPriorities policeForce={this.state.policeForce} />
+            <NeighbourhoodInfo policeForce={this.state.policeForce} />
           </Row>
         </Container >
       </>

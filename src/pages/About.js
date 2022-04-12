@@ -1,10 +1,9 @@
 import React from 'react';
 import NavBar from '../components/NavBar';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDatabase } from '@fortawesome/free-solid-svg-icons'
 import { faCalendarDay } from '@fortawesome/free-solid-svg-icons'
-import { faAddressBook } from '@fortawesome/free-solid-svg-icons'
 import { faGlobe } from '@fortawesome/free-solid-svg-icons'
 
 class About extends React.Component {
@@ -49,9 +48,6 @@ class About extends React.Component {
             <Col sm={4}>
               <h3 className="about-icon-header">From</h3>
             </Col>
-            {/* <Col sm={3}>
-              <h3 className="about-icon-header">Contacts</h3>
-            </Col> */}
           </Row>
           <Row>
             <Col sm={4}>
@@ -63,9 +59,6 @@ class About extends React.Component {
             <Col sm={4}>
               <h6 className="about-icon-text">2019</h6>
             </Col>
-            {/* <Col>
-              <h6 className="about-icon-text">text</h6>
-            </Col> */}
           </Row>
         </Container>
         <Row className="about-padding"> </Row>

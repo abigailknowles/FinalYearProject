@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron } from 'react-bootstrap';
+import Select from 'react-select';
 import { withRouter } from 'react-router-dom';
 import Chart from "react-apexcharts";
 
@@ -7,8 +7,8 @@ class StopAndSearchChart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            forces: props.categories,
-            selection: "bedfordshire",
+            forces: [],
+            searchedForce: "bedfordshire",
             series: [],
             options: {
                 labels: [],
@@ -37,7 +37,6 @@ class StopAndSearchChart extends Component {
                 }
             },
         };
-        this.handleChange = this.handleChange.bind(this);
     }
 
     exists(key, array) {
@@ -72,9 +71,26 @@ class StopAndSearchChart extends Component {
         return { groups: groups, count: arr.length };
     }
 
+    policeForces() {
+        fetch("https://data.police.uk/api/forces")
+            .then(res => res.json())
+            .then((result) => {
+                this.setState({
+                    isLoaded: true,
+                    forces: result
+                });
+            },
+                (error) => {
+                    this.setState({
+                        isLoaded: false,
+                        error
+                    });
+                }
+            )
+    }
 
     stopAndSearch() {
-        fetch(`https://data.police.uk/api/stops-force?force=${this.state.selection}`)
+        fetch(`https://data.police.uk/api/stops-force?force=${this.state.searchedForce}`)
             .then(res => res.json())
             .then((data) => {
                 var labels = [];
@@ -113,27 +129,28 @@ class StopAndSearchChart extends Component {
 
     componentDidMount() {
         this.stopAndSearch();
+        this.policeForces();
     }
 
-    handleChange(e) {
-        this.setState({ selection: e.target.value });
-        console.log(e.target.value)
+    changeHandler(force) {
+        this.setState({
+            searchedForce: force
+        });
         this.stopAndSearch();
     }
 
     render() {
         const { forces } = this.state;
-        console.log("state:", forces)
+        const sel = forces.map(force => ({ label: force.name, value: force.id }))
+
         return (
             <>
-                <Jumbotron className="personal-details-jumbotron" align="center">
-                    <select value={this.state.selection} onChange={this.handleChange}>
-                        {forces.map((force) => (
-                            <option value={force.id}>{force.name}</option>
-                        ))}
-                    </select>
-                    <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" />
-                </Jumbotron>
+                <Select
+                    options={sel}
+                    placeholder="Search by a police force"
+                    onChange={sel => this.changeHandler(sel.value)}
+                />
+                <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="380" />
             </>
         );
     }

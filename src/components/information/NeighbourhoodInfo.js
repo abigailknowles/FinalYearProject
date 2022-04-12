@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { Row, Col, Jumbotron } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import Loading from '../Loading';
+import Select from 'react-select';
 
-class NeighbourhoodPriorities extends Component {
+class NeighbourhoodInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
       info: [],
+      neighbourhoods: [],
       selection: "LU2",
-
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
   neighbourhoodCode() {
@@ -67,6 +67,7 @@ class NeighbourhoodPriorities extends Component {
   }
   neighbourhoodPriorities() {
     var policeForce = this.props.policeForce
+    console.log(this.state.selection)
     fetch(`https://data.police.uk/api/${policeForce}/${this.state.selection}/priorities`)
       .then(res => res.json())
       .then(
@@ -106,11 +107,10 @@ class NeighbourhoodPriorities extends Component {
     return formattedDesc3.replaceAll('</p>', '\n');
   }
 
-  handleChange(e) {
-    this.setState({ selection: e.target.value });
+  changeHandler(force) {
+    this.setState({ selection: force });
     this.neighbourhoodPriorities()
     this.neighbourhoodEvents()
-
   }
 
   formatDate(unformattedDate) {
@@ -119,7 +119,7 @@ class NeighbourhoodPriorities extends Component {
   }
   render() {
     const { isLoaded, neighbourhoods, events } = this.state;
-
+    const sel = neighbourhoods.map(neighbourhood => ({ label: neighbourhood.name, value: neighbourhood.id }))
     return (
       <>
         {!isLoaded
@@ -133,11 +133,11 @@ class NeighbourhoodPriorities extends Component {
                     <h4 className="police-name">Neighbourhood Priorities</h4>
                   </Col>
                   <Col sm={7}>
-                    <select value={this.state.selection} onChange={this.handleChange}>
-                      {neighbourhoods.map((neighbourhoods) => (
-                        <option value={neighbourhoods.id}>{neighbourhoods.name}</option>
-                      ))}
-                    </select>
+                    <Select
+                      options={sel}
+                      placeholder="Filter by neighbourhood"
+                      onChange={sel => this.changeHandler(sel.value)}
+                    />
                   </Col>
                 </Row>
                 <Row>
@@ -186,4 +186,4 @@ class NeighbourhoodPriorities extends Component {
   }
 }
 
-export default withRouter(NeighbourhoodPriorities);
+export default withRouter(NeighbourhoodInfo);

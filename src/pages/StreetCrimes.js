@@ -18,6 +18,7 @@ class StreetCrimes extends React.Component {
       selectedOption: null,
       policeForce: props.location.aboutProps.selectedPoliceForce,
       neighbourhood: props.location.aboutProps.selectedNeighbourhood,
+      neighbourhoodCode: props.location.aboutProps.selectedNeighbourhoodCode,
       colours: ['#ccf3ff', '#74bec8', '#d8bfff', '#f75e5b', '#fff88b', '#e80b8c', '#938fff', '#f7c6af', '#ffa661', '#7ee9cf', '#ffeefe',
         '#d2f9d0', '#e0f49c', '#02ccf9', '#ffc1f8', '#ffa0ab', '#f0f0f5', '#ffdd99', '#ffe0e0', '#b3d9ff', '#ff6666', '#99ff99', '#b8ffdb',
         '#e6e6ff', '#ff80aa', '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5',
@@ -143,7 +144,7 @@ class StreetCrimes extends React.Component {
   }
 
   componentDidMount() {
-    this.StreetCrimes();
+    this.defineCoords();
     this.crimeOutcomes();
     this.stopAndSearch();
   }
@@ -178,8 +179,35 @@ class StreetCrimes extends React.Component {
     return sortedArray[sortedArray.length - 1];
   }
 
-  StreetCrimes() {
-    fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
+  defineCoords() {
+    let poly = [];
+    fetch(`https://data.police.uk/api/${this.state.policeForce}/${this.state.neighbourhoodCode}/boundary`)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            coords: result,
+          });
+          console.log("coords", result)
+          for (let i = 0; i < result.length; i++) {
+            poly.push(`${result[i].latitude},${result[i].longitude}`);
+            this.setState({
+              coordsArr: poly.join(":")
+            });
+          }
+          this.streetCrimes(this.state.coordsArr)
+          console.log(this.state.coordsArr)
+        },
+        (error) => {
+          this.setState({
+            error
+          });
+        }
+      )
+  }
+
+  streetCrimes(poly) {
+    fetch(`https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -192,8 +220,8 @@ class StreetCrimes extends React.Component {
             count: categories.count,
             streetCrimesResponse: result,
             mostCommonCrime: this.textFormatter(commonCrime.key)
-
           });
+          console.log("streetcrimes", result)
         },
         (error) => {
           this.setState({
@@ -280,12 +308,7 @@ class StreetCrimes extends React.Component {
   }
   handleChange(e) {
     this.setState({ selection: e.target.value });
-    this.test(e.target.value)
   }
-  test(selection) {
-    console.log("Crime type selected:", selection);
-  }
-
 
   render() {
     const { shapes, categories, isLoaded, colours, isShown, id } = this.state;

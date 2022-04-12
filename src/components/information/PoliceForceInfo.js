@@ -1,21 +1,38 @@
 import React, { Component } from 'react';
-import { Jumbotron, InputGroup, Form, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-
+import Select from 'react-select';
 import Loading from '../Loading';
 
 class PoliceForceInfo extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       info: [],
-      force: "city-of-london",
+      forces: [],
+      searchedForce: "city-of-london"
     };
   }
 
+  policeForces() {
+    fetch("https://data.police.uk/api/forces")
+      .then(res => res.json())
+      .then((result) => {
+        this.setState({
+          isLoaded: true,
+          forces: result
+        });
+      },
+        (error) => {
+          this.setState({
+            isLoaded: false,
+            error
+          });
+        }
+      )
+  }
+
   forceInfo() {
-    console.log("api", this.props.searchedForce)
-    fetch(`https://data.police.uk/api/forces/${this.props.searchedForce}`)
+    fetch(`https://data.police.uk/api/forces/${this.state.searchedForce}`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -36,6 +53,7 @@ class PoliceForceInfo extends Component {
   }
 
   componentDidMount() {
+    this.policeForces();
     this.forceInfo();
   }
 
@@ -45,64 +63,33 @@ class PoliceForceInfo extends Component {
     return formattedDesc.replaceAll('</p>', '\n');
   }
 
-  // submitHandler = async event => {
-  //   event.preventDefault();
-  //   event.target.className += " was-validated";
+  changeHandler(force) {
+    console.log("var", force)
+    this.setState({
+      searchedForce: force
+    });
+    console.log("state", this.state.searchedForce)
 
-  //   if (this.state.forceSearch === "") {
-  //     return false;
-  //   } else {
-  //     var force = this.state.forceSearch
-  //     this.setState({
-  //       force: force,
-  //     });
-  //     this.forceInfo();
-  //     if (this.state.info !== "") {
-  //       console.log("no results found")
-  //     }
-  //   }
-
-  // };
-
-  // changeHandler = event => {
-  //   this.setState({ force: event.target.value });
-  // };
-  test() {
     this.forceInfo();
   }
+
   render() {
-    const { isLoaded } = this.state;
-    console.log("props searched force", this.props.searchedForce)
+    const { isLoaded, forces } = this.state;
+    const sel = forces.map(force => ({ label: force.name, value: force.id }))
+
     return (
       <>
         {!isLoaded
           ? <div><Loading /></div>
           :
           <>
-            {/* <Form onSubmit={this.submitHandler} noValidate>
-                <InputGroup >
-                  <Form.Control
-                    value={this.state.forceSearch}
-                    onChange={this.changeHandler}
-                    type="text"
-                    id="defaultFormRegisterPasswordEx4"
-                    aria-describedby="policeForceSearch"
-                    className="form-control"
-                    name="forceSearch"
-                    placeholder="Search by police force"
-                    required
-                  />
-                  <Button variant="light" className="login-button" type="submit">
-                    Search
-                  </Button>
-                  <div className="invalid-feedback">
-                    Please provide a police force.
-                  </div>
-                </InputGroup>
-              </Form> */}
-            {/* {this.test()} */}
+            <Select
+              options={sel}
+              placeholder="Search by a police force"
+              onChange={sel => this.changeHandler(sel.value)}
+            />
             <h4 className="police-name">{this.state.info.name}</h4>
-            <a className="police-url">{this.state.info.url}</a>
+            <a className="police-url" href={this.state.info.url}>{this.state.info.url}</a>
             <hr className="summary-line"></hr>
             <p className="police-description">{this.textFormatter(this.state.info.description)}</p>
 

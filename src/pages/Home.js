@@ -1,24 +1,13 @@
 import React, { } from "react";
 import { Container, Col, Row, Jumbotron, Form } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import Select from 'react-select';
-
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-
 import PoliceForceSummary from "../components/summaries/PoliceForceSummary";
 import PoliceForceInfo from "../components/information/PoliceForceInfo";
 import StopAndSearchChart from "../components/visualisations/StopAndSearchChart";
 
-const aquaticCreatures = [
-  { label: 'Shark', value: 'Shark' },
-  { label: 'Dolphin', value: 'Dolphin' },
-  { label: 'Whale', value: 'Whale' },
-  { label: 'Octopus', value: 'Octopus' },
-  { label: 'Crab', value: 'Crab' },
-  { label: 'Lobster', value: 'Lobster' },
-];
 // reigon array
 const northEast = ["durham", "northumbria"];
 const southWest = ["wiltshire", "gloucestshire", "devon-and-cornwall", "dorset"]
@@ -273,7 +262,8 @@ class Home extends React.Component {
 
   render() {
     const { shapes, categories, isLoaded, colours, isShown, id } = this.state;
-    const sel = categories.map(category => ({ label: category.name, value: category.id }))
+    categories.map(category => ({ label: category.name, value: category.id }))
+    console.log("filteredForce", this.state.filteredForce)
     return (
       <>
         <NavBar />
@@ -298,17 +288,12 @@ class Home extends React.Component {
                 <PoliceForceSummary stopAndSearch={this.state.stopSearchResult} filtered={this.state.filteredData} policeCount={categories.length} />
               </Row>
               <Row>
-                <StopAndSearchChart categories={this.state.categories} />
+                <Jumbotron className="personal-details-jumbotron" align="center">
+                  <StopAndSearchChart selectedForce={this.state.filteredForce} />
+                </Jumbotron>
               </Row>
               <Row>
                 <Jumbotron className="police-force-jumbotron">
-                  <Select
-                    options={sel}
-                    placeholder="Search by a police force"
-                    onChange={sel => this.setState({
-                      searchedForce: sel.value
-                    })}
-                  />
                   <PoliceForceInfo searchedForce={this.state.searchedForce} />
                 </Jumbotron>
               </Row>

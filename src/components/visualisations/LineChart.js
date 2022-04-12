@@ -56,17 +56,15 @@ class LineChart extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
   }
+
   highestMonth(unorderedList) {
     let orderedList = unorderedList.sort(function (a, b) { return a.data - b.data; });
-
-    console.log(orderedList[5])
-    // console.log(arr[0])
-    // for (let i = 0; i < arr.length; i++) {
-    //   console.log(arr[i])
-    // }
-    // console.log("unordered arr:", arr)
-    // console.log("unordered arr:", arr[0].data)
-
+    const date = new Date(orderedList[5].month)
+    var month = date.toLocaleString('default', { month: 'long' })
+    this.setState({
+      highestCrimeMonth: month
+    });
+    console.log(this.state.highestCrimeMonth)
   }
 
   chartResults(selection) {

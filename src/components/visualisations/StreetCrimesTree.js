@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Jumbotron } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import Chart from "react-apexcharts";
+import Loading from '../Loading';
 
 class CrimeOutcomesChart extends Component {
     constructor() {
@@ -81,7 +82,7 @@ class CrimeOutcomesChart extends Component {
     }
 
     StreetCrimes() {
-        fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
+        fetch(`https://data.police.uk/api/crimes-street/all-crime?poly=${this.props.poly}`)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -158,12 +159,20 @@ class CrimeOutcomesChart extends Component {
     }
 
     render() {
-
+        const { isLoaded } = this.state;
         return (
             <>
+
                 <Jumbotron className="personal-details-jumbotron" align="center">
+                    {/* {!isLoaded
+                        ? <div><Loading /></div>
+                        :
+                        <> */}
                     <Chart options={this.state.options} series={this.state.series} type="treemap" height={350} />
+                    {/* </>
+                    } */}
                 </Jumbotron>
+
             </>
         );
     }
