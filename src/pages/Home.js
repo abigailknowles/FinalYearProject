@@ -1,6 +1,7 @@
 import React, { } from "react";
 import { Container, Col, Row, Jumbotron, Form } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import Select from 'react-select';
 
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
@@ -10,6 +11,14 @@ import PoliceForceSummary from "../components/summaries/PoliceForceSummary";
 import PoliceForceInfo from "../components/information/PoliceForceInfo";
 import StopAndSearchChart from "../components/visualisations/StopAndSearchChart";
 
+const aquaticCreatures = [
+  { label: 'Shark', value: 'Shark' },
+  { label: 'Dolphin', value: 'Dolphin' },
+  { label: 'Whale', value: 'Whale' },
+  { label: 'Octopus', value: 'Octopus' },
+  { label: 'Crab', value: 'Crab' },
+  { label: 'Lobster', value: 'Lobster' },
+];
 // reigon array
 const northEast = ["durham", "northumbria"];
 const southWest = ["wiltshire", "gloucestshire", "devon-and-cornwall", "dorset"]
@@ -88,7 +97,6 @@ class Home extends React.Component {
   }
 
   calculateBubbleSize(categoryName) {
-    console.log("length test", categoryName)
     var length = categoryName.length;
     var size = 0;
 
@@ -161,7 +169,6 @@ class Home extends React.Component {
           forceArr: result,
           unfilteredForceArray: result
         });
-        console.log("original", result)
       },
         (error) => {
           this.setState({
@@ -244,7 +251,6 @@ class Home extends React.Component {
     } else {
       console.log("error")
     }
-    console.log(arr)
     this.filterArray(arr);
   }
 
@@ -254,23 +260,26 @@ class Home extends React.Component {
     const forceArr = this.state.forceArr;
     for (let i = 0; i < arr.length; i++) {
       filteredForces = filteredForces.concat(forceArr.filter(element => element.id === arr[i]));
-      console.log("second", filteredForces)
-
     }
 
-    console.log("filteredforces before state", filteredForces)
     this.setState({
       categories: filteredForces
     });
   }
 
+  // changeHandler = event => {
+  //   this.setState({ force: event.target.value });
+  // };
+
   render() {
-    console.log("state:", this.state)
     const { shapes, categories, isLoaded, colours, isShown, id } = this.state;
+    const sel = categories.map(category => ({ label: category.name, value: category.id }))
     return (
       <>
         <NavBar />
         <Container className="top-breadcrumb">
+
+
           <Row>
             <Col>
               <Breadcrumb >
@@ -281,6 +290,7 @@ class Home extends React.Component {
         </Container>
         <Row className="filter-padding">
         </Row>
+
         <Container fluid className="personal-details-container">
           <Row>
             <Col sm={4}>
@@ -288,15 +298,23 @@ class Home extends React.Component {
                 <PoliceForceSummary stopAndSearch={this.state.stopSearchResult} filtered={this.state.filteredData} policeCount={categories.length} />
               </Row>
               <Row>
-                <StopAndSearchChart />
+                <StopAndSearchChart categories={this.state.categories} />
               </Row>
               <Row>
-                <PoliceForceInfo force={this.state.policeForce} />
+                <Jumbotron className="police-force-jumbotron">
+                  <Select
+                    options={sel}
+                    placeholder="Search by a police force"
+                    onChange={sel => this.setState({
+                      searchedForce: sel.value
+                    })}
+                  />
+                  <PoliceForceInfo searchedForce={this.state.searchedForce} />
+                </Jumbotron>
               </Row>
             </Col>
             <Col sm={8}>
               <Jumbotron className="personal-details-jumbotron">
-                {/* <PoliceForceFilter forceArr={this.state.forceArr} stopAndSearch={this.state.stopSearchResult} /> */}
                 <Container >
                   <Row className="filter-padding">
                     <Col >

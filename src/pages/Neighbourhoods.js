@@ -6,7 +6,9 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
-import NeighbourhoodInfo from "../components/information/NeighbourhoodInfo";
+import NeighbourhoodPriorities from "../components/information/NeighbourhoodPriorities";
+import NeighbourhoodEvents from "../components/information/NeighbourhoodEvents";
+
 import NeighbourhoodSummary from "../components/summaries/NeighbourhoodSummary";
 import StreetCrimesTree from "../components/visualisations/StreetCrimesTree";
 
@@ -21,23 +23,23 @@ class Neighbourhoods extends React.Component {
         '#e6e6ff', '#ff80aa', '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5',
         '#ffe6cc', '#e6e6e6', '#6666cc', '#ffdd99', '#b3ffb3', '#80ffdf', '#b3d9ff', '#a0a1f5', '#ffccff', '#b3ccff', '#9fdfbf', '#a3a3c2', '#6699cc'],
       shapes: [
-        { xcords: 18, ycords: 54 },
-        { xcords: 54, ycords: 47 },
-        { xcords: 8.5, ycords: 23.5 },
-        { xcords: 82, ycords: 23 },
-        { xcords: 40, ycords: 30 },
-        { xcords: 61, ycords: 28 },
-        { xcords: 23.5, ycords: 18.5 },
-        { xcords: 34, ycords: 49 },
-        { xcords: 85, ycords: 57 },
-        { xcords: 44, ycords: 63 },
-        { xcords: 66, ycords: 13 },
-        { xcords: 51, ycords: 14 },
-        { xcords: 37, ycords: 12 },
-        { xcords: 12, ycords: 88 },
-        { xcords: 68, ycords: 60 },
-        { xcords: 73, ycords: 43 },
-        { xcords: 20, ycords: 36 },
+        { size: 7, xcords: 8.5, ycords: 23.5 },
+        { size: 8, xcords: 23.5, ycords: 18.5 },
+        { size: 6, xcords: 37, ycords: 12 },
+        { size: 7, xcords: 51, ycords: 14 },
+        { size: 6, xcords: 66, ycords: 13 },
+        { size: 12, xcords: 82, ycords: 23 },
+        { size: 9, xcords: 20, ycords: 36 },
+        { size: 11, xcords: 40, ycords: 30 },
+        { size: 9, xcords: 61, ycords: 28 },
+        { size: 8, xcords: 18, ycords: 54 },
+        { size: 8, xcords: 34, ycords: 49 },
+        { size: 10, xcords: 54, ycords: 47 },
+        { size: 9, xcords: 73, ycords: 43 },
+        { size: 8, xcords: 44, ycords: 63 },
+        { size: 8, xcords: 68, ycords: 60 },
+        { size: 8, xcords: 85, ycords: 57 },
+        { size: 6, xcords: 12, ycords: 88 },
         // { xcords: 84, ycords: 50 },
         // { xcords: 11, ycords: 61.5 },
         // { xcords: 27, ycords: 61 },
@@ -207,7 +209,7 @@ class Neighbourhoods extends React.Component {
                           }}
                           cx={shapes[i].xcords}
                           cy={shapes[i].ycords}
-                          r={this.calculateBubbleSize(category.name)}
+                          r={shapes[i].size}
                         />
                         <text x={shapes[i].xcords} y={shapes[i].ycords} textAnchor='middle' alignmentBaseline="middle" fontSize="0.075em">{category.name}</text>
                       </NavLink>
@@ -219,15 +221,7 @@ class Neighbourhoods extends React.Component {
             </Col>
           </Row >
           <Row>
-            <Col sm>
-              <Jumbotron className="personal-details-jumbotron" align="center">
-                <NeighbourhoodInfo policeForce={this.state.policeForce} />
-              </Jumbotron>
-            </Col>
-            <Col sm>
-              <Jumbotron className="personal-details-jumbotron" align="center">
-              </Jumbotron>
-            </Col>
+            <NeighbourhoodPriorities policeForce={this.state.policeForce} />
           </Row>
         </Container >
       </>

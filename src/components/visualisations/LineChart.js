@@ -57,10 +57,9 @@ class LineChart extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
   highestMonth(unorderedList) {
-    const arr = unorderedList;
-    console.log("arr", arr);
-    // const m = Math.max(arr.data);
-    // console.log("max", m)
+    let orderedList = unorderedList.sort(function (a, b) { return a.data - b.data; });
+
+    console.log(orderedList[5])
     // console.log(arr[0])
     // for (let i = 0; i < arr.length; i++) {
     //   console.log(arr[i])
@@ -87,6 +86,7 @@ class LineChart extends Component {
               let orderedList = unorderedList.sort(function (a, b) { return new Date(a.month) - new Date(b.month); });
               for (let i = 0; i < orderedList.length; i++) {
                 orderedData.push(orderedList[i].data)
+
               }
               this.setState({
                 isShown: true,
@@ -95,6 +95,7 @@ class LineChart extends Component {
                   data: orderedData
                 }],
               });
+              this.highestMonth(this.state.unorderedList);
             }
           },
           (error) => {
@@ -104,7 +105,7 @@ class LineChart extends Component {
           }
         )
     }
-    this.highestMonth(this.state.unorderedList);
+
   }
 
 

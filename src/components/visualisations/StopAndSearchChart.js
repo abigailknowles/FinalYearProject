@@ -4,9 +4,11 @@ import { withRouter } from 'react-router-dom';
 import Chart from "react-apexcharts";
 
 class StopAndSearchChart extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
+            forces: props.categories,
+            selection: "bedfordshire",
             series: [],
             options: {
                 labels: [],
@@ -35,6 +37,7 @@ class StopAndSearchChart extends Component {
                 }
             },
         };
+        this.handleChange = this.handleChange.bind(this);
     }
 
     exists(key, array) {
@@ -71,7 +74,7 @@ class StopAndSearchChart extends Component {
 
 
     stopAndSearch() {
-        fetch(`https://data.police.uk/api/stops-force?force=bedfordshire`)
+        fetch(`https://data.police.uk/api/stops-force?force=${this.state.selection}`)
             .then(res => res.json())
             .then((data) => {
                 var labels = [];
@@ -94,11 +97,13 @@ class StopAndSearchChart extends Component {
                         labels: labels
                     }
                 });
+                console.log("data", data)
             },
                 (error) => {
                     this.setState({
                         isLoaded: true,
-                        error
+                        error: true,
+                        info: { id: "no-results-found", description: "No results found" }
                     });
                 }
             )
@@ -110,12 +115,23 @@ class StopAndSearchChart extends Component {
         this.stopAndSearch();
     }
 
+    handleChange(e) {
+        this.setState({ selection: e.target.value });
+        console.log(e.target.value)
+        this.stopAndSearch();
+    }
 
     render() {
-
+        const { forces } = this.state;
+        console.log("state:", forces)
         return (
             <>
                 <Jumbotron className="personal-details-jumbotron" align="center">
+                    <select value={this.state.selection} onChange={this.handleChange}>
+                        {forces.map((force) => (
+                            <option value={force.id}>{force.name}</option>
+                        ))}
+                    </select>
                     <Chart options={this.state.options} series={this.state.series} labels={this.state.labels} type="donut" width="400" />
                 </Jumbotron>
             </>

@@ -14,8 +14,8 @@ class PoliceForceInfo extends Component {
   }
 
   forceInfo() {
-    console.log("searched", this.state.force)
-    fetch(`https://data.police.uk/api/forces/${this.state.force}`)
+    console.log("api", this.props.searchedForce)
+    fetch(`https://data.police.uk/api/forces/${this.props.searchedForce}`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -45,40 +45,41 @@ class PoliceForceInfo extends Component {
     return formattedDesc.replaceAll('</p>', '\n');
   }
 
-  submitHandler = async event => {
-    event.preventDefault();
-    event.target.className += " was-validated";
+  // submitHandler = async event => {
+  //   event.preventDefault();
+  //   event.target.className += " was-validated";
 
-    if (this.state.forceSearch === "") {
-      return false;
-    } else {
-      var force = this.state.forceSearch
-      this.setState({
-        force: force,
-      });
-      this.forceInfo();
-      if (this.state.info !== "") {
-        console.log("no results found")
-      }
-    }
+  //   if (this.state.forceSearch === "") {
+  //     return false;
+  //   } else {
+  //     var force = this.state.forceSearch
+  //     this.setState({
+  //       force: force,
+  //     });
+  //     this.forceInfo();
+  //     if (this.state.info !== "") {
+  //       console.log("no results found")
+  //     }
+  //   }
 
-  };
+  // };
 
-  changeHandler = event => {
-    this.setState({ force: event.target.value });
-  };
-
+  // changeHandler = event => {
+  //   this.setState({ force: event.target.value });
+  // };
+  test() {
+    this.forceInfo();
+  }
   render() {
     const { isLoaded } = this.state;
-
+    console.log("props searched force", this.props.searchedForce)
     return (
       <>
-        <Jumbotron className="police-force-jumbotron">
-          {!isLoaded
-            ? <div><Loading /></div>
-            :
-            <>
-              <Form onSubmit={this.submitHandler} noValidate>
+        {!isLoaded
+          ? <div><Loading /></div>
+          :
+          <>
+            {/* <Form onSubmit={this.submitHandler} noValidate>
                 <InputGroup >
                   <Form.Control
                     value={this.state.forceSearch}
@@ -98,16 +99,15 @@ class PoliceForceInfo extends Component {
                     Please provide a police force.
                   </div>
                 </InputGroup>
-              </Form>
+              </Form> */}
+            {/* {this.test()} */}
+            <h4 className="police-name">{this.state.info.name}</h4>
+            <a className="police-url">{this.state.info.url}</a>
+            <hr className="summary-line"></hr>
+            <p className="police-description">{this.textFormatter(this.state.info.description)}</p>
 
-              <h4 className="police-name">{this.state.info.name}</h4>
-              <a className="police-url">{this.state.info.url}</a>
-              <hr className="summary-line"></hr>
-              <p className="police-description">{this.textFormatter(this.state.info.description)}</p>
-
-            </>
-          }
-        </Jumbotron>
+          </>
+        }
       </>
     );
   }

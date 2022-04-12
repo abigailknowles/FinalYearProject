@@ -3,12 +3,12 @@ import { Row, Col } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import Loading from '../Loading';
 
-class NeighbourhoodInfo extends Component {
+class NeighbourhoodPriorities extends Component {
   constructor(props) {
     super(props);
     this.state = {
       info: [],
-      selection: "LU3"
+      selection: ""
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -18,9 +18,12 @@ class NeighbourhoodInfo extends Component {
       .then(res => res.json())
       .then(
         (result) => {
+          var placeholder = result[0]
           this.setState({
             neighbourhoods: result,
+            selection: placeholder.id
           });
+          console.log(this.state.selection)
         },
         (error) => {
           this.setState({
@@ -28,18 +31,20 @@ class NeighbourhoodInfo extends Component {
           });
         }
       )
+    this.neighbourhoodEvents();
   }
 
-  neighbourhoodPriorities() {
+  neighbourhoodEvents() {
     var policeForce = this.props.policeForce
-    fetch(`https://data.police.uk/api/${policeForce}/${this.state.selection}/priorities`)
+    fetch(`https://data.police.uk/api/leicestershire/NC04/events`)
       .then(res => res.json())
       .then(
         (result) => {
           this.setState({
             isLoaded: true,
-            info: result[0],
+            events: result[0],
           });
+          console.log(this.state.events)
         },
         (error) => {
           this.setState({
@@ -52,9 +57,11 @@ class NeighbourhoodInfo extends Component {
 
   componentDidMount() {
     this.neighbourhoodCode();
-    this.neighbourhoodPriorities();
   }
-
+  formatDate(unformattedDate) {
+    var formattedDate = new Date(unformattedDate).toDateString();
+    return formattedDate;
+  }
   forceFormatter(force) {
     const police = force;
     const formatForce = police.charAt(0).toUpperCase() + police.slice(1);
@@ -85,23 +92,24 @@ class NeighbourhoodInfo extends Component {
           <>
             <Row>
               <Col sm={5} align="left">
-                <h4 className="police-name">Neighbourhood Priorities</h4>
+                <h4 className="police-name">Neighbourhood Events </h4>
               </Col>
               <Col sm={7}>
-                <select value={this.state.selection} onChange={this.handleChange}>
+                {/* <select value={this.state.selection} onChange={this.handleChange}>
                   {neighbourhoods.map((neighbourhoods) => (
                     <option value={neighbourhoods.id}>{neighbourhoods.name}</option>
                   ))}
-                </select>
+                </select> */}
               </Col>
             </Row>
             <Row>
               <Col align="left">
-                <h5 className="police-url">{this.forceFormatter(this.props.policeForce)} - {this.state.selection}</h5>
+                <h5 className="police-url">{this.state.events.address}, {this.formatDate(this.state.events.start_date)}</h5>
               </Col>
             </Row>
             <hr className="summary-line"></hr>
-            <p className="police-description">{this.textFormatter(this.state.info.issue)}</p>
+            <p className="police-url">{this.state.events.title}</p>
+            <p className="police-description">{this.textFormatter(this.state.events.description)}</p>
           </>
         }
       </>
@@ -109,4 +117,4 @@ class NeighbourhoodInfo extends Component {
   }
 }
 
-export default withRouter(NeighbourhoodInfo);
+export default withRouter(NeighbourhoodPriorities);

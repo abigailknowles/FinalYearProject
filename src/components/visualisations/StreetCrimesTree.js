@@ -31,7 +31,7 @@ class CrimeOutcomesChart extends Component {
                     align: 'center'
                 },
                 colors: [
-                    '#ff80aa', '#cce6ff', '#adebad', '#ffaa80', '#99bbff', '#ff4000', '#990099', '#d98cd9', '#74bec8'
+                    '#ff80aa', '#cce6ff', '#adebad', '#ffaa80', '#99bbff', '#ff4000', '#990099', '#d98cd9', '#74bec8', '#7ee9cf'
                 ],
                 plotOptions: {
                     treemap: {
