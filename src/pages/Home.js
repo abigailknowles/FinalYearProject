@@ -197,12 +197,7 @@ class Home extends React.Component {
       )
   }
   handleChange(event) {
-    console.log("event", event.target.checked);
-    //if (event.target.checked === false) {
-    //  this.setState({ categories: this.state.unfilteredForceArray });
-    //} else {
     this.setArray(event.target.value);
-    //}
   }
 
   setArray(value) {
@@ -256,20 +251,13 @@ class Home extends React.Component {
     });
   }
 
-  // changeHandler = event => {
-  //   this.setState({ force: event.target.value });
-  // };
-
   render() {
     const { shapes, categories, isLoaded, colours, isShown, id } = this.state;
     categories.map(category => ({ label: category.name, value: category.id }))
-    console.log("filteredForce", this.state.filteredForce)
     return (
       <>
         <NavBar />
         <Container className="top-breadcrumb">
-
-
           <Row>
             <Col>
               <Breadcrumb >
@@ -299,6 +287,7 @@ class Home extends React.Component {
               </Row>
             </Col>
             <Col sm={8}>
+              {/* regions filter */}
               <Jumbotron className="personal-details-jumbotron">
                 <Container >
                   <Row className="filter-padding">

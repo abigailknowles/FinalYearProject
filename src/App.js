@@ -6,7 +6,6 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Neighbourhoods from './pages/Neighbourhoods';
 import StreetCrimes from './pages/StreetCrimes';
-import CrimeOutcomes from './pages/CrimeOutcomes';
 
 class App extends Component {
   render() {
@@ -17,7 +16,6 @@ class App extends Component {
           <Route exact path='/about' render={(props) => <About {...props} />} />
           <Route exact path='/street-crimes' render={(props) => <StreetCrimes {...props} />} />
           <Route exact path='/neighbourhoods' render={(props) => <Neighbourhoods {...props} />} />
-          <Route exact path='/crime-outcomes' render={(props) => <CrimeOutcomes {...props} />} />
         </Switch>
       </Router>
     );

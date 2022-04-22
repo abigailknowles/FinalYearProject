@@ -75,7 +75,7 @@ class PoliceForceSummary extends Component {
 
     return { groups: groups, count: arr.length };
   }
-
+  // just shows a default police forces information
   stopAndSearch() {
     fetch(`https://data.police.uk/api/stops-force?force=bedfordshire`)
       .then(res => res.json())
@@ -90,7 +90,6 @@ class PoliceForceSummary extends Component {
           mostCommonReason: reason.key,
           arrestCount: count.groups[0].outcomes.count
         });
-        console.log(result);
       },
         (error) => {
           this.setState({

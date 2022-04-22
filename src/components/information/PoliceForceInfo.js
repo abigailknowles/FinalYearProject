@@ -31,8 +31,11 @@ class PoliceForceInfo extends Component {
       )
   }
 
-  forceInfo() {
-    fetch(`https://data.police.uk/api/forces/${this.state.searchedForce}`)
+  forceInfo(force) {
+    if (force === undefined) {
+      force = this.state.searchedForce
+    }
+    fetch(`https://data.police.uk/api/forces/${force}`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -40,7 +43,6 @@ class PoliceForceInfo extends Component {
             isLoaded: true,
             info: result,
           });
-          console.log(result)
         },
         (error) => {
           this.setState({
@@ -64,13 +66,7 @@ class PoliceForceInfo extends Component {
   }
 
   changeHandler(force) {
-    console.log("var", force)
-    this.setState({
-      searchedForce: force
-    });
-    console.log("state", this.state.searchedForce)
-
-    this.forceInfo();
+    this.forceInfo(force);
   }
 
   render() {

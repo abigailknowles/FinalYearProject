@@ -143,10 +143,24 @@ class StreetCrimes extends React.Component {
     return size
   }
 
+  highestMonth(unorderedList) {
+    let orderedList = unorderedList.sort(function (a, b) { return a.data - b.data; });
+    const date = new Date(orderedList[5].month)
+    var month = date.toLocaleString('default', { month: 'long' })
+    this.setState({
+      highestCrimeMonth: month
+    });
+  }
+
+
+
+
   componentDidMount() {
     this.defineCoords();
+    this.streetCrimes();
     this.crimeOutcomes();
     this.stopAndSearch();
+    this.chartResults();
   }
 
   getByKey(key, arr) {
@@ -188,7 +202,6 @@ class StreetCrimes extends React.Component {
           this.setState({
             coords: result,
           });
-          console.log("coords", result)
           for (let i = 0; i < result.length; i++) {
             poly.push(`${result[i].latitude},${result[i].longitude}`);
             this.setState({
@@ -196,7 +209,6 @@ class StreetCrimes extends React.Component {
             });
           }
           this.streetCrimes(this.state.coordsArr)
-          console.log(this.state.coordsArr)
         },
         (error) => {
           this.setState({
@@ -206,8 +218,46 @@ class StreetCrimes extends React.Component {
       )
   }
 
-  streetCrimes(poly) {
-    fetch(`https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478`)
+  chartResults(selection) {
+    const months = ["2021-09", "2021-10", "2021-11", "2021-12", "2022-01", "2022-02"];
+    const orderedData = [];
+    let unorderedList = [];
+    let counter = 0;
+    for (let i = 0; i < months.length; i++) {
+      fetch(`https://data.police.uk/api/crimes-street/${selection}?poly=${this.state.coordsArr}&date=${months[i]}`)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            unorderedList.push({ "month": months[i], data: result.length });
+
+            counter++;
+            if (counter === 6) {
+              let orderedList = unorderedList.sort(function (a, b) { return new Date(a.month) - new Date(b.month); });
+              for (let i = 0; i < orderedList.length; i++) {
+                orderedData.push(orderedList[i].data)
+
+              }
+              this.setState({
+                isShown: true,
+                unorderedList: unorderedList,
+                series: [{
+                  data: orderedData
+                }],
+              });
+              this.highestMonth(this.state.unorderedList);
+            }
+          },
+          (error) => {
+            this.setState({
+              error
+            });
+          }
+        )
+    }
+  }
+
+  streetCrimes() {
+    fetch(`https://data.police.uk/api/crimes-street/all-crime?poly=${this.state.coordsArr}`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -221,11 +271,10 @@ class StreetCrimes extends React.Component {
             streetCrimesResponse: result,
             mostCommonCrime: this.textFormatter(commonCrime.key)
           });
-          console.log("streetcrimes", result)
         },
         (error) => {
           this.setState({
-            isLoaded: true,
+            isLoaded: false,
             error
           });
         }
@@ -233,7 +282,7 @@ class StreetCrimes extends React.Component {
   }
 
   crimeOutcomes() {
-    fetch("https://data.police.uk/api/outcomes-at-location?poly=52.268,0.543:52.794,0.238:52.130,0.478")
+    fetch(`https://data.police.uk/api/outcomes-at-location?poly=${this.state.coordsArr}`)
       .then(r => r.json())
       .then((res) => {
         this.setState({
@@ -249,7 +298,7 @@ class StreetCrimes extends React.Component {
   }
 
   stopAndSearch() {
-    fetch(`https://data.police.uk/api/stops-force?force=bedfordshire`)
+    fetch(`https://data.police.uk/api/stops-force?force=${this.state.policeForce}`)
       .then(res => res.json())
       .then((data) => {
         this.setState({
@@ -304,6 +353,9 @@ class StreetCrimes extends React.Component {
     else if (category === "criminal-damage-arson") {
       definition = "Criminal damage is the intentional damage to a home or property. Arson is the act of deliberately setting fire to property.";
     }
+    else if (category === "theft-from-person") {
+      definition = "Theft from person is commited if they steal property while the property is being held or carried by the victim.";
+    }
     return definition
   }
   handleChange(e) {
@@ -327,7 +379,7 @@ class StreetCrimes extends React.Component {
               </Breadcrumb>
             </Col>
             <Col sm={3} align="right">
-              <PdfGenerator criminals={categories.count} stopAndSearch={this.state.ssCount} commonCrime={this.state.mostCommonCrime} crimeOutcomes={this.state.outcomesCount} />
+              <PdfGenerator criminals={categories.count} stopAndSearch={this.state.ssCount} commonCrime={this.state.mostCommonCrime} crimeOutcomes={this.state.outcomesCount} highestMonth={this.state.highestCrimeMonth} />
             </Col>
           </Row>
         </Container>
@@ -336,25 +388,25 @@ class StreetCrimes extends React.Component {
             <Col sm={4}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron" >
-                  <CrimeSummary crimeCount={categories.count} streetCrimesResponse={this.state.streetCrimesResponse} />
+                  <CrimeSummary crimeCount={categories.count} streetCrimesResponse={this.state.streetCrimesResponse} commonCrime={this.state.mostCommonCrime} highestMonth={this.state.highestCrimeMonth} poly={this.state.coordsArr} />
                 </Jumbotron>
               </Row>
             </Col>
             <Col sm={8}>
               <Jumbotron className="personal-details-jumbotron" align="center">
-                <LineChart />
+                <LineChart poly={this.state.coordsArr} />
               </Jumbotron>
             </Col>
           </Row>
           <Row>
             <Col sm={5}>
               <Jumbotron className="personal-details-jumbotron" align="center">
-                <CrimeOutcomesChart />
+                <CrimeOutcomesChart poly={this.state.coordsArr} />
               </Jumbotron>
             </Col>
             <Col sm={7}>
               <Jumbotron className="personal-details-jumbotron">
-                <h5 className="crimes-header">Street Crimes</h5>
+                <h5 className="crimes-header">Street Crimes for the past month</h5>
                 {!isLoaded
                   ? <div><Loading /></div>
                   :

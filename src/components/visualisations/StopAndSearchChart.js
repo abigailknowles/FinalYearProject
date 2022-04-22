@@ -89,8 +89,11 @@ class StopAndSearchChart extends Component {
             )
     }
 
-    stopAndSearch() {
-        fetch(`https://data.police.uk/api/stops-force?force=${this.state.searchedForce}`)
+    stopAndSearch(force) {
+        if (force === undefined) {
+            force = this.state.searchedForce
+        }
+        fetch(`https://data.police.uk/api/stops-force?force=${force}`)
             .then(res => res.json())
             .then((data) => {
                 var labels = [];
@@ -113,7 +116,6 @@ class StopAndSearchChart extends Component {
                         labels: labels
                     }
                 });
-                console.log("data", data)
             },
                 (error) => {
                     this.setState({
@@ -133,10 +135,7 @@ class StopAndSearchChart extends Component {
     }
 
     changeHandler(force) {
-        this.setState({
-            searchedForce: force
-        });
-        this.stopAndSearch();
+        this.stopAndSearch(force);
     }
 
     render() {

@@ -80,9 +80,57 @@ class CrimeOutcomesChart extends Component {
         const capitalCat = cat.charAt(0).toUpperCase() + cat.slice(1);
         return capitalCat.replaceAll('-', ' ');
     }
+    neighbourhoodCode() {
+        fetch(`https://data.police.uk/api/${this.props.policeForce}/neighbourhoods`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    var placeholder = result[0].id
+                    this.setState({
+                        neighbourhoodCode: placeholder
+                    });
+                },
+                (error) => {
+                    this.setState({
+                        error
+                    });
+                }
+            )
+    }
+    defineCoords() {
+        let poly = [];
+        fetch(`https://data.police.uk/api/${this.props.policeForce}/${this.state.neighbourhoodCode}/boundary`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        coords: result,
+                        isLoaded: true
+                    });
+                    for (let i = 0; i < result.length; i++) {
+                        poly.push(`${result[i].latitude},${result[i].longitude}`);
+                        this.setState({
+                            coordsArr: poly.join(":")
+                        });
+                        if (this.state.coordsArr != "") {
+                            this.streetCrimes();
+                        }
+                        if (this.state.isLoaded === true) {
+                            this.streetCrimes();
+                        }
+                    }
+                },
+                (error) => {
+                    this.setState({
+                        error,
+                        isLoaded: false
+                    });
+                }
+            )
+    }
 
-    StreetCrimes() {
-        fetch(`https://data.police.uk/api/crimes-street/all-crime?poly=${this.props.poly}`)
+    streetCrimes() {
+        fetch(`https://data.police.uk/api/crimes-street/all-crime?poly=${this.state.coordsArr}`)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -155,22 +203,22 @@ class CrimeOutcomesChart extends Component {
     }
 
     componentDidMount() {
-        this.StreetCrimes();
+        this.neighbourhoodCode();
+        this.defineCoords();
     }
 
     render() {
         const { isLoaded } = this.state;
+
         return (
             <>
 
                 <Jumbotron className="personal-details-jumbotron" align="center">
-                    {/* {!isLoaded
+                    {!isLoaded
                         ? <div><Loading /></div>
                         :
-                        <> */}
-                    <Chart options={this.state.options} series={this.state.series} type="treemap" height={350} />
-                    {/* </>
-                    } */}
+                        <Chart options={this.state.options} series={this.state.series} type="treemap" height={350} />
+                    }
                 </Jumbotron>
 
             </>

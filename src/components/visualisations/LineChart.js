@@ -45,7 +45,7 @@ class LineChart extends Component {
         },
         grid: {
           row: {
-            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+            colors: ['#f3f3f3', 'transparent'],
             opacity: 0.5
           },
         },
@@ -57,23 +57,13 @@ class LineChart extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  highestMonth(unorderedList) {
-    let orderedList = unorderedList.sort(function (a, b) { return a.data - b.data; });
-    const date = new Date(orderedList[5].month)
-    var month = date.toLocaleString('default', { month: 'long' })
-    this.setState({
-      highestCrimeMonth: month
-    });
-    console.log(this.state.highestCrimeMonth)
-  }
-
   chartResults(selection) {
     const months = ["2021-09", "2021-10", "2021-11", "2021-12", "2022-01", "2022-02"];
     const orderedData = [];
     let unorderedList = [];
     let counter = 0;
     for (let i = 0; i < months.length; i++) {
-      fetch(`https://data.police.uk/api/crimes-street/${selection}?poly=52.268,0.543:52.794,0.238:52.130,0.478&date=${months[i]}`)
+      fetch(`https://data.police.uk/api/crimes-street/${selection}?poly=${this.props.poly}}&date=${months[i]}`)
         .then(res => res.json())
         .then(
           (result) => {
@@ -93,7 +83,6 @@ class LineChart extends Component {
                   data: orderedData
                 }],
               });
-              this.highestMonth(this.state.unorderedList);
             }
           },
           (error) => {
@@ -103,13 +92,10 @@ class LineChart extends Component {
           }
         )
     }
-
   }
-
 
   componentDidMount() {
     this.chartResults();
-
   }
 
   handleChange(e) {
@@ -117,17 +103,9 @@ class LineChart extends Component {
     this.chartResults(e.target.value)
   }
 
-  handleClick = () => {
-    // force a re-render
-    this.forceUpdate()
-  };
-
   render() {
-
     return (
       <>
-        {/* <button onClick={this.handleClick}>Update</button> */}
-
         <Col align="left">
           <select value={this.state.selection} onChange={this.handleChange}>
             {options.map((option) => (
@@ -135,7 +113,7 @@ class LineChart extends Component {
             ))}
           </select>
         </Col>
-        <Chart options={this.state.options} series={this.state.series} type="line" height={215} width={860} />
+        <Chart options={this.state.options} series={this.state.series} type="line" height={185} width={860} />
       </>
     );
   }

@@ -127,13 +127,23 @@
   padding: 24px 30px 24px 37px
 }
 
+.neighbourhood-events-jumbotron {
+  background-color: #ffffff;
+  border-style: solid;
+  border-color: #65c4c2;
+  border-radius: 12px;
+  width: 100%;
+  height: 260px;
+  padding: 24px 30px 24px 37px
+}
+
 .police-force-jumbotron {
   background-color: #ffffff;
   border-style: solid;
   border-color: #65c4c2;
   border-radius: 12px;
   width: 100%;
-  height: 599px;
+  height: 579px;
   padding: 24px 30px 24px 37px
 }
 

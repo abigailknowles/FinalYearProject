@@ -13,7 +13,7 @@ class CrimeSummary extends Component {
   }
 
   componentDidMount() {
-    fetch("https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478")
+    fetch(`https://data.police.uk/api/crimes-street/all-crime?poly=${this.props.poly}`)
       .then(res => res.json())
       .then(
         (result) => {

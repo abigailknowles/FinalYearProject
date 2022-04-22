@@ -38,30 +38,6 @@ class Neighbourhoods extends React.Component {
         { size: 8, xcords: 68, ycords: 60 },
         { size: 8, xcords: 85, ycords: 57 },
         { size: 6, xcords: 12, ycords: 88 },
-        // { xcords: 84, ycords: 50 },
-        // { xcords: 11, ycords: 61.5 },
-        // { xcords: 27, ycords: 61 },
-        // { xcords: 54, ycords: 63.5 },
-        // { xcords: 45.5, ycords: 31.5 },
-        // { xcords: 68.5, ycords: 64.5 },
-        // { xcords: 89, ycords: 107 },
-        // { xcords: 34.5, ycords: 47 },
-        // { xcords: 51, ycords: 48.5 },
-        // { xcords: 11, ycords: 116 },
-        // { xcords: 20, ycords: 75.5 },
-        // { xcords: 83, ycords: 18 },
-        // { xcords: 25.5, ycords: 90 },
-        // { xcords: 58.5, ycords: 105 },
-        // { xcords: 83, ycords: 120.5 },
-        // { xcords: 68.5, ycords: 120 },
-        // { xcords: 82.5, ycords: 95 },
-        // { xcords: 51, ycords: 76.5 },
-        // { xcords: 64.5, ycords: 79 },
-        // { xcords: 12, ycords: 101.5 },
-        // { xcords: 26.5, ycords: 104.5 },
-        // { xcords: 40, ycords: 89 },
-        // { xcords: 26, ycords: 120 },
-        // { xcords: 69, ycords: 93 },
       ],
     }
   }
@@ -106,33 +82,6 @@ class Neighbourhoods extends React.Component {
     return size
   }
 
-  defineCoords() {
-    let poly = [];
-    fetch(`https://data.police.uk/api/leicestershire/NC04/boundary`)
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            coords: result,
-          });
-          console.log("coords", result)
-          for (let i = 0; i < result.length; i++) {
-            poly.push(`${result[i].latitude},${result[i].longitude}`);
-            this.setState({
-              coordsArr: poly.join(":")
-            });
-          }
-          // this.streetCrimes(this.state.coordsArr)
-          console.log(this.state.coordsArr)
-        },
-        (error) => {
-          this.setState({
-            error
-          });
-        }
-      )
-  }
-
   neighbourhoods() {
     fetch(`https://data.police.uk/api/${this.state.policeForce}/neighbourhoods`)
       .then(res => res.json())
@@ -143,7 +92,6 @@ class Neighbourhoods extends React.Component {
             categories: result,
             count: result.length
           });
-          console.log("neighbourhoods", result)
         },
         (error) => {
           this.setState({
@@ -155,7 +103,6 @@ class Neighbourhoods extends React.Component {
   }
 
   componentDidMount() {
-    this.defineCoords();
     this.neighbourhoods();
   }
 
@@ -181,11 +128,11 @@ class Neighbourhoods extends React.Component {
             <Col sm={4}>
               <Row>
                 <Jumbotron className="personal-details-jumbotron">
-                  <NeighbourhoodSummary force={this.state.policeForce} neighbourhoodCount={this.state.count} />
+                  <NeighbourhoodSummary force={this.state.policeForce} neighbourhoodCount={this.state.count} poly={this.state.coordsArr} />
                 </Jumbotron>
               </Row>
               <Row>
-                <StreetCrimesTree poly={this.state.coordsArr} />
+                <StreetCrimesTree poly={this.state.coordsArr} policeForce={this.state.policeForce} />
               </Row >
             </Col >
             <Col sm={8}>
@@ -194,8 +141,6 @@ class Neighbourhoods extends React.Component {
                   ? <div><Loading /></div>
                   :
                   <svg viewBox="0 0 100 72">
-                    {/* <LastUpdated /> */}
-                    {/* <text x='3' y='3' fontSize="0.075em">Total neighbourhoods: {categories.length}</text> */}
                     {categories.map((category, i) => (
                       <NavLink key={i} className="nav-link"
                         onMouseEnter={() => {

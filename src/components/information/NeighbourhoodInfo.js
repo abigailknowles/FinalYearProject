@@ -9,21 +9,22 @@ class NeighbourhoodInfo extends Component {
     super(props);
     this.state = {
       info: [],
-      neighbourhoods: [],
-      selection: "LU2",
+      neighbourhoods: []
     };
   }
 
   neighbourhoodCode() {
-    fetch(`https://data.police.uk/api/bedfordshire/neighbourhoods`)
+    fetch(`https://data.police.uk/api/${this.props.policeForce}/neighbourhoods`)
       .then(res => res.json())
       .then(
         (result) => {
-          var placeholder = result[0]
+          var placeholder = result[0].id
           this.setState({
             neighbourhoods: result,
-            selection: placeholder.id
+            selection: placeholder
           });
+          this.neighbourhoodPriorities();
+          this.neighbourhoodEvents();
         },
         (error) => {
           this.setState({
@@ -34,8 +35,7 @@ class NeighbourhoodInfo extends Component {
   }
 
   neighbourhoodEvents() {
-    var policeForce = this.props.policeForce
-    fetch(`https://data.police.uk/api/${policeForce}/${this.state.selection}/events`)
+    fetch(`https://data.police.uk/api/${this.props.policeForce}/${this.state.selection}/events`)
       .then(res => res.json())
       .then(
         (response) => {
@@ -61,14 +61,8 @@ class NeighbourhoodInfo extends Component {
       )
   }
 
-
-  errorHandling() {
-    console.log("error")
-  }
   neighbourhoodPriorities() {
-    var policeForce = this.props.policeForce
-    console.log(this.state.selection)
-    fetch(`https://data.police.uk/api/${policeForce}/${this.state.selection}/priorities`)
+    fetch(`https://data.police.uk/api/${this.props.policeForce}/${this.state.selection}/priorities`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -88,8 +82,6 @@ class NeighbourhoodInfo extends Component {
 
   componentDidMount() {
     this.neighbourhoodCode();
-    this.neighbourhoodPriorities();
-    this.neighbourhoodEvents();
   }
 
   forceFormatter(force) {
@@ -103,14 +95,15 @@ class NeighbourhoodInfo extends Component {
     const formattedDesc1 = desc.replaceAll('<p>', '<br/>', '');
     const formattedDesc2 = formattedDesc1.replaceAll('-<br />', '');
     const formattedDesc3 = formattedDesc2.replaceAll('<br/>', '');
-
-    return formattedDesc3.replaceAll('</p>', '\n');
+    const formattedDesc4 = formattedDesc3.replaceAll('<br />', ' ');
+    return formattedDesc4.replaceAll('</p>', '\n');
   }
 
   changeHandler(force) {
-    this.setState({ selection: force });
-    this.neighbourhoodPriorities()
-    this.neighbourhoodEvents()
+    this.setState({
+      selection: force,
+    });
+    this.neighbourhoodPriorities(force)
   }
 
   formatDate(unformattedDate) {
@@ -127,7 +120,7 @@ class NeighbourhoodInfo extends Component {
           :
           <>
             <Col sm>
-              <Jumbotron className="personal-details-jumbotron" align="center">
+              <Jumbotron className="neighbourhood-events-jumbotron" align="center">
                 <Row>
                   <Col sm={5} align="left">
                     <h4 className="police-name">Neighbourhood Priorities</h4>
@@ -150,7 +143,7 @@ class NeighbourhoodInfo extends Component {
               </Jumbotron>
             </Col>
             <Col sm>
-              <Jumbotron className="personal-details-jumbotron" align="center">
+              <Jumbotron className="neighbourhood-events-jumbotron" align="center">
                 <Row>
                   <Col sm={5} align="left">
                     <h4 className="police-name">Neighbourhood Events </h4>
@@ -158,13 +151,13 @@ class NeighbourhoodInfo extends Component {
                   <Col sm={7}>
                   </Col>
                 </Row>
-                {events == undefined
+                {events === undefined
                   ? <div><h1>Error</h1></div>
                   :
                   <>
                     <Row>
                       <Col align="left">
-                        {events.address == ""
+                        {events.address === ""
                           ?
                           <h5 className="police-url">{this.formatDate(events.start_date)}</h5>
                           :

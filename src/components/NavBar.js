@@ -3,7 +3,6 @@ import { Navbar, Nav } from 'react-bootstrap';
 import { withRouter, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChartPie } from '@fortawesome/free-solid-svg-icons'
-import PdfGenerator from '../components/PdfGenerator';
 
 class NavBar extends Component {
   constructor() {
@@ -27,7 +26,7 @@ class NavBar extends Component {
             <Nav className="mr-auto" />
             <Nav>
               <NavLink className="nav-link" to="/">
-                <h5 WAI-ARIA role="heading" className="nav-text">Home</h5>
+                <h5 className="nav-text">Home</h5>
               </NavLink>
               <NavLink className="nav-link" to="/about">
                 <h5 className="nav-text">About</h5>

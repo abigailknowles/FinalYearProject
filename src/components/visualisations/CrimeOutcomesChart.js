@@ -22,20 +22,6 @@ class CrimeOutcomesChart extends Component {
                     '#e6e6ff', '#ff80aa', '#adebeb', '#ccccff', '#00cccc', '#ff9999', '#fff88d', '#99ffff', '#ffa366', '#ebfafa', '#ffffcc', '#f9e6ff', '#faebf5',
                     '#ffe6cc', '#e6e6e6', '#6666cc', '#ffdd99'
                 ],
-                // dataLabels: {
-                //     enabled: true,
-                //     textAnchor: 'start',
-                //     style: {
-                //         colors: ['#000']
-                //     },
-                //     formatter: function (val, opt) {
-                //         return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
-                //     },
-                //     offsetX: 0,
-                //     dropShadow: {
-                //         enabled: true
-                //     }
-                // },
                 stroke: {
                     width: 1,
                     colors: ['#fff']
@@ -49,7 +35,7 @@ class CrimeOutcomesChart extends Component {
                     }
                 },
                 title: {
-                    text: 'Crime Outcomes',
+                    text: 'Crime Outcomes for the past month',
                     align: 'center',
                     floating: true
                 },
@@ -115,7 +101,7 @@ class CrimeOutcomesChart extends Component {
 
     crimeOutcomes() {
         const categories = [];
-        fetch("https://data.police.uk/api/outcomes-at-location?poly=52.268,0.543:52.794,0.238:52.130,0.478")
+        fetch(`https://data.police.uk/api/outcomes-at-location?poly=${this.props.poly}`)
             .then(r => r.json())
             .then((res) => {
                 var out = this.groupByOutcome(res);
